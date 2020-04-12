@@ -7,16 +7,14 @@
         <title>Memento - votre assistant de prise de rendez-vous</title>
     </head>
     <body>
-        <div>
-            <div>
-                <h1>
-                    Memento
-                </h1>
-                <div>
-                    <a href="{{ route('login') }}">Connexion</a>
-                    <a href="{{ route('register') }}">Inscription</a>
-                </div>
+        <section class="welcome">
+            <h1 class="welcome__title">
+                Memento
+            </h1>
+            <div class="welcome__nav">
+                <a href="{{ route('login') }}" class="welcome__nav__link">Connexion</a>
+                <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>
             </div>
-        </div>
+        </section>
     </body>
 </html>
