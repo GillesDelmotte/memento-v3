@@ -1,11 +1,21 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
+
+//Tools
+@import 'Tools/mixin.scss';
 
 // Utils
 @import 'utils/variables';
 
 //Settings
-@import 'Settings/reset.scss'
+@import 'Settings/reset.scss';
+@import 'Settings/basic.scss';
+
+
+//Components
+@import 'Components/welcome.scss';
+
+
 
 // Bootstrap
 //@import '~bootstrap/scss/bootstrap';
