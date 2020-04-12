@@ -1,0 +1,22 @@
+@mixin main-link ($color, $fz){
+    text-decoration: none;
+    color: $color;
+    font-size: $fz;
+    &::after{
+        margin-top: 10px;
+        position: relative;
+        left: -20px;
+        display: block;
+        content:"";
+        background-color: $color;
+        height: 2px;
+        width: 50%;
+        transition: all 0.2s;
+    }
+    &:hover::after{
+        width: 100%;
+        transition: all 0.2s;
+    }
+}
+
+
