@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);/* http://meyerweb.com/eric/tools/css/reset/
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap);/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -133,5 +133,58 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.welcome {
+  background-color: #1D1D1D;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.welcome__title {
+  font-size: 68px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.welcome__nav {
+  display: flex;
+}
+
+.welcome__nav__link {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  margin: 0 30px;
+}
+
+.welcome__nav__link::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: white;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.welcome__nav__link:hover::after {
+  width: 100%;
+  transition: all 0.2s;
 }
 
