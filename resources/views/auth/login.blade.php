@@ -8,7 +8,7 @@
         <div class="form__container">
             <div class="form__item">
                 <label for="email" class="form__item__label">Email</label>
-                <input class="form__item__input" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                <input class="form__item__input" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
                 <div class="form__item__bgc"></div>
                 @error('email')
                     <span class="form__item__error">
@@ -18,7 +18,7 @@
             </div>
             <div class="form__item">
                 <label for="password" class="form__item__label">Mot de passe</label>
-                <input id="password" type="password" class="form__item__input" name="password" required autocomplete="current-password">
+                <input id="password" type="password" class="form__item__input" name="password" required>
                 <div class="form__item__bgc"></div>
 
                     @error('password')
