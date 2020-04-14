@@ -1949,6 +1949,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 Vue.component("navigation", __webpack_require__(/*! ./Navigation.vue */ "./resources/js/components/Navigation.vue")["default"]); //Vue.component("header-component", require("./Header.vue").default);
 
 
@@ -1991,6 +1993,23 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -37720,7 +37739,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_c("navigation"), _vm._v(" "), _c("router-view")], 1)
+  return _c(
+    "div",
+    [
+      _c("navigation"),
+      _vm._v(" "),
+      _c("div", { staticClass: "container" }, [_c("router-view")], 1)
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37744,7 +37771,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("coucou je suis le template meet")])
+  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -37768,32 +37795,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "nav" },
-    [
-      _c(
-        "router-link",
-        { attrs: { to: { name: "schedule" }, "active-class": "active" } },
-        [_vm._v("Mon horaire")]
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        { attrs: { to: { name: "meet" }, "active-class": "active" } },
-        [_vm._v("Mes rendez-vous")]
-      ),
-      _vm._v(" "),
-      _c(
-        "a",
-        { ref: "logout", attrs: { href: "" }, on: { click: _vm.logout } },
-        [_vm._v("Déconnexion")]
-      )
-    ],
-    1
-  )
+  return _c("div", { staticClass: "nav" }, [
+    _c("div", { staticClass: "nav__logo" }, [_vm._v("M")]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "nav__links" },
+      [
+        _c(
+          "router-link",
+          {
+            staticClass: "nav__link meet",
+            attrs: { to: { name: "meet" }, "active-class": "active" }
+          },
+          [
+            _c("i", { staticClass: "icon" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Rendez-vous")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "nav__link schedule",
+            attrs: { to: { name: "schedule" }, "active-class": "active" }
+          },
+          [
+            _c("i", { staticClass: "icon" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Horaire")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            ref: "logout",
+            staticClass: "nav__link disconnect",
+            attrs: { href: "" },
+            on: { click: _vm.logout }
+          },
+          [
+            _c("i", { staticClass: "icon" }),
+            _vm._v(" "),
+            _c("span", [_vm._v("Déconnexion")])
+          ]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm._m(0)
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "nav__burger" }, [
+      _c("span", { staticClass: "top" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "mid" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "bottom" })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -37815,7 +37884,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("je suis le schedule component")])
+  return _c("div", [_vm._v("Votre horaire")])
 }
 var staticRenderFns = []
 render._withStripped = true
