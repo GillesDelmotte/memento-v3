@@ -347,6 +347,10 @@ body {
   background-image: url(/images/calendar.svg?d800687ec098964d281704bb7c22e6e7);
 }
 
+.nav__link.user .icon {
+  background-image: url(/images/user.svg?27bdbdfccf34048eca96ff049cc40f6e);
+}
+
 .nav__burger {
   color: white;
   position: absolute;
