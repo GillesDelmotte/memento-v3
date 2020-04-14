@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-component title="Rendez-vous"></header-component>
+    <header-component title="Mes rendez-vous"></header-component>
   </div>
 </template>
 <script>
