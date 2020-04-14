@@ -1,8 +1,25 @@
 <template>
   <div class="nav">
-    <router-link :to="{name:'schedule'}" active-class="active">Mon horaire</router-link>
-    <router-link :to="{name:'meet'}" active-class="active">Mes rendez-vous</router-link>
-    <a @click="logout" ref="logout" href>Déconnexion</a>
+    <div class="nav__logo">M</div>
+    <div class="nav__links">
+      <router-link :to="{name:'meet'}" active-class="active" class="nav__link meet">
+        <i class="icon"></i>
+        <span>Rendez-vous</span>
+      </router-link>
+      <router-link :to="{name:'schedule'}" active-class="active" class="nav__link schedule">
+        <i class="icon"></i>
+        <span>Horaire</span>
+      </router-link>
+      <a @click="logout" ref="logout" href class="nav__link disconnect">
+        <i class="icon"></i>
+        <span>Déconnexion</span>
+      </a>
+    </div>
+    <div class="nav__burger">
+      <span class="top"></span>
+      <span class="mid"></span>
+      <span class="bottom"></span>
+    </div>
   </div>
 </template>
 <script>

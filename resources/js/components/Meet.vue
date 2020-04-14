@@ -1,5 +1,5 @@
 <template>
-  <div>coucou je suis le template meet</div>
+  <div></div>
 </template>
 <script>
 export default {

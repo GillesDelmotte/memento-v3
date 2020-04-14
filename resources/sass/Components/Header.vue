@@ -1,8 +1,11 @@
 <template>
-  <div>Votre horaire</div>
+  <div>
+    <div>{{name}}</div>
+  </div>
 </template>
+
 <script>
 export default {
-  name: "Schedule"
+  name: "header"
 };
 </script>
