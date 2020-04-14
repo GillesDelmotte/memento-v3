@@ -1,5 +1,6 @@
 import Meet from './components/Meet';
 import Schedule from './components/Schedule';
+import User from './components/User';
 
 
 export default [
@@ -13,5 +14,10 @@ export default [
         path: '/schedule',
         name: 'schedule',
         component: Schedule
+    },
+    {
+        path: '/user',
+        name: 'user',
+        component: User
     }
 ]

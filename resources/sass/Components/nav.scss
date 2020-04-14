@@ -61,6 +61,9 @@
         &.schedule .icon{
             background-image: url('../../img/calendar.svg');
         }
+        &.user .icon{
+            background-image: url('../../img/user.svg');
+        }
     }
     &__burger{
         color: white;

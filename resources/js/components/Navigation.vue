@@ -10,6 +10,10 @@
         <i class="icon"></i>
         <span>Horaire</span>
       </router-link>
+      <router-link :to="{name:'user'}" active-class="active" class="nav__link user">
+        <i class="icon"></i>
+        <span>Profil</span>
+      </router-link>
       <a @click="logout" ref="logout" href class="nav__link disconnect">
         <i class="icon"></i>
         <span>Déconnexion</span>
