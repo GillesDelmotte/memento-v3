@@ -1,5 +1,7 @@
 <template>
-  <div>Votre horaire</div>
+  <div>
+    <header-component title="Mon horaire"></header-component>
+  </div>
 </template>
 <script>
 export default {

@@ -1,0 +1,15 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-weight: bold;
+    font-size: 22px;
+    box-sizing: border-box;
+    background-color: $main-color;
+    padding: 14px;
+    text-align: right;
+    &__title{
+        color: white;
+    }
+}
