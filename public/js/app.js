@@ -38142,7 +38142,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("span", { staticClass: "userProfil__job" }, [
-      _vm._v("Kinésithérapeute")
+      _vm._v(_vm._s(_vm.person.job.name))
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "userProfil__infos" }, [
