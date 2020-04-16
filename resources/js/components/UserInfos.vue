@@ -1,7 +1,7 @@
 <template>
   <div class="userProfil">
     <h1 class="userProfil__name">{{person.name}}</h1>
-    <span class="userProfil__job">Kinésithérapeute</span>
+    <span class="userProfil__job">{{person.job.name}}</span>
     <div class="userProfil__infos">
       <div class="userProfil__info">
         <div class="userProfil__info__label">Gsm</div>
