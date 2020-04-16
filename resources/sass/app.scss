@@ -3,6 +3,7 @@
 
 //Tools
 @import 'Tools/mixin.scss';
+@import 'Tools/sr-only.scss';
 
 // Utils
 @import 'utils/variables';
@@ -17,6 +18,8 @@
 @import 'Components/form.scss';
 @import 'Components/nav.scss';
 @import 'Components/header.scss';
+@import 'Components/userInfos.scss';
+@import 'Components/radioButton.scss';
 
 
 

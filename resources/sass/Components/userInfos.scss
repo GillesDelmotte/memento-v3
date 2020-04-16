@@ -1,0 +1,35 @@
+.userProfil{
+    width: 550px;
+    &__name{
+        font-weight: 700;
+        font-size: 40px;
+        margin-bottom: 5px;
+
+    }
+    &__job{
+        font-size: 30px;
+        margin-bottom: 15px;
+        display: block;
+    }
+    &__infos{
+        margin-left: 4px;
+        padding: 20px;
+        border-left: 4px solid $main-color;
+
+    }
+    &__info{
+        margin-bottom: 15px;
+        &__label{
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+
+        }
+        &__content{
+            line-height: 1.4;
+        }
+        &--buttons{
+            margin-top: 30px;
+        }
+    }
+}
