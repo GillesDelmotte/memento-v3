@@ -1,5 +1,6 @@
 .userProfil{
     width: 550px;
+    margin-bottom: 50px;
     &__name{
         font-weight: 700;
         font-size: 40px;
@@ -26,7 +27,7 @@
 
         }
         &__content{
-            line-height: 1.4;
+            line-height: $line-height-base;
         }
         &--buttons{
             margin-top: 30px;
