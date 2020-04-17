@@ -64,6 +64,9 @@
         &.user .icon{
             background-image: url('../../img/user.svg');
         }
+        &.praticiens .icon{
+            background-image: url('../../img/search.svg');
+        }
     }
     &__burger{
         color: white;

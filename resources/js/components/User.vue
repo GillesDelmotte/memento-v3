@@ -1,7 +1,7 @@
 <template>
   <div class="profil">
     <header-component title="Mon profil"></header-component>
-    <user-infos :person="currentUser"></user-infos>
+    <user-infos :person="currentUser" :userProfil="true"></user-infos>
     <section class="comments">
       <h2 class="comments__title">Commentaires</h2>
       <ul class="comments__list">

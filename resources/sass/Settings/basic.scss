@@ -7,3 +7,14 @@ body{
     margin-left: 140px;
     padding: 100px 0;
 }
+
+.modifyIcon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    background: url('../../img/edit.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    cursor: pointer;
+}

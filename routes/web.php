@@ -25,3 +25,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/authenticated-user', 'AuthenticatedUserController@fetch');
+
+Route::get('/getJobs', 'JobController@index');
+
+Route::get('/getPractitioners', 'PracticionnerController@index');
+

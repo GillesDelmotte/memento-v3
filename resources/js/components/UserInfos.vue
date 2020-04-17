@@ -1,21 +1,37 @@
 <template>
   <div class="userProfil">
     <h1 class="userProfil__name">{{person.name}}</h1>
-    <span class="userProfil__job">{{person.job.name}}</span>
+    <span class="userProfil__job" v-if="person.job">
+      {{person.job.name}}
+      <i class="modifyIcon" title="modifier ma profession"></i>
+    </span>
+    <span class="userProfil__job" v-if="!person.job && userProfil">
+      Votre profession
+      <i class="modifyIcon" title="modifier ma profession"></i>
+    </span>
     <div class="userProfil__infos">
       <div class="userProfil__info">
-        <div class="userProfil__info__label">Gsm</div>
+        <div class="userProfil__info__label">
+          Gsm
+          <i class="modifyIcon" v-if="userProfil" title="modifier mon numero de téléphone"></i>
+        </div>
         <div class="userProfil__info__content">{{person.gsm}}</div>
       </div>
       <div class="userProfil__info">
-        <div class="userProfil__info__label">Adresse</div>
+        <div class="userProfil__info__label">
+          Adresse
+          <i class="modifyIcon" v-if="userProfil" title="modifier mon adresse"></i>
+        </div>
         <div class="userProfil__info__content">{{person.address}}</div>
       </div>
       <div class="userProfil__info">
-        <div class="userProfil__info__label">Description</div>
+        <div class="userProfil__info__label">
+          Description
+          <i class="modifyIcon" v-if="userProfil" title="modifier ma description"></i>
+        </div>
         <div class="userProfil__info__content">{{person.description}}</div>
       </div>
-      <div class="userProfil__info--buttons">
+      <div class="userProfil__info--buttons" v-if="userProfil">
         <!-- <div class="radioButton">
           <input type="checkbox" name="open" id="open" class="radioButton__input sr-only" />
           <label for="open" class="radioButton__bgc">
@@ -44,7 +60,8 @@ export default {
     return {};
   },
   props: {
-    person: Object
+    person: Object,
+    userProfil: Boolean
   }
 };
 </script>

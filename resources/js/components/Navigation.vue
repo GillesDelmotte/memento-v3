@@ -6,6 +6,10 @@
         <i class="icon"></i>
         <span>Rendez-vous</span>
       </router-link>
+      <router-link :to="{name:'search'}" active-class="active" class="nav__link praticiens">
+        <i class="icon"></i>
+        <span>Praticiens</span>
+      </router-link>
       <router-link :to="{name:'schedule'}" active-class="active" class="nav__link schedule">
         <i class="icon"></i>
         <span>Horaire</span>
