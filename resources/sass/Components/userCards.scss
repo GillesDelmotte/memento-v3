@@ -1,26 +1,13 @@
-.comments{
+.userCards{
     width: 550px;
-    &__title{
-        font-size: 25px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-    .comment{
+    .userCard{
         position: relative;
         background-color: white;
         box-shadow: $shadow;
-        margin-bottom: 20px;
-        padding: 40px 70px;
+        padding: 50px 70px;
         box-sizing: border-box;
-        &__owner{
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        &__content{
-            line-height: $line-height-base;
-        }
-        &__ownerImg{
+        margin-bottom: 20px;
+        &__img{
             background-color: $main-color;
             width: 90px;
             height: 90px;
@@ -32,6 +19,15 @@
             background-size: 50%;
             background-position: center 47%;
             background-repeat: no-repeat;
+        }
+        &__name{
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        &__job{
+            margin-bottom: 20px;
+            font-size: 20px;
         }
     }
 }

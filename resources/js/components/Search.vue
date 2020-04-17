@@ -1,5 +1,9 @@
 <template>
-  <div>{{allPractitioner}}</div>
+  <div>
+    <ul class="userCards">
+      <user-card v-for="user in allPractitioner" :key="user.id" :user="user"></user-card>
+    </ul>
+  </div>
 </template>
 <script>
 import store from "../store.js";
