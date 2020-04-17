@@ -162,6 +162,17 @@ body {
   padding: 100px 0;
 }
 
+.modifyIcon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  background: url(/images/edit.svg?eea18703d306b9c8ec78595ecf673e27);
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+
 .welcome {
   background-color: #1D1D1D;
   min-height: 100vh;
@@ -367,6 +378,10 @@ body {
 
 .nav__link.user .icon {
   background-image: url(/images/user.svg?27bdbdfccf34048eca96ff049cc40f6e);
+}
+
+.nav__link.praticiens .icon {
+  background-image: url(/images/search.svg?ae3eb27599093561330a2e75e55c27fc);
 }
 
 .nav__burger {
