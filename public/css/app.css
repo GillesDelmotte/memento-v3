@@ -602,3 +602,87 @@ body {
   font-size: 20px;
 }
 
+.userCards .userCard__icons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.userCards .userCard__icons__link {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: initial;
+  transition: background-color 0.2s;
+  background-size: 50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+.userCards .userCard__icons__link--schedule {
+  background-image: url(/images/calendar-black.svg?b4823222dc201af1615003df96faef37);
+}
+
+.userCards .userCard__icons__link--phone {
+  background-image: url(/images/phone.svg?c667501bf6d7214e120e3461bd206131);
+}
+
+.userCards .userCard__icons__link--mail {
+  background-image: url(/images/chat.svg?187c8efb5e476165e1ad7af88fdf5f61);
+}
+
+.userCards .userCard__icons__link:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+.filter {
+  background-color: #1D1D1D;
+  width: 274px;
+  box-sizing: border-box;
+  position: fixed;
+  padding: 30px 0;
+  top: 100px;
+  right: 70px;
+  color: white;
+}
+
+.filter__title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 30px;
+  margin-bottom: 30px;
+}
+
+.filter__name__job div {
+  padding: 20px 30px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.filter__name__job div.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.filter__name__job div:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.2s;
+}
+
+.filter__input {
+  outline: none;
+  font-size: 20px;
+  background-color: initial;
+  border: none;
+  color: white;
+  border-bottom: 2px solid white;
+  display: block;
+  margin: 30px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+

@@ -2180,6 +2180,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2187,14 +2206,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Search",
   data: function data() {
-    return {};
+    return {
+      alphabet: "abcdefghijklmnopqrstuvwxyz",
+      filteredBy: "name",
+      filter: ""
+    };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["allJob", "allPractitioner"])),
+  methods: {
+    changeFilter: function changeFilter(type) {
+      var items = document.querySelectorAll(".filter__name__job div");
+      items.forEach(function (item) {
+        item.classList.remove("active");
+      });
+      var newFocus = document.querySelector(".filter__" + type).classList.add("active");
+      this.filteredBy = type;
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["allJob", "allPractitioner"]), {
+    filteredByName: function filteredByName() {
+      var _this = this;
+
+      if (this.filter.length === 0) {
+        return this.allPractitioner;
+      } else {
+        return this.allPractitioner.filter(function (practitioner) {
+          return practitioner.name.toLowerCase().match(_this.filter.toLowerCase());
+        });
+      }
+    },
+    filteredByJob: function filteredByJob() {
+      var _this2 = this;
+
+      if (this.filter.length === 0) {
+        return this.allPractitioner;
+      } else {
+        return this.allPractitioner.filter(function (practitioner) {
+          return practitioner.job.name.toLowerCase().match(_this2.filter.toLowerCase());
+        });
+      }
+    }
+  }),
   mounted: function mounted() {
-    var _this = this;
+    var _this3 = this;
 
     this.$store.dispatch("setAllJob").then(function () {
-      _this.$store.dispatch("setAllPractitioner");
+      _this3.$store.dispatch("setAllPractitioner");
     });
   }
 });
@@ -2255,6 +2311,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -38343,14 +38422,88 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "ul",
-      { staticClass: "userCards" },
-      _vm._l(_vm.allPractitioner, function(user) {
-        return _c("user-card", { key: user.id, attrs: { user: user } })
-      }),
-      1
-    )
+    _vm.filteredBy === "name"
+      ? _c(
+          "ul",
+          { staticClass: "userCards" },
+          _vm._l(_vm.filteredByName, function(user) {
+            return _c("user-card", { key: user.id, attrs: { user: user } })
+          }),
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.filteredBy === "job"
+      ? _c(
+          "ul",
+          { staticClass: "userCards" },
+          _vm._l(_vm.filteredByJob, function(user) {
+            return _c("user-card", { key: user.id, attrs: { user: user } })
+          }),
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c("div", { staticClass: "filter" }, [
+      _c("h2", { staticClass: "filter__title" }, [_vm._v("Filter par")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "filter__name__job" }, [
+        _c(
+          "div",
+          {
+            staticClass: "filter__name active",
+            on: {
+              click: function($event) {
+                return _vm.changeFilter("name")
+              }
+            }
+          },
+          [_vm._v("Nom")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "filter__job",
+            on: {
+              click: function($event) {
+                return _vm.changeFilter("job")
+              }
+            }
+          },
+          [_vm._v("Profession")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "filter__alphabet" }),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.filter,
+            expression: "filter"
+          }
+        ],
+        staticClass: "filter__input",
+        attrs: {
+          type: "text",
+          name: "filter",
+          id: "filter",
+          autocomplete: "off"
+        },
+        domProps: { value: _vm.filter },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.filter = $event.target.value
+          }
+        }
+      })
+    ])
   ])
 }
 var staticRenderFns = []
@@ -38439,6 +38592,47 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "useCard__address" }, [
       _vm._v(_vm._s(_vm.user.address))
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "userCard__icons" }, [
+      _c(
+        "a",
+        {
+          staticClass: "userCard__icons__link userCard__icons__link--schedule",
+          attrs: { href: "", title: "aller sur l‘horaire de " + _vm.user.name }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [
+            _vm._v("aller sur l'horaire de " + _vm._s(_vm.user.name))
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "userCard__icons__link userCard__icons__link--mail",
+          attrs: { href: "", title: "envoyer un email à " + _vm.user.name }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [
+            _vm._v("envoyer un email à " + _vm._s(_vm.user.name))
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "userCard__icons__link userCard__icons__link--phone",
+          attrs: { href: "", title: "téléphoner a " + _vm.user.name }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [
+            _vm._v("téléphoné à " + _vm._s(_vm.user.name))
+          ])
+        ]
+      )
     ])
   ])
 }
