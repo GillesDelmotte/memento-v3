@@ -1,0 +1,43 @@
+.filter{
+    background-color: $main-color;
+    width: 274px;
+    box-sizing: border-box;
+    position: fixed;
+    padding: 30px 0;
+    top: 100px;
+    right: 70px;
+    color: white;
+    &__title{
+        font-size: 20px;
+        font-weight: bold;
+        padding:  0 30px;
+        margin-bottom: 30px;
+    }
+    &__name__job{
+        div{
+            padding: 20px 30px;
+            margin-bottom: 10px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            &.active{
+                background-color: rgba($color: white, $alpha: 0.2);
+            }
+            &:hover{
+                background-color: rgba($color: white, $alpha: 0.2);
+                transition: background-color 0.2s;
+            }
+        }
+    }
+    &__input{
+        outline: none;
+        font-size: 20px;
+        background-color: initial;
+        border: none;
+        color: white;
+        border-bottom: 2px solid white;
+        display: block;
+        margin: 30px;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+}

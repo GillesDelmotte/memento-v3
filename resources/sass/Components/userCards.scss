@@ -29,5 +29,36 @@
             margin-bottom: 20px;
             font-size: 20px;
         }
+        &__icons{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            &__link{
+                display: block;
+                width: 40px;
+                height: 40px;
+                background-color: initial;
+                transition: background-color 0.2s;
+                background-size: 50%;
+                background-position: center center;
+                background-repeat: no-repeat;
+                border-radius: 50%;
+                &--schedule{
+                    background-image: url('../../img/calendar-black.svg');
+                }
+                &--phone{
+                    background-image: url('../../img/phone.svg');
+                }
+                &--mail{
+                    background-image: url('../../img/chat.svg');
+                }
+                &:hover{
+                    background-color: rgba(black, 0.2);
+                    transition: background-color 0.2s;
+                }
+            }
+        }
     }
 }
