@@ -98,4 +98,7 @@
         }
 
     }
+    &.open .nav__link span{
+        display: block;
+    }
 }

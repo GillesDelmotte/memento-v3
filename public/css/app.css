@@ -417,6 +417,10 @@ body {
   transition: background-color 0.2s;
 }
 
+.nav.open .nav__link span {
+  display: block;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -597,6 +601,17 @@ body {
   font-size: 20px;
 }
 
+.userCards .userCard__name a {
+  color: #1D1D1D;
+  text-decoration: none;
+  transition: color 0.2S;
+}
+
+.userCards .userCard__name a:hover {
+  color: rgba(29, 29, 29, 0.5);
+  transition: color 0.2S;
+}
+
 .userCards .userCard__job {
   margin-bottom: 20px;
   font-size: 20px;
@@ -648,6 +663,7 @@ body {
   top: 100px;
   right: 70px;
   color: white;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
 }
 
 .filter__title {

@@ -24,6 +24,15 @@
             font-weight: bold;
             margin-bottom: 10px;
             font-size: 20px;
+            a{
+                color:  $main-color;
+                text-decoration: none;
+                transition: color 0.2S;
+                &:hover{
+                    color: rgba($main-color, 0.5);
+                    transition: color 0.2S;
+                }
+            }
         }
         &__job{
             margin-bottom: 20px;

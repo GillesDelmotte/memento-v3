@@ -23,7 +23,7 @@
         <span>Déconnexion</span>
       </a>
     </div>
-    <div class="nav__burger">
+    <div class="nav__burger" @click="openMenu">
       <span class="top"></span>
       <span class="mid"></span>
       <span class="bottom"></span>
@@ -38,6 +38,14 @@ export default {
       e.preventDefault();
       e.stopPropagation();
       document.getElementById("logout-form").submit();
+    },
+    openMenu() {
+      const nav = document.querySelector(".nav");
+      if (nav.classList.contains("open")) {
+        nav.classList.remove("open");
+      } else {
+        nav.classList.add("open");
+      }
     }
   }
 };

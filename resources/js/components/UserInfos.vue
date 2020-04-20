@@ -3,7 +3,7 @@
     <h1 class="userProfil__name">{{person.name}}</h1>
     <span class="userProfil__job" v-if="person.job">
       {{person.job.name}}
-      <i class="modifyIcon" title="modifier ma profession"></i>
+      <i class="modifyIcon" title="modifier ma profession" v-if="userProfil"></i>
     </span>
     <span class="userProfil__job" v-if="!person.job && userProfil">
       Votre profession

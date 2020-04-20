@@ -2100,8 +2100,64 @@ __webpack_require__.r(__webpack_exports__);
       e.preventDefault();
       e.stopPropagation();
       document.getElementById("logout-form").submit();
+    },
+    openMenu: function openMenu() {
+      var nav = document.querySelector(".nav");
+
+      if (nav.classList.contains("open")) {
+        nav.classList.remove("open");
+      } else {
+        nav.classList.add("open");
+      }
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Praticien.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Praticien.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Praticien",
+  data: function data() {
+    return {};
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner"]), {
+    practitioner: function practitioner() {
+      var _this = this;
+
+      var practitioner = this.allPractitioner.filter(function (practitioner) {
+        return practitioner.id === _this.$route.params.id;
+      });
+      return practitioner[0];
+    }
+  })
 });
 
 /***/ }),
@@ -2199,6 +2255,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2243,6 +2300,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return this.allPractitioner.filter(function (practitioner) {
           return practitioner.job.name.toLowerCase().match(_this2.filter.toLowerCase());
         });
+      }
+    },
+    placeholder: function placeholder() {
+      if (this.filteredBy === "name") {
+        return "Nom";
+      } else {
+        return "Profession";
       }
     }
   }),
@@ -2311,6 +2375,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
 //
 //
 //
@@ -2342,10 +2407,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserCard",
   data: function data() {
     return {};
+  },
+  methods: {
+    profilLink: function profilLink(id) {
+      _router_js__WEBPACK_IMPORTED_MODULE_0__["default"].push({
+        name: "praticien",
+        params: {
+          id: id
+        }
+      });
+    }
   },
   props: {
     user: Object
@@ -38323,23 +38401,64 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "nav__burger" }, [
+    _c("div", { staticClass: "nav__burger", on: { click: _vm.openMenu } }, [
       _c("span", { staticClass: "top" }),
       _vm._v(" "),
       _c("span", { staticClass: "mid" }),
       _vm._v(" "),
       _c("span", { staticClass: "bottom" })
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Praticien.vue?vue&type=template&id=713be388&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Praticien.vue?vue&type=template&id=713be388& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("user-infos", {
+        attrs: { person: _vm.practitioner, userProfil: false }
+      }),
+      _vm._v(" "),
+      _c("section", { staticClass: "comments" }, [
+        _c("h2", { staticClass: "comments__title" }, [_vm._v("Commentaires")]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "comments__list" },
+          _vm._l(_vm.practitioner.comments, function(comment) {
+            return _c("comment", {
+              key: comment.id,
+              attrs: { comment: comment }
+            })
+          }),
+          1
+        )
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38491,7 +38610,8 @@ var render = function() {
           type: "text",
           name: "filter",
           id: "filter",
-          autocomplete: "off"
+          autocomplete: "off",
+          placeholder: _vm.placeholder
         },
         domProps: { value: _vm.filter },
         on: {
@@ -38583,7 +38703,20 @@ var render = function() {
     _c("div", { staticClass: "userCard__img" }),
     _vm._v(" "),
     _c("div", { staticClass: "userCard__name" }, [
-      _vm._v(_vm._s(_vm.user.name))
+      _c(
+        "a",
+        {
+          attrs: { href: "" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              $event.stopPropagation()
+              return _vm.profilLink(_vm.user.id)
+            }
+          }
+        },
+        [_vm._v(_vm._s(_vm.user.name))]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "userCard__job" }, [
@@ -38666,10 +38799,12 @@ var render = function() {
     _vm.person.job
       ? _c("span", { staticClass: "userProfil__job" }, [
           _vm._v("\n    " + _vm._s(_vm.person.job.name) + "\n    "),
-          _c("i", {
-            staticClass: "modifyIcon",
-            attrs: { title: "modifier ma profession" }
-          })
+          _vm.userProfil
+            ? _c("i", {
+                staticClass: "modifyIcon",
+                attrs: { title: "modifier ma profession" }
+              })
+            : _vm._e()
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -54948,6 +55083,7 @@ var map = {
 	"./components/Home.vue": "./resources/js/components/Home.vue",
 	"./components/Meet.vue": "./resources/js/components/Meet.vue",
 	"./components/Navigation.vue": "./resources/js/components/Navigation.vue",
+	"./components/Praticien.vue": "./resources/js/components/Praticien.vue",
 	"./components/Praticiens.vue": "./resources/js/components/Praticiens.vue",
 	"./components/Schedule.vue": "./resources/js/components/Schedule.vue",
 	"./components/Search.vue": "./resources/js/components/Search.vue",
@@ -55487,6 +55623,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Praticien.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Praticien.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Praticien.vue?vue&type=template&id=713be388& */ "./resources/js/components/Praticien.vue?vue&type=template&id=713be388&");
+/* harmony import */ var _Praticien_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Praticien.vue?vue&type=script&lang=js& */ "./resources/js/components/Praticien.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Praticien_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Praticien.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Praticien.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Praticien.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Praticien_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Praticien.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Praticien.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Praticien_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Praticien.vue?vue&type=template&id=713be388&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Praticien.vue?vue&type=template&id=713be388& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Praticien.vue?vue&type=template&id=713be388& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Praticien.vue?vue&type=template&id=713be388&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Praticien_vue_vue_type_template_id_713be388___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Praticiens.vue":
 /*!************************************************!*\
   !*** ./resources/js/components/Praticiens.vue ***!
@@ -55938,7 +56143,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Schedule__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Schedule */ "./resources/js/components/Schedule.vue");
 /* harmony import */ var _components_User__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/User */ "./resources/js/components/User.vue");
 /* harmony import */ var _components_Praticiens__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Praticiens */ "./resources/js/components/Praticiens.vue");
-/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
+/* harmony import */ var _components_Praticien__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Praticien */ "./resources/js/components/Praticien.vue");
+/* harmony import */ var _components_Search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Search */ "./resources/js/components/Search.vue");
+
 
 
 
@@ -55964,7 +56171,11 @@ __webpack_require__.r(__webpack_exports__);
   children: [{
     path: '/les-praticiens',
     name: 'search',
-    component: _components_Search__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _components_Search__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }, {
+    path: '/les-praticiens/:id',
+    name: 'praticien',
+    component: _components_Praticien__WEBPACK_IMPORTED_MODULE_4__["default"]
   }]
 }]);
 

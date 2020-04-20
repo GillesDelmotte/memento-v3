@@ -20,6 +20,7 @@
         id="filter"
         v-model="filter"
         autocomplete="off"
+        :placeholder="placeholder"
       />
     </div>
   </div>
@@ -74,6 +75,13 @@ export default {
             .toLowerCase()
             .match(this.filter.toLowerCase());
         });
+      }
+    },
+    placeholder() {
+      if (this.filteredBy === "name") {
+        return "Nom";
+      } else {
+        return "Profession";
       }
     }
   },
