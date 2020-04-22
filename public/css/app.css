@@ -157,6 +157,10 @@ body {
   background-color: #F9F9F9;
 }
 
+body.freeze {
+  overflow: hidden;
+}
+
 .container {
   margin-left: 140px;
   padding: 100px 0;
@@ -444,22 +448,58 @@ body {
   margin-bottom: 50px;
 }
 
+.userProfil__img {
+  width: 100px;
+  height: 100px;
+  background-color: #1D1D1D;
+  display: block;
+  float: left;
+  border-radius: 50%;
+  position: relative;
+  margin-left: -45px;
+}
+
+.userProfil__img .cross__first {
+  display: block;
+  width: 40px;
+  height: 3px;
+  position: absolute;
+  top: calc(50% - 1.5px);
+  left: calc(50% - 20px);
+  background-color: white;
+}
+
+.userProfil__img .cross__second {
+  display: block;
+  width: 40px;
+  height: 3px;
+  position: absolute;
+  top: calc(50% - 1.5px);
+  left: calc(50% - 20px);
+  background-color: white;
+  transform: rotate(90deg);
+}
+
 .userProfil__name {
   font-weight: 700;
   font-size: 40px;
   margin-bottom: 5px;
+  padding-top: 10px;
+  margin-left: 70px;
 }
 
 .userProfil__job {
   font-size: 30px;
   margin-bottom: 15px;
   display: block;
+  margin-left: 70px;
 }
 
 .userProfil__infos {
   margin-left: 4px;
   padding: 20px;
   border-left: 4px solid #1D1D1D;
+  margin-top: 30px;
 }
 
 .userProfil__info {
@@ -700,5 +740,106 @@ body {
   margin: 30px;
   box-sizing: border-box;
   padding: 10px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+}
+
+.popup.open {
+  display: flex;
+}
+
+.popup__window {
+  position: relative;
+  background-color: #1D1D1D;
+  padding: 20px;
+}
+
+.popup__window__label {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.popup__window__input {
+  display: block;
+  padding: 10px 10px;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  width: 500px;
+  margin-top: 20px;
+}
+
+.popup__window__textarea {
+  border: none;
+  display: block;
+  outline: none;
+  font-size: 16px;
+  margin-top: 20px;
+  padding: 10px 10px;
+  width: 500px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.popup__window__save {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  background-color: initial;
+  border: none;
+  margin-top: 20px;
+  margin-left: 15px;
+  outline: none;
+}
+
+.popup__window__save::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: white;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.popup__window__save:hover::after,
+.popup__window__save:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.popup__window__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.popup__window__close--cross {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
 }
 

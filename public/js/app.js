@@ -2441,6 +2441,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -2496,14 +2497,115 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserInfos",
   data: function data() {
-    return {};
+    return {
+      popupLabel: "",
+      popupType: "",
+      popupName: "",
+      popupValue: ""
+    };
   },
   props: {
     person: Object,
     userProfil: Boolean
+  },
+  methods: {
+    clickIcon: function clickIcon(label, type, name, test) {
+      this.popupLabel = label;
+      this.popupType = type;
+      this.popupName = name;
+      this.popupValue = test;
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+    },
+    updateProfil: function updateProfil() {
+      var _this = this;
+
+      if (this.popupType !== "description") {
+        var value = document.querySelector(".popup__window__input").value;
+      } else {
+        var value = document.querySelector(".popup__window__textarea").value;
+      }
+
+      window.axios.post("/updateProfile", {
+        column: this.popupName,
+        value: value
+      }).then(function (response) {
+        _this.$store.dispatch("setCurrentUser");
+
+        document.querySelector(".popup").classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+    },
+    closePopup: function closePopup() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    closePopupWithBackground: function closePopupWithBackground(e) {
+      var bgc = document.querySelector(".popup");
+
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    }
   }
 });
 
@@ -38792,6 +38894,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "userProfil" }, [
+    _vm._m(0),
+    _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
       _vm._v(_vm._s(_vm.person.name))
     ]),
@@ -38802,7 +38906,17 @@ var render = function() {
           _vm.userProfil
             ? _c("i", {
                 staticClass: "modifyIcon",
-                attrs: { title: "modifier ma profession" }
+                attrs: { title: "modifier ma profession" },
+                on: {
+                  click: function($event) {
+                    return _vm.clickIcon(
+                      "Profession",
+                      "text",
+                      "job",
+                      _vm.person.job.name
+                    )
+                  }
+                }
               })
             : _vm._e()
         ])
@@ -38813,7 +38927,12 @@ var render = function() {
           _vm._v("\n    Votre profession\n    "),
           _c("i", {
             staticClass: "modifyIcon",
-            attrs: { title: "modifier ma profession" }
+            attrs: { title: "modifier ma profession" },
+            on: {
+              click: function($event) {
+                return _vm.clickIcon("Profession", "text", "job")
+              }
+            }
           })
         ])
       : _vm._e(),
@@ -38825,7 +38944,12 @@ var render = function() {
           _vm.userProfil
             ? _c("i", {
                 staticClass: "modifyIcon",
-                attrs: { title: "modifier mon numero de téléphone" }
+                attrs: { title: "modifier mon numero de téléphone" },
+                on: {
+                  click: function($event) {
+                    return _vm.clickIcon("Gsm", "tel", "gsm", _vm.person.gsm)
+                  }
+                }
               })
             : _vm._e()
         ]),
@@ -38841,7 +38965,17 @@ var render = function() {
           _vm.userProfil
             ? _c("i", {
                 staticClass: "modifyIcon",
-                attrs: { title: "modifier mon adresse" }
+                attrs: { title: "modifier mon adresse" },
+                on: {
+                  click: function($event) {
+                    return _vm.clickIcon(
+                      "Adresse",
+                      "text",
+                      "address",
+                      _vm.person.address
+                    )
+                  }
+                }
               })
             : _vm._e()
         ]),
@@ -38857,7 +38991,16 @@ var render = function() {
           _vm.userProfil
             ? _c("i", {
                 staticClass: "modifyIcon",
-                attrs: { title: "modifier ma description" }
+                attrs: { title: "modifier ma description" },
+                on: {
+                  click: function($event) {
+                    return _vm.clickIcon(
+                      "Description",
+                      "description",
+                      "description"
+                    )
+                  }
+                }
               })
             : _vm._e()
         ]),
@@ -38868,12 +39011,111 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.userProfil
-        ? _c("div", { staticClass: "userProfil__info--buttons" }, [_vm._m(0)])
+        ? _c("div", { staticClass: "userProfil__info--buttons" }, [_vm._m(1)])
         : _vm._e()
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "popup",
+        on: {
+          click: function($event) {
+            return _vm.closePopupWithBackground($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "popup__window" }, [
+          _c(
+            "button",
+            {
+              staticClass: "popup__window__close sr-only",
+              on: { click: _vm.closePopup }
+            },
+            [_vm._v("close")]
+          ),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "popup__window__close--cross",
+            on: { click: _vm.closePopup }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            { staticClass: "popup__window__label", attrs: { for: "popup" } },
+            [_vm._v(_vm._s(_vm.popupLabel))]
+          ),
+          _vm._v(" "),
+          _vm.popupType === "description"
+            ? _c(
+                "textarea",
+                {
+                  staticClass: "popup__window__textarea",
+                  attrs: { name: "", id: "" },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.updateProfil($event)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(_vm.person.description))]
+              )
+            : _c("input", {
+                staticClass: "popup__window__input",
+                attrs: {
+                  type: _vm.popupType,
+                  name: _vm.popupName,
+                  id: "popup"
+                },
+                domProps: { value: _vm.popupValue },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.updateProfil($event)
+                  }
+                }
+              }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "popup__window__save",
+              on: { click: _vm.updateProfil }
+            },
+            [_vm._v("Enregistrer")]
+          )
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "userProfil__img", attrs: { for: "imageFile" } },
+      [
+        _c("div", { staticClass: "cross__first" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "cross__second" })
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
