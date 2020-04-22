@@ -1,0 +1,77 @@
+.popup{
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color: rgba($color: black, $alpha: 0.5);
+    z-index: 100;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: $shadow;
+    &.open{
+        display: flex;
+    }
+    &__window{
+        position: relative;
+        background-color: $main-color;
+        padding: 20px;
+        &__label{
+        display: block;
+        font-size: 20px;
+        //margin-bottom: 20px;
+        font-weight: bold;
+        color: white;
+        }
+        &__input{
+            display: block;
+            padding: 10px 10px;
+            outline:none;
+            border: none;
+            font-size: 16px;
+            width: 500px;
+            margin-top: 20px;
+
+        }
+        &__textarea{
+            border: none;
+            display: block;
+            outline:none;
+            font-size: 16px;
+            margin-top: 20px;
+            padding: 10px 10px;
+            width: 500px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        &__save{
+            @include main-link(white, 20px);
+            background-color: initial;
+            border: none;
+            margin-top: 20px;
+            margin-left: 15px;
+            outline: none;
+        }
+        &__close{
+            position: absolute;
+            top: 0;
+            right: 0;
+            &--cross{
+               position: absolute;
+                top: 10px;
+                right: 10px;
+                display: block;
+                width: 10px;
+                height: 10px;
+                background-image: url('../../img/close.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                cursor: pointer;
+            }
+
+        }
+
+    }
+
+}

@@ -30,3 +30,5 @@ Route::get('/getJobs', 'JobController@index');
 
 Route::get('/getPractitioners', 'PracticionnerController@index');
 
+Route::post('/updateProfile', 'ProfileController@update');
+

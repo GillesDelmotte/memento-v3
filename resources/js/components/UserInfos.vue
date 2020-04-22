@@ -1,33 +1,61 @@
 <template>
   <div class="userProfil">
+    <label class="userProfil__img" for="imageFile">
+      <div class="cross__first"></div>
+      <div class="cross__second"></div>
+    </label>
     <h1 class="userProfil__name">{{person.name}}</h1>
     <span class="userProfil__job" v-if="person.job">
       {{person.job.name}}
-      <i class="modifyIcon" title="modifier ma profession" v-if="userProfil"></i>
+      <i
+        class="modifyIcon"
+        title="modifier ma profession"
+        v-if="userProfil"
+        @click="clickIcon('Profession', 'text', 'job', person.job.name)"
+      ></i>
     </span>
     <span class="userProfil__job" v-if="!person.job && userProfil">
       Votre profession
-      <i class="modifyIcon" title="modifier ma profession"></i>
+      <i
+        class="modifyIcon"
+        title="modifier ma profession"
+        @click="clickIcon('Profession', 'text', 'job')"
+      ></i>
     </span>
     <div class="userProfil__infos">
       <div class="userProfil__info">
         <div class="userProfil__info__label">
           Gsm
-          <i class="modifyIcon" v-if="userProfil" title="modifier mon numero de téléphone"></i>
+          <i
+            class="modifyIcon"
+            v-if="userProfil"
+            title="modifier mon numero de téléphone"
+            @click="clickIcon('Gsm', 'tel', 'gsm', person.gsm)"
+          ></i>
         </div>
         <div class="userProfil__info__content">{{person.gsm}}</div>
       </div>
       <div class="userProfil__info">
         <div class="userProfil__info__label">
           Adresse
-          <i class="modifyIcon" v-if="userProfil" title="modifier mon adresse"></i>
+          <i
+            class="modifyIcon"
+            v-if="userProfil"
+            title="modifier mon adresse"
+            @click="clickIcon('Adresse', 'text', 'address', person.address)"
+          ></i>
         </div>
         <div class="userProfil__info__content">{{person.address}}</div>
       </div>
       <div class="userProfil__info">
         <div class="userProfil__info__label">
           Description
-          <i class="modifyIcon" v-if="userProfil" title="modifier ma description"></i>
+          <i
+            class="modifyIcon"
+            v-if="userProfil"
+            title="modifier ma description"
+            @click="clickIcon('Description', 'description', 'description')"
+          ></i>
         </div>
         <div class="userProfil__info__content">{{person.description}}</div>
       </div>
@@ -51,17 +79,86 @@
         </div>
       </div>
     </div>
+    <div class="popup" @click="closePopupWithBackground($event)">
+      <div class="popup__window">
+        <button class="popup__window__close sr-only" @click="closePopup">close</button>
+        <span class="popup__window__close--cross" @click="closePopup"></span>
+        <label for="popup" class="popup__window__label">{{popupLabel}}</label>
+        <textarea
+          name
+          v-if="popupType === 'description'"
+          id
+          class="popup__window__textarea"
+          @keyup.enter="updateProfil"
+        >{{person.description}}</textarea>
+        <input
+          :type="popupType"
+          :name="popupName"
+          id="popup"
+          class="popup__window__input"
+          :value="popupValue"
+          @keyup.enter="updateProfil"
+          v-else
+        />
+        <button class="popup__window__save" @click="updateProfil">Enregistrer</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "UserInfos",
   data() {
-    return {};
+    return {
+      popupLabel: "",
+      popupType: "",
+      popupName: "",
+      popupValue: ""
+    };
   },
   props: {
     person: Object,
     userProfil: Boolean
+  },
+  methods: {
+    clickIcon(label, type, name, test) {
+      this.popupLabel = label;
+      this.popupType = type;
+      this.popupName = name;
+      this.popupValue = test;
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+    },
+    updateProfil() {
+      if (this.popupType !== "description") {
+        var value = document.querySelector(".popup__window__input").value;
+      } else {
+        var value = document.querySelector(".popup__window__textarea").value;
+      }
+      window.axios
+        .post("/updateProfile", { column: this.popupName, value: value })
+        .then(response => {
+          this.$store.dispatch("setCurrentUser");
+          document.querySelector(".popup").classList.remove("open");
+          document.querySelector("body").classList.remove("freeze");
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
+    },
+    closePopup() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    closePopupWithBackground(e) {
+      const bgc = document.querySelector(".popup");
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    }
   }
 };
 </script>

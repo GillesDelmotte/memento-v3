@@ -1,22 +1,58 @@
 .userProfil{
     width: 550px;
     margin-bottom: 50px;
+    &__img{
+        width: 100px;
+        height: 100px;
+        background-color: $main-color;
+        display: block;
+        float: left;
+        border-radius: 50%;
+        position: relative;
+        margin-left: -45px;
+        .cross__first{
+            display: block;
+            width: 40px;
+            height: 3px;
+            position: absolute;
+            top: calc(50% - 1.5px);
+            left: calc(50% - 20px);
+            background-color: white;
+
+        }
+        .cross__second{
+            display: block;
+            width: 40px;
+            height: 3px;
+            position: absolute;
+            top: calc(50% - 1.5px);
+            left: calc(50% - 20px);
+            background-color: white;
+            transform: rotate(90deg);
+
+        }
+
+    }
     &__name{
         font-weight: 700;
         font-size: 40px;
         margin-bottom: 5px;
+        padding-top: 10px;
+        margin-left: 70px;
 
     }
     &__job{
         font-size: 30px;
         margin-bottom: 15px;
         display: block;
+        margin-left: 70px;
 
     }
     &__infos{
         margin-left: 4px;
         padding: 20px;
         border-left: 4px solid $main-color;
+        margin-top: 30px;
 
     }
     &__info{
