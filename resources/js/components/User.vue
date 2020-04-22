@@ -4,9 +4,10 @@
     <user-infos :person="currentUser" :userProfil="true"></user-infos>
     <section class="comments">
       <h2 class="comments__title">Commentaires</h2>
-      <ul class="comments__list">
+      <ul class="comments__list" v-if="currentUser.comments.length !== 0">
         <comment v-for="comment in currentUser.comments" :key="comment.id" :comment="comment"></comment>
       </ul>
+      <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
   </div>
 </template>

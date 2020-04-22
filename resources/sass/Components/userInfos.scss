@@ -1,7 +1,7 @@
 .userProfil{
     width: 550px;
     margin-bottom: 50px;
-    &__img{
+    &__img--true{
         width: 100px;
         height: 100px;
         background-color: $main-color;
@@ -32,6 +32,20 @@
 
         }
 
+    }
+    &__img--false{
+        width: 100px;
+        height: 100px;
+        background-color: $main-color;
+        display: block;
+        float: left;
+        border-radius: 50%;
+        position: relative;
+        margin-left: -45px;
+        background-image: url('../../img/user.svg');
+        background-size: 50%;
+        background-position: center 47%;
+        background-repeat: no-repeat;
     }
     &__name{
         font-weight: 700;

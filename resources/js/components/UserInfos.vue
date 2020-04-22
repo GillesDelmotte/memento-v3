@@ -1,9 +1,14 @@
 <template>
   <div class="userProfil">
-    <label class="userProfil__img" for="imageFile">
-      <div class="cross__first"></div>
-      <div class="cross__second"></div>
-    </label>
+    <div v-if="userProfil">
+      <label class="userProfil__img--true" for="imageFile">
+        <div class="cross__first"></div>
+        <div class="cross__second"></div>
+      </label>
+    </div>
+    <div v-else>
+      <div class="userProfil__img--false"></div>
+    </div>
     <h1 class="userProfil__name">{{person.name}}</h1>
     <span class="userProfil__job" v-if="person.job">
       {{person.job.name}}
