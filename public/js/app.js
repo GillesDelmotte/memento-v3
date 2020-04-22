@@ -2125,6 +2125,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2150,6 +2151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Praticien",
   data: function data() {
@@ -2157,15 +2159,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     addComment: function addComment() {
-      console.log(this.practitioner);
-    }
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner"]), {
-    practitioner: function practitioner() {
       var _this = this;
 
+      var comment = document.querySelector(".addComment__textarea").value;
+      window.axios.post("/addComment", {
+        user_id: this.practitioner.id,
+        comment: comment
+      }).then(function (response) {
+        _this.practitioner.comments.push({
+          id: response.data.id,
+          comment: response.data.comment,
+          user_id: response.data.user_id,
+          client_id: response.data.client_id,
+          owner: _this.currentUser
+        });
+
+        document.querySelector(".addComment__textarea").value = "";
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+    }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner", "currentUser"]), {
+    practitioner: function practitioner() {
+      var _this2 = this;
+
       var practitioner = this.allPractitioner.filter(function (practitioner) {
-        return practitioner.id === _this.$route.params.id;
+        return practitioner.id === _this2.$route.params.id;
       });
       return practitioner[0];
     }
@@ -38899,7 +38919,10 @@ var render = function() {
         "a",
         {
           staticClass: "userCard__icons__link userCard__icons__link--mail",
-          attrs: { href: "", title: "envoyer un email à " + _vm.user.name }
+          attrs: {
+            href: "mailto:" + _vm.user.email,
+            title: "envoyer un email à " + _vm.user.name
+          }
         },
         [
           _c("span", { staticClass: "sr-only" }, [
@@ -38912,7 +38935,10 @@ var render = function() {
         "a",
         {
           staticClass: "userCard__icons__link userCard__icons__link--phone",
-          attrs: { href: "", title: "téléphoner a " + _vm.user.name }
+          attrs: {
+            href: "tel:" + _vm.user.gsm,
+            title: "téléphoner a " + _vm.user.name
+          }
         },
         [
           _c("span", { staticClass: "sr-only" }, [
