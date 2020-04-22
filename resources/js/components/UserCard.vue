@@ -15,14 +15,14 @@
         <span class="sr-only">aller sur l'horaire de {{user.name}}</span>
       </a>
       <a
-        href
+        :href="'mailto:' + user.email"
         :title="'envoyer un email à ' + user.name"
         class="userCard__icons__link userCard__icons__link--mail"
       >
         <span class="sr-only">envoyer un email à {{user.name}}</span>
       </a>
       <a
-        href
+        :href="'tel:' + user.gsm"
         :title="'téléphoner a ' + user.name"
         class="userCard__icons__link userCard__icons__link--phone"
       >
