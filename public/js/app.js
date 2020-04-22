@@ -2142,11 +2142,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Praticien",
   data: function data() {
     return {};
+  },
+  methods: {
+    addComment: function addComment() {
+      console.log(this.practitioner);
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner"]), {
     practitioner: function practitioner() {
@@ -2350,6 +2362,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2442,6 +2455,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -38544,17 +38562,47 @@ var render = function() {
       _c("section", { staticClass: "comments" }, [
         _c("h2", { staticClass: "comments__title" }, [_vm._v("Commentaires")]),
         _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "comments__list" },
-          _vm._l(_vm.practitioner.comments, function(comment) {
-            return _c("comment", {
-              key: comment.id,
-              attrs: { comment: comment }
-            })
+        _vm.practitioner.comments.length !== 0
+          ? _c(
+              "ul",
+              { staticClass: "comments__list" },
+              _vm._l(_vm.practitioner.comments, function(comment) {
+                return _c("comment", {
+                  key: comment.id,
+                  attrs: { comment: comment }
+                })
+              }),
+              1
+            )
+          : _c("div", { staticClass: "comments__empty" }, [
+              _vm._v("il n'y a pas de commentaire")
+            ]),
+        _vm._v(" "),
+        _c("section", { staticClass: "addComment" }, [
+          _c("h2", { staticClass: "addComment__title sr-only" }, [
+            _vm._v("Ajouter un commentaire")
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            { staticClass: "addComment__label", attrs: { for: "addComment" } },
+            [_vm._v("Mon commentaire")]
+          ),
+          _vm._v(" "),
+          _c("textarea", {
+            staticClass: "addComment__textarea",
+            attrs: { name: "comment", id: "addComment", placeholder: "..." }
           }),
-          1
-        )
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "addComment__button",
+              on: { click: _vm.addComment }
+            },
+            [_vm._v("Poster mon commentaire")]
+          )
+        ])
       ])
     ],
     1
@@ -38763,17 +38811,21 @@ var render = function() {
       _c("section", { staticClass: "comments" }, [
         _c("h2", { staticClass: "comments__title" }, [_vm._v("Commentaires")]),
         _vm._v(" "),
-        _c(
-          "ul",
-          { staticClass: "comments__list" },
-          _vm._l(_vm.currentUser.comments, function(comment) {
-            return _c("comment", {
-              key: comment.id,
-              attrs: { comment: comment }
-            })
-          }),
-          1
-        )
+        _vm.currentUser.comments.length !== 0
+          ? _c(
+              "ul",
+              { staticClass: "comments__list" },
+              _vm._l(_vm.currentUser.comments, function(comment) {
+                return _c("comment", {
+                  key: comment.id,
+                  attrs: { comment: comment }
+                })
+              }),
+              1
+            )
+          : _c("div", { staticClass: "comments__empty" }, [
+              _vm._v("Il n'y a pas de commentaires sur votre profil")
+            ])
       ])
     ],
     1
@@ -38894,7 +38946,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "userProfil" }, [
-    _vm._m(0),
+    _vm.userProfil
+      ? _c("div", [_vm._m(0)])
+      : _c("div", [_c("div", { staticClass: "userProfil__img--false" })]),
     _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
       _vm._v(_vm._s(_vm.person.name))
@@ -39108,7 +39162,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c(
       "label",
-      { staticClass: "userProfil__img", attrs: { for: "imageFile" } },
+      { staticClass: "userProfil__img--true", attrs: { for: "imageFile" } },
       [
         _c("div", { staticClass: "cross__first" }),
         _vm._v(" "),

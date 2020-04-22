@@ -448,7 +448,7 @@ body.freeze {
   margin-bottom: 50px;
 }
 
-.userProfil__img {
+.userProfil__img--true {
   width: 100px;
   height: 100px;
   background-color: #1D1D1D;
@@ -459,7 +459,7 @@ body.freeze {
   margin-left: -45px;
 }
 
-.userProfil__img .cross__first {
+.userProfil__img--true .cross__first {
   display: block;
   width: 40px;
   height: 3px;
@@ -469,7 +469,7 @@ body.freeze {
   background-color: white;
 }
 
-.userProfil__img .cross__second {
+.userProfil__img--true .cross__second {
   display: block;
   width: 40px;
   height: 3px;
@@ -478,6 +478,21 @@ body.freeze {
   left: calc(50% - 20px);
   background-color: white;
   transform: rotate(90deg);
+}
+
+.userProfil__img--false {
+  width: 100px;
+  height: 100px;
+  background-color: #1D1D1D;
+  display: block;
+  float: left;
+  border-radius: 50%;
+  position: relative;
+  margin-left: -45px;
+  background-image: url(/images/user.svg?27bdbdfccf34048eca96ff049cc40f6e);
+  background-size: 50%;
+  background-position: center 47%;
+  background-repeat: no-repeat;
 }
 
 .userProfil__name {
@@ -575,6 +590,10 @@ body.freeze {
   margin-bottom: 20px;
 }
 
+.comments__empty {
+  margin-bottom: 30px;
+}
+
 .comments .comment {
   position: relative;
   background-color: white;
@@ -606,6 +625,60 @@ body.freeze {
   background-size: 50%;
   background-position: center 47%;
   background-repeat: no-repeat;
+}
+
+.addComment {
+  width: 550px;
+}
+
+.addComment__label {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.addComment__textarea {
+  resize: vertical;
+  width: 100%;
+  display: block;
+  border: none;
+  background-color: #1D1D1D;
+  color: white;
+  font-size: 17px;
+  box-sizing: border-box;
+  padding: 15px;
+  outline: none;
+  min-height: 150px;
+  margin-bottom: 30px;
+}
+
+.addComment__button {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  background-color: initial;
+  border: none;
+  margin-left: 15px;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+
+.addComment__button::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: black;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.addComment__button:hover::after,
+.addComment__button:focus::after {
+  width: 100%;
+  transition: all 0.2s;
 }
 
 .userCards {
@@ -804,6 +877,7 @@ body.freeze {
   margin-top: 20px;
   margin-left: 15px;
   outline: none;
+  font-family: "Montserrat", sans-serif;
 }
 
 .popup__window__save::after {
