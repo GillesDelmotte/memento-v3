@@ -32,3 +32,5 @@ Route::get('/getPractitioners', 'PracticionnerController@index');
 
 Route::post('/updateProfile', 'ProfileController@update');
 
+Route::post('/addComment', 'CommentController@store');
+
