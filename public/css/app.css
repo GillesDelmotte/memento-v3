@@ -767,7 +767,7 @@ body.freeze {
   transition: background-color 0.2s;
 }
 
-.filter {
+.aside {
   background-color: #1D1D1D;
   width: 274px;
   box-sizing: border-box;
@@ -779,30 +779,30 @@ body.freeze {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
 }
 
-.filter__title {
+.aside .filter__title {
   font-size: 20px;
   font-weight: bold;
   padding: 0 30px;
   margin-bottom: 30px;
 }
 
-.filter__name__job div {
+.aside .filter__name__job div {
   padding: 20px 30px;
   margin-bottom: 10px;
   transition: background-color 0.2s;
   cursor: pointer;
 }
 
-.filter__name__job div.active {
+.aside .filter__name__job div.active {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.filter__name__job div:hover {
+.aside .filter__name__job div:hover {
   background-color: rgba(255, 255, 255, 0.2);
   transition: background-color 0.2s;
 }
 
-.filter__input {
+.aside .filter__input {
   outline: none;
   font-size: 20px;
   background-color: initial;
@@ -813,6 +813,48 @@ body.freeze {
   margin: 30px;
   box-sizing: border-box;
   padding: 10px;
+}
+
+.aside__title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 30px;
+  margin-bottom: 30px;
+}
+
+.aside__list {
+  margin: 30px;
+}
+
+.aside__list li {
+  margin: 10px 0;
+  display: block;
+}
+
+.aside__link {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.aside__link::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: white;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.aside__link:hover::after,
+.aside__link:focus::after {
+  width: 100%;
+  transition: all 0.2s;
 }
 
 .popup {

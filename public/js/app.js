@@ -2296,7 +2296,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "Search",
   data: function data() {
     return {
-      alphabet: "abcdefghijklmnopqrstuvwxyz",
       filteredBy: "name",
       filter: ""
     };
@@ -2370,6 +2369,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2587,6 +2595,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserInfos",
@@ -2595,7 +2611,8 @@ __webpack_require__.r(__webpack_exports__);
       popupLabel: "",
       popupType: "",
       popupName: "",
-      popupValue: ""
+      popupValue: "",
+      image: ""
     };
   },
   props: {
@@ -2643,6 +2660,37 @@ __webpack_require__.r(__webpack_exports__);
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
       }
+    },
+    onImageChange: function onImageChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage: function createImage(file) {
+      var _this2 = this;
+
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        vm.image = e.target.result;
+
+        _this2.uploadImage();
+      };
+
+      reader.readAsDataURL(file);
+    },
+    uploadImage: function uploadImage() {
+      var formData = new FormData();
+      var imagefile = document.querySelector(".imageFile");
+      formData.append("image", imagefile.files[0]);
+      window.axios.post("/image/store", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      }).then(function (response) {
+        console.log(response); //   router.go();
+      });
     }
   }
 });
@@ -38733,7 +38781,7 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "filter" }, [
+    _c("div", { staticClass: "aside" }, [
       _c("h2", { staticClass: "filter__title" }, [_vm._v("Filter par")]),
       _vm._v(" "),
       _c("div", { staticClass: "filter__name__job" }, [
@@ -38846,12 +38894,35 @@ var render = function() {
           : _c("div", { staticClass: "comments__empty" }, [
               _vm._v("Il n'y a pas de commentaires sur votre profil")
             ])
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "aside" }, [
+      _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "aside__list" }, [
+        _c("li", [_vm._v("Mon premier")]),
+        _vm._v(" "),
+        _c("li", [_vm._v("Mon deuxième")]),
+        _vm._v(" "),
+        _c("li", [_vm._v("Mon troisième")])
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
+        _vm._v("Créer un agenda")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -38973,7 +39044,24 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "userProfil" }, [
     _vm.userProfil
-      ? _c("div", [_vm._m(0)])
+      ? _c("div", [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("label", {
+            staticClass: "profile__img",
+            attrs: { for: "imageFile" }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "imageFile sr-only",
+            attrs: { type: "file", id: "imageFile", accept: "image/*" },
+            on: {
+              change: function($event) {
+                return _vm.onImageChange($event)
+              }
+            }
+          })
+        ])
       : _c("div", [_c("div", { staticClass: "userProfil__img--false" })]),
     _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
@@ -56563,6 +56651,7 @@ var actions = {
     var commit = _ref3.commit;
     return new Promise(function (resolve, reject) {
       window.axios.get('/getPractitioners').then(function (response) {
+        console.log(response.data);
         commit('setAllPractitioner', response.data);
         resolve();
       })["catch"](function (error) {
