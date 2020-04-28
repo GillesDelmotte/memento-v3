@@ -34,3 +34,5 @@ Route::post('/updateProfile', 'ProfileController@update');
 
 Route::post('/addComment', 'CommentController@store');
 
+Route::post('/image/store', 'ImageController@store');
+
