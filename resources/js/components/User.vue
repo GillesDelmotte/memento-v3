@@ -12,9 +12,9 @@
     <div class="aside">
       <h2 class="aside__title">Mes agendas</h2>
       <ul class="aside__list">
-        <li>Mon premier</li>
+        <!-- <li>Mon premier</li>
         <li>Mon deuxième</li>
-        <li>Mon troisième</li>
+        <li>Mon troisième</li>-->
       </ul>
       <a href class="aside__link">Créer un agenda</a>
     </div>
