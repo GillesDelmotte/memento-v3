@@ -2661,25 +2661,6 @@ __webpack_require__.r(__webpack_exports__);
         document.querySelector("body").classList.remove("freeze");
       }
     },
-    onImageChange: function onImageChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      this.createImage(files[0]);
-    },
-    createImage: function createImage(file) {
-      var _this2 = this;
-
-      var reader = new FileReader();
-      var vm = this;
-
-      reader.onload = function (e) {
-        vm.image = e.target.result;
-
-        _this2.uploadImage();
-      };
-
-      reader.readAsDataURL(file);
-    },
     uploadImage: function uploadImage() {
       var formData = new FormData();
       var imagefile = document.querySelector(".imageFile");
@@ -2690,6 +2671,8 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         console.log(response); //   router.go();
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   }
@@ -38909,13 +38892,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "aside" }, [
       _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
       _vm._v(" "),
-      _c("ul", { staticClass: "aside__list" }, [
-        _c("li", [_vm._v("Mon premier")]),
-        _vm._v(" "),
-        _c("li", [_vm._v("Mon deuxième")]),
-        _vm._v(" "),
-        _c("li", [_vm._v("Mon troisième")])
-      ]),
+      _c("ul", { staticClass: "aside__list" }),
       _vm._v(" "),
       _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
         _vm._v("Créer un agenda")
@@ -39055,11 +39032,7 @@ var render = function() {
           _c("input", {
             staticClass: "imageFile sr-only",
             attrs: { type: "file", id: "imageFile", accept: "image/*" },
-            on: {
-              change: function($event) {
-                return _vm.onImageChange($event)
-              }
-            }
+            on: { change: _vm.uploadImage }
           })
         ])
       : _c("div", [_c("div", { staticClass: "userProfil__img--false" })]),
