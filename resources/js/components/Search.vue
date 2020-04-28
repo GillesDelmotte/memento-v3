@@ -6,7 +6,7 @@
     <ul class="userCards" v-if="filteredBy === 'job'">
       <user-card v-for="user in filteredByJob" :key="user.id" :user="user"></user-card>
     </ul>
-    <div class="filter">
+    <div class="aside">
       <h2 class="filter__title">Filter par</h2>
       <div class="filter__name__job">
         <div class="filter__name active" @click="changeFilter('name')">Nom</div>
@@ -35,7 +35,6 @@ export default {
   name: "Search",
   data() {
     return {
-      alphabet: "abcdefghijklmnopqrstuvwxyz",
       filteredBy: "name",
       filter: ""
     };

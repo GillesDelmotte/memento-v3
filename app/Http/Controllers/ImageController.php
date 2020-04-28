@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Image;
+
+use App\User;
+use App\FilesUpload;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
+
 
 class ImageController extends Controller
 {
@@ -35,7 +39,15 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $_FILES;
+
+        $target_dir = "public/images/profiles";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
     }
 
     /**

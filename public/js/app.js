@@ -56651,7 +56651,6 @@ var actions = {
     var commit = _ref3.commit;
     return new Promise(function (resolve, reject) {
       window.axios.get('/getPractitioners').then(function (response) {
-        console.log(response.data);
         commit('setAllPractitioner', response.data);
         resolve();
       })["catch"](function (error) {

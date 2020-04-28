@@ -5,6 +5,14 @@
         <div class="cross__first"></div>
         <div class="cross__second"></div>
       </label>
+      <label for="imageFile" class="profile__img"></label>
+      <input
+        type="file"
+        id="imageFile"
+        accept="image/*"
+        class="imageFile sr-only"
+        v-on:change="onImageChange($event)"
+      />
     </div>
     <div v-else>
       <div class="userProfil__img--false"></div>
@@ -120,7 +128,8 @@ export default {
       popupLabel: "",
       popupType: "",
       popupName: "",
-      popupValue: ""
+      popupValue: "",
+      image: ""
     };
   },
   props: {
@@ -163,6 +172,36 @@ export default {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
       }
+    },
+    onImageChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      let reader = new FileReader();
+      let vm = this;
+      reader.onload = e => {
+        vm.image = e.target.result;
+        this.uploadImage();
+      };
+      reader.readAsDataURL(file);
+    },
+    uploadImage() {
+      var formData = new FormData();
+      var imagefile = document.querySelector(".imageFile");
+      formData.append("image", imagefile.files[0]);
+
+      window.axios
+        .post("/image/store", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response);
+          //   router.go();
+        });
     }
   }
 };

@@ -1,4 +1,4 @@
-.filter{
+.aside{
     background-color: $main-color;
     width: 274px;
     box-sizing: border-box;
@@ -8,13 +8,17 @@
     right: 70px;
     color: white;
     box-shadow: $shadow;
-    &__title{
+
+
+    // Style pour le filte de la page Search
+
+    .filter__title{
         font-size: 20px;
         font-weight: bold;
         padding:  0 30px;
         margin-bottom: 30px;
     }
-    &__name__job{
+    .filter__name__job{
         div{
             padding: 20px 30px;
             margin-bottom: 10px;
@@ -29,7 +33,7 @@
             }
         }
     }
-    &__input{
+    .filter__input{
         outline: none;
         font-size: 20px;
         background-color: initial;
@@ -41,4 +45,28 @@
         box-sizing: border-box;
         padding: 10px;
     }
+
+
+    // Style pour l'aside de la page profil
+
+    &__title{
+        font-size: 20px;
+        font-weight: bold;
+        padding:  0 30px;
+        margin-bottom: 30px;
+    }
+    &__list{
+        margin: 30px;
+        li{
+            margin: 10px 0;
+            display: block;
+        }
+
+    }
+    &__link{
+        @include main-link(white, 20px);
+        display: inline-block;
+        margin-left: 30px;
+    }
+
 }
