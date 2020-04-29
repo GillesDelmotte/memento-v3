@@ -162,7 +162,7 @@ body.freeze {
 }
 
 .container {
-  margin-left: 140px;
+  margin: 0 70px 0 140px;
   padding: 100px 0;
 }
 
@@ -598,6 +598,12 @@ body.freeze {
   margin-top: 30px;
 }
 
+@media (max-width: 1050px) {
+  .userProfil {
+    width: 100%;
+  }
+}
+
 .radioButton {
   position: relative;
   display: flex;
@@ -692,6 +698,7 @@ body.freeze {
 
 .addComment {
   width: 550px;
+  margin-top: 50px;
 }
 
 .addComment__label {
@@ -742,6 +749,16 @@ body.freeze {
 .addComment__button:focus::after {
   width: 100%;
   transition: all 0.2s;
+}
+
+@media (max-width: 1050px) {
+  .comments {
+    width: 100%;
+  }
+
+  .addComment {
+    width: 100%;
+  }
 }
 
 .userCards {
@@ -828,6 +845,12 @@ body.freeze {
 .userCards .userCard__icons__link:hover {
   background-color: rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s;
+}
+
+@media (max-width: 1050px) {
+  .userCards {
+    width: 100%;
+  }
 }
 
 .aside {
@@ -918,6 +941,12 @@ body.freeze {
 .aside__link:focus::after {
   width: 100%;
   transition: all 0.2s;
+}
+
+@media (max-width: 1050px) {
+  .aside {
+    display: none;
+  }
 }
 
 .popup {
