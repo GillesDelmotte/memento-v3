@@ -41,7 +41,7 @@
 
 .addComment{
     width: 550px;
-
+    margin-top: 50px;
     &__label{
         display: block;
         font-size: 20px;
@@ -68,5 +68,15 @@
         margin-left: 15px;
         outline: none;
         font-family: $font-family-sans-serif;
+    }
+}
+
+@media(max-width: 1050px){
+    .comments{
+        width: 100%;
+    }
+
+    .addComment{
+        width: 100%;
     }
 }
