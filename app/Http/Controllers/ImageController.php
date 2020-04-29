@@ -47,6 +47,7 @@ class ImageController extends Controller
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
+
         //vérifier si c'est une image
 
         $check = getimagesize($_FILES["image"]["tmp_name"]);
@@ -79,14 +80,14 @@ class ImageController extends Controller
 
         if ($uploadOk == 0) {
             return  "il y a eu un problème";
-            // if everything is ok, try to upload file
         } else {
             // return "image upload";
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
                 return "l'image a été upload";
             } else {
-                return "l'iamge n'a pas été upload";
+                return "l'image n'a pas été upload";
             }
+
         }
 
     }
