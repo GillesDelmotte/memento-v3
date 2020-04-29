@@ -8,6 +8,7 @@
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
         gap: 30px;
         margin-bottom: 50px;
+        //background-color: red;
 
     }
     &__item{
@@ -45,9 +46,10 @@
         }
         &__error{
             position: absolute;
-            bottom: -27px;
+            top: calc(100% + 10px);
             left: 0;
             color: indianred;
+            font-size: 12px;
         }
 
     }
@@ -59,5 +61,17 @@
         outline:none;
         margin-left: 13px;
 
+    }
+}
+
+@media(max-width: 600px){
+    .form{
+      padding: 0 20px;
+      &__container{
+          display: block;
+      }
+      &__item{
+          margin-top: 30px;
+      }
     }
 }

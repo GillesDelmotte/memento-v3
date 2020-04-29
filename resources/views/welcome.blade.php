@@ -8,13 +8,15 @@
     </head>
     <body>
         <section class="welcome">
-            <h1 class="welcome__title">
-                {{ config('app.name', 'Laravel') }}
-            </h1>
-            <div class="welcome__nav">
+            <div class="welcome__container">
+                <h1 class="welcome__title">
+                    {{ config('app.name', 'Laravel') }}
+                </h1>
+                <div class="welcome__nav">
                 <a href="{{ route('login') }}" class="welcome__nav__link">Connexion</a>
                 <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>
             </div>
+        </div>
         </section>
     </body>
 </html>

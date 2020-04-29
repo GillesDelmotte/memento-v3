@@ -1,12 +1,40 @@
 .welcome{
     background-color: $main-color;
     min-height: 100vh;
-    padding: 50px 0;
-    display: flex;
-    justify-content: center;
-    box-sizing: border-box;
-    align-items: center;
-    flex-direction: column;
+
+    &__container{
+        position: relative;
+        padding: 50px 0;
+        margin: 0 auto;
+        max-width: 1280px;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+
+    }
+    &__back{
+        width: 100px;
+        height: 100px;
+        display: block;
+        position: absolute;
+        top: 30px;
+        left: 75px;
+        background-image: url('../../img/back-white.svg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center center;
+        opacity: 0.3;
+        transition: opacity 0.3s;
+        &:hover{
+            opacity: 1;
+            transition: opacity 0.3s;
+
+        }
+    }
+
     &__title{
         font-size: 68px;
         font-weight: bold;
@@ -20,5 +48,27 @@
             @include main-link(white, 20px);
             margin: 0 30px;
         }
+    }
+}
+
+
+@media(max-width: 850px){
+    .welcome__back{
+        width: 50px;
+        height: 50px;
+        left: initial;
+        top: initial;
+        bottom: 30px;
+        right: 30px;
+    }
+}
+
+@media(max-width: 530px){
+    .welcome__title{
+        font-size: 50px;
+    }
+
+    .welcome__container{
+        padding: 0;
     }
 }
