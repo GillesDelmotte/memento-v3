@@ -90,7 +90,15 @@
           >Autoriser mon profil à être vu par les personnes que je consulte</label>
         </div>-->
         <div class="radioButton">
-          <input type="checkbox" name="indexed" id="indexed" class="radioButton__input sr-only" />
+          <input
+            type="checkbox"
+            name="indexed"
+            :value="person.schedule"
+            :checked="person.schedule ? 'checked' : ''"
+            v-on:change="updateCheck"
+            id="indexed"
+            class="radioButton__input sr-only"
+          />
           <label for="indexed" class="radioButton__bgc">
             <label for="indexed" class="radioButton__dot"></label>
           </label>
@@ -208,6 +216,24 @@ export default {
     },
     deleteError() {
       this.error = "";
+    },
+    updateCheck() {
+      var bool = document.getElementById("indexed").checked;
+      var value = bool.toString();
+      if (value === "false") {
+        value = 0;
+      } else {
+        value = 1;
+      }
+
+      window.axios
+        .post("/updateProfile", { column: "schedule", value: value })
+        .then(response => {
+          this.$store.dispatch("setCurrentUser");
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
     }
   }
 };
