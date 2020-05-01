@@ -2112,6 +2112,10 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         nav.classList.add("open");
       }
+    },
+    closeMenu: function closeMenu() {
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("open");
     }
   }
 });
@@ -2673,6 +2677,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2684,7 +2692,8 @@ __webpack_require__.r(__webpack_exports__);
       popupType: "",
       popupName: "",
       popupValue: "",
-      image: ""
+      image: "",
+      error: ""
     };
   },
   props: {
@@ -2745,9 +2754,16 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this2.$store.dispatch("setCurrentUser");
+
+        if (response.data.error) {
+          _this2.error = response.data.error;
+        }
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    deleteError: function deleteError() {
+      this.error = "";
     }
   }
 });
@@ -39397,7 +39413,17 @@ var render = function() {
           )
         ])
       ]
-    )
+    ),
+    _vm._v(" "),
+    _vm.error != ""
+      ? _c("div", { staticClass: "error", on: { click: _vm.deleteError } }, [
+          _c("span", {
+            staticClass: "error__cross",
+            on: { click: _vm.deleteError }
+          }),
+          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [

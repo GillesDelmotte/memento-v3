@@ -620,6 +620,30 @@ body.freeze {
   margin-top: 30px;
 }
 
+.userProfil .error {
+  z-index: 100;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: indianred;
+  color: white;
+  padding: 20px;
+  padding-right: 60px;
+}
+
+.userProfil .error__cross {
+  position: absolute;
+  top: calc(50% - 5px);
+  right: 20px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
 @media (max-width: 1050px) {
   .userProfil {
     width: 100%;
@@ -1080,8 +1104,7 @@ body.freeze {
 @media (max-width: 1050px) {
   .aside {
     position: fixed;
-    width: 500px;
-    left: calc(50% - 250px);
+    left: calc(50% - (274px / 2));
     top: 200px;
   }
 
