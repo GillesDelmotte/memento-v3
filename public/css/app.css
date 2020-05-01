@@ -560,6 +560,9 @@ body.freeze {
 
 .userProfil__pic img {
   width: 100%;
+  height: 100px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .userProfil__img--false {
@@ -732,6 +735,9 @@ body.freeze {
 
 .comments .comment__ownerImg--true img {
   width: 100%;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .addComment {
@@ -843,6 +849,9 @@ body.freeze {
 
 .userCards .userCard__img--true img {
   width: 100%;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .userCards .userCard__name {
