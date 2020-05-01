@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
             'schedule' => 1
         ]);
         App\User::create([
-            'name' => 'Brice Myklos',
+            'name' => 'Brice Miklos',
             'email' => 'brice.myklos@outlook.be',
             'address' => 'Rue de la belle canne 490, 4309 Ninane',
             'gsm' => '0429 48 10 30',
