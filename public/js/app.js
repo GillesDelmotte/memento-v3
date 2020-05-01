@@ -2292,6 +2292,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2312,6 +2314,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       var newFocus = document.querySelector(".filter__" + type).classList.add("active");
       this.filteredBy = type;
+    },
+    openFilter: function openFilter() {
+      var filter = document.querySelector(".aside");
+      var bgc = document.querySelector(".aside__bgc");
+
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+        bgc.classList.remove("close");
+        document.querySelector("body").classList.add("freeze");
+      } else {
+        filter.classList.add("close");
+        bgc.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    },
+    closePopupWithBackground: function closePopupWithBackground(e) {
+      var bgc = document.querySelector(".aside__bgc");
+      var filter = document.querySelector(".aside");
+
+      if (e.target === bgc) {
+        bgc.classList.add("close");
+        filter.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["allJob", "allPractitioner"]), {
@@ -2407,6 +2433,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {};
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["currentUser"])),
+  methods: {
+    openFilter: function openFilter() {
+      var filter = document.querySelector(".aside");
+      var bgc = document.querySelector(".aside__bgc");
+
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+        bgc.classList.remove("close");
+        document.querySelector("body").classList.add("freeze");
+      } else {
+        filter.classList.add("close");
+        bgc.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    },
+    closePopupWithBackground: function closePopupWithBackground(e) {
+      var bgc = document.querySelector(".aside__bgc");
+      var filter = document.querySelector(".aside");
+
+      if (e.target === bgc) {
+        bgc.classList.add("close");
+        filter.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    }
+  },
   mounted: function mounted() {
     this.$store.dispatch("setCurrentUser");
   }
@@ -38795,7 +38847,18 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "aside" }, [
+    _c("div", {
+      staticClass: "aside__bgc close",
+      on: {
+        click: function($event) {
+          return _vm.closePopupWithBackground($event)
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "aside close" }, [
+      _c("div", { staticClass: "aside__close", on: { click: _vm.openFilter } }),
+      _vm._v(" "),
       _c("h2", { staticClass: "filter__title" }, [_vm._v("Filter par")]),
       _vm._v(" "),
       _c("div", { staticClass: "filter__name__job" }, [
@@ -38857,7 +38920,10 @@ var render = function() {
       })
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "aside__button schedule" })
+    _c("div", {
+      staticClass: "aside__button filter",
+      on: { click: _vm.openFilter }
+    })
   ])
 }
 var staticRenderFns = []
@@ -38912,11 +38978,27 @@ var render = function() {
             ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "aside__bgc" }),
+      _c("div", {
+        staticClass: "aside__bgc close",
+        on: { click: _vm.closePopupWithBackground }
+      }),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "aside close", on: { click: _vm.openFilter } }, [
+        _c("div", { staticClass: "aside__close" }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
+          _vm._v("Créer un agenda")
+        ])
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "aside__button schedule" })
+      _c("div", {
+        staticClass: "aside__button schedule",
+        on: { click: _vm.openFilter }
+      })
     ],
     1
   )
@@ -38926,22 +39008,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "aside" }, [
-      _c("div", { staticClass: "aside__close" }),
+    return _c("ul", { staticClass: "aside__list" }, [
+      _c("li", [_vm._v("Mon premier")]),
       _vm._v(" "),
-      _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
+      _c("li", [_vm._v("Mon deuxième")]),
       _vm._v(" "),
-      _c("ul", { staticClass: "aside__list" }, [
-        _c("li", [_vm._v("Mon premier")]),
-        _vm._v(" "),
-        _c("li", [_vm._v("Mon deuxième")]),
-        _vm._v(" "),
-        _c("li", [_vm._v("Mon troisième")])
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
-        _vm._v("Créer un agenda")
-      ])
+      _c("li", [_vm._v("Mon troisième")])
     ])
   }
 ]

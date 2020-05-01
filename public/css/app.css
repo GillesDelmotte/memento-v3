@@ -923,13 +923,16 @@ body.freeze {
 }
 
 .aside__bgc {
-  display: none;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.aside__bgc.close {
+  display: none;
 }
 
 .aside .filter__title {
@@ -1022,6 +1025,7 @@ body.freeze {
 }
 
 .aside__button {
+  display: none;
   width: 50px;
   height: 50px;
   background-color: #1D1D1D;
@@ -1040,6 +1044,10 @@ body.freeze {
 
 .aside__button.schedule {
   background-image: url(/images/calendar.svg?d800687ec098964d281704bb7c22e6e7);
+}
+
+.aside__button.filter {
+  background-image: url(/images/tool.svg?0ffa1350903dc5b1f52639e166f5bfd7);
 }
 
 .aside__button:hover {
@@ -1066,6 +1074,18 @@ body.freeze {
     width: 500px;
     left: calc(50% - 250px);
     top: 200px;
+  }
+
+  .aside.close {
+    display: none;
+  }
+
+  .aside__close {
+    display: block;
+  }
+
+  .aside__button {
+    display: block;
   }
 }
 
