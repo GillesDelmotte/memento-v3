@@ -543,6 +543,25 @@ body.freeze {
   transform: rotate(90deg);
 }
 
+.userProfil__pic {
+  width: 100px;
+  height: 100px;
+  float: left;
+  border-radius: 50%;
+  position: relative;
+  margin-left: -45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid #1D1D1D;
+  background: white;
+}
+
+.userProfil__pic img {
+  width: 100%;
+}
+
 .userProfil__img--false {
   width: 100px;
   height: 100px;
@@ -696,6 +715,25 @@ body.freeze {
   background-repeat: no-repeat;
 }
 
+.comments .comment__ownerImg--true {
+  width: 90px;
+  height: 90px;
+  background: white;
+  position: absolute;
+  left: -45px;
+  top: calc(50% - 45px);
+  border-radius: 50%;
+  border: 2px solid #1D1D1D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.comments .comment__ownerImg--true img {
+  width: 100%;
+}
+
 .addComment {
   width: 550px;
   margin-top: 50px;
@@ -786,6 +824,25 @@ body.freeze {
   background-size: 50%;
   background-position: center 47%;
   background-repeat: no-repeat;
+}
+
+.userCards .userCard__img--true {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: -45px;
+  top: calc(50% - 45px);
+  border-radius: 50%;
+  border: 2px solid #1D1D1D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: white;
+}
+
+.userCards .userCard__img--true img {
+  width: 100%;
 }
 
 .userCards .userCard__name {

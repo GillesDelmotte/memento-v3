@@ -1915,6 +1915,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Comment",
   data: function data() {
@@ -2454,6 +2457,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserCard",
@@ -2468,6 +2474,7 @@ __webpack_require__.r(__webpack_exports__);
           id: id
         }
       });
+      window.scrollTo(0, 0);
     }
   },
   props: {
@@ -2486,7 +2493,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -2607,6 +2615,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "UserInfos",
@@ -2666,6 +2682,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     uploadImage: function uploadImage() {
+      var _this2 = this;
+
       var formData = new FormData();
       var imagefile = document.querySelector(".imageFile");
       formData.append("image", imagefile.files[0]);
@@ -2674,7 +2692,7 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       }).then(function (response) {
-        console.log(response); //   router.go();
+        _this2.$store.dispatch("setCurrentUser");
       })["catch"](function (error) {
         console.log(error);
       });
@@ -38329,7 +38347,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", { staticClass: "comment" }, [
-    _c("div", { staticClass: "comment__ownerImg" }),
+    _vm.comment.owner.profilPic
+      ? _c("div", { staticClass: "comment__ownerImg--true" }, [
+          _c("img", {
+            attrs: {
+              src: "../images/profiles/" + _vm.comment.owner.profilPic,
+              alt: ""
+            }
+          })
+        ])
+      : _c("div", { staticClass: "comment__ownerImg" }),
     _vm._v(" "),
     _c("div", { staticClass: "comment__owner" }, [
       _vm._v(_vm._s(_vm.comment.owner.name))
@@ -38563,7 +38590,7 @@ var render = function() {
           {
             ref: "logout",
             staticClass: "nav__link disconnect",
-            attrs: { href: "" },
+            attrs: { shref: "" },
             on: { click: _vm.logout }
           },
           [
@@ -38940,7 +38967,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("li", { staticClass: "userCard" }, [
-    _c("div", { staticClass: "userCard__img" }),
+    _vm.user.profilPic
+      ? _c("div", { staticClass: "userCard__img--true" }, [
+          _c("img", {
+            attrs: { src: "../images/profiles/" + _vm.user.profilPic, alt: "" }
+          })
+        ])
+      : _c("div", { staticClass: "userCard__img" }),
     _vm._v(" "),
     _c("div", { staticClass: "userCard__name" }, [
       _c(
@@ -39040,7 +39073,31 @@ var render = function() {
   return _c("div", { staticClass: "userProfil" }, [
     _vm.userProfil
       ? _c("div", [
-          _vm._m(0),
+          _vm.person.profilPic
+            ? _c(
+                "label",
+                { staticClass: "userProfil__pic", attrs: { for: "imageFile" } },
+                [
+                  _c("img", {
+                    attrs: {
+                      src: "../images/profiles/" + _vm.person.profilPic,
+                      alt: ""
+                    }
+                  })
+                ]
+              )
+            : _c(
+                "label",
+                {
+                  staticClass: "userProfil__img--true",
+                  attrs: { for: "imageFile" }
+                },
+                [
+                  _c("div", { staticClass: "cross__first" }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "cross__second" })
+                ]
+              ),
           _vm._v(" "),
           _c("label", {
             staticClass: "profile__img",
@@ -39053,7 +39110,18 @@ var render = function() {
             on: { change: _vm.uploadImage }
           })
         ])
-      : _c("div", [_c("div", { staticClass: "userProfil__img--false" })]),
+      : _c("div", [
+          _vm.person.profilPic
+            ? _c("div", { staticClass: "userProfil__pic" }, [
+                _c("img", {
+                  attrs: {
+                    src: "../images/profiles/" + _vm.person.profilPic,
+                    alt: ""
+                  }
+                })
+              ])
+            : _c("div", { staticClass: "userProfil__img--false" })
+        ]),
     _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
       _vm._v(_vm._s(_vm.person.name))
@@ -39170,7 +39238,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.userProfil
-        ? _c("div", { staticClass: "userProfil__info--buttons" }, [_vm._m(1)])
+        ? _c("div", { staticClass: "userProfil__info--buttons" }, [_vm._m(0)])
         : _vm._e()
     ]),
     _vm._v(" "),
@@ -39261,20 +39329,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "userProfil__img--true", attrs: { for: "imageFile" } },
-      [
-        _c("div", { staticClass: "cross__first" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "cross__second" })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
