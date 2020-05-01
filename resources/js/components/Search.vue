@@ -6,7 +6,9 @@
     <ul class="userCards" v-if="filteredBy === 'job'">
       <user-card v-for="user in filteredByJob" :key="user.id" :user="user"></user-card>
     </ul>
-    <div class="aside">
+    <div class="aside__bgc close" @click="closePopupWithBackground($event)"></div>
+    <div class="aside close">
+      <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Filter par</h2>
       <div class="filter__name__job">
         <div class="filter__name active" @click="changeFilter('name')">Nom</div>
@@ -23,7 +25,7 @@
         :placeholder="placeholder"
       />
     </div>
-    <div class="aside__button schedule"></div>
+    <div class="aside__button filter" @click="openFilter"></div>
   </div>
 </template>
 <script>
@@ -51,6 +53,28 @@ export default {
         .classList.add("active");
 
       this.filteredBy = type;
+    },
+    openFilter() {
+      const filter = document.querySelector(".aside");
+      const bgc = document.querySelector(".aside__bgc");
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+        bgc.classList.remove("close");
+        document.querySelector("body").classList.add("freeze");
+      } else {
+        filter.classList.add("close");
+        bgc.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    },
+    closePopupWithBackground(e) {
+      const bgc = document.querySelector(".aside__bgc");
+      const filter = document.querySelector(".aside");
+      if (e.target === bgc) {
+        bgc.classList.add("close");
+        filter.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
     }
   },
   computed: {

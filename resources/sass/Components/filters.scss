@@ -9,13 +9,15 @@
     color: white;
     box-shadow: $shadow;
     &__bgc{
-        display: none;
         position: fixed;
         top:0;
         right:0;
         left:0;
         bottom:0;
-        background-color: rgba($color: black, $alpha: 0.2)
+        background-color: rgba($color: black, $alpha: 0.2);
+        &.close{
+            display: none;
+        }
     }
 
 
@@ -90,7 +92,7 @@
     }
 
     &__button{
-        //display: none;
+        display: none;
         width: 50px;
         height: 50px;
         background-color: $main-color;
@@ -107,6 +109,9 @@
         cursor: pointer;
         &.schedule{
             background-image: url('../../img/calendar.svg');
+        }
+        &.filter{
+            background-image: url('../../img/tool.svg');
         }
         &:hover{
             padding-right: 10px;
@@ -131,10 +136,18 @@
 
 @media(max-width: 1050px){
     .aside{
-        //display: none;
         position: fixed;
         width: 500px;
         left:calc(50% - 250px);
         top: 200px;
+        &.close{
+        display: none;
+        }
+        &__close{
+            display: block;
+        }
+        &__button{
+            display: block;
+        }
     }
 }

@@ -9,8 +9,8 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
-    <div class="aside__bgc"></div>
-    <div class="aside">
+    <div class="aside__bgc close" @click="closePopupWithBackground"></div>
+    <div class="aside close" @click="openFilter">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
       <ul class="aside__list">
@@ -20,7 +20,7 @@
       </ul>
       <a href class="aside__link">Créer un agenda</a>
     </div>
-    <div class="aside__button schedule"></div>
+    <div class="aside__button schedule" @click="openFilter"></div>
   </div>
 </template>
 <script>
@@ -35,6 +35,30 @@ export default {
   },
   computed: {
     ...mapState(["currentUser"])
+  },
+  methods: {
+    openFilter() {
+      const filter = document.querySelector(".aside");
+      const bgc = document.querySelector(".aside__bgc");
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+        bgc.classList.remove("close");
+        document.querySelector("body").classList.add("freeze");
+      } else {
+        filter.classList.add("close");
+        bgc.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    },
+    closePopupWithBackground(e) {
+      const bgc = document.querySelector(".aside__bgc");
+      const filter = document.querySelector(".aside");
+      if (e.target === bgc) {
+        bgc.classList.add("close");
+        filter.classList.add("close");
+        document.querySelector("body").classList.remove("freeze");
+      }
+    }
   },
   mounted() {
     this.$store.dispatch("setCurrentUser");
