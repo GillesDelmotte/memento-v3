@@ -9,15 +9,18 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
+    <div class="aside__bgc"></div>
     <div class="aside">
+      <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
       <ul class="aside__list">
-        <!-- <li>Mon premier</li>
+        <li>Mon premier</li>
         <li>Mon deuxième</li>
-        <li>Mon troisième</li>-->
+        <li>Mon troisième</li>
       </ul>
       <a href class="aside__link">Créer un agenda</a>
     </div>
+    <div class="aside__button schedule"></div>
   </div>
 </template>
 <script>

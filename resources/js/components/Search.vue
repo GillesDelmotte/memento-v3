@@ -23,6 +23,7 @@
         :placeholder="placeholder"
       />
     </div>
+    <div class="aside__button schedule"></div>
   </div>
 </template>
 <script>
