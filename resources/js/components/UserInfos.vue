@@ -122,6 +122,10 @@
         <button class="popup__window__save" @click="updateProfil">Enregistrer</button>
       </div>
     </div>
+    <div class="error" v-if="error != ''" @click="deleteError">
+      <span class="error__cross" @click="deleteError"></span>
+      {{error}}
+    </div>
   </div>
 </template>
 <script>
@@ -137,7 +141,8 @@ export default {
       popupType: "",
       popupName: "",
       popupValue: "",
-      image: ""
+      image: "",
+      error: ""
     };
   },
   props: {
@@ -193,10 +198,16 @@ export default {
         })
         .then(response => {
           this.$store.dispatch("setCurrentUser");
+          if (response.data.error) {
+            this.error = response.data.error;
+          }
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    deleteError() {
+      this.error = "";
     }
   }
 };

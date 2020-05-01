@@ -137,8 +137,8 @@
 @media(max-width: 1050px){
     .aside{
         position: fixed;
-        width: 500px;
-        left:calc(50% - 250px);
+        //width: 500px;
+        left:calc(50% - (274px / 2));
         top: 200px;
         &.close{
         display: none;

@@ -54,17 +54,18 @@ class ImageController extends Controller
         $check = getimagesize($_FILES["image"]["tmp_name"]);
 
         if($check !== false) {
-            //return "ok c'est une image";
             $uploadOk = 1;
         } else {
-            //return "c'est pas une image";
+            $errors = ["error" => "vous n'avez pas choisis une photo"];
+            return $errors;
             $uploadOk = 0;
         }
 
         //vérifier la taille de l'image
 
         if ($_FILES["image"]["size"] > 500000) {
-            //return 'trop grande image';
+            $errors = ["error" => "Votre image est trop volumineuse"];
+            return $errors;
             $uploadOk = 0;
         }
 
@@ -72,7 +73,8 @@ class ImageController extends Controller
 
         if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif" ) {
-            // return 'ce n‘est pas le bon format';
+            $errors = ["error" => "Votre image n'est pas de type jpg/png/jpeg/gif"];
+            return $errors;
 
             $uploadOk = 0;
         }

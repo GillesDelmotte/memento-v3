@@ -46,6 +46,10 @@ export default {
       } else {
         nav.classList.add("open");
       }
+    },
+    closeMenu() {
+      const nav = document.querySelector(".nav");
+      nav.classList.remove("open");
     }
   }
 };
