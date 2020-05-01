@@ -42,7 +42,7 @@ class ImageController extends Controller
 
         //return $_FILES;
 
-        $target_dir = "public/images/profiles/";
+        $target_dir = "../public/images/profiles/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
