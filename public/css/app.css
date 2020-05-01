@@ -865,6 +865,16 @@ body.freeze {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
 }
 
+.aside__bgc {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 .aside .filter__title {
   font-size: 20px;
   font-weight: bold;
@@ -914,7 +924,18 @@ body.freeze {
 
 .aside__list li {
   margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+
+.aside__list li::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-right: 10px;
   display: block;
+  background-color: white;
 }
 
 .aside__link {
@@ -943,9 +964,51 @@ body.freeze {
   transition: all 0.2s;
 }
 
+.aside__button {
+  width: 50px;
+  height: 50px;
+  background-color: #1D1D1D;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  border-radius: 4px 0 0 4px;
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 25px 25px;
+  padding-right: 0;
+  transition: padding 0.2s;
+  cursor: pointer;
+}
+
+.aside__button.schedule {
+  background-image: url(/images/calendar.svg?d800687ec098964d281704bb7c22e6e7);
+}
+
+.aside__button:hover {
+  padding-right: 10px;
+  transition: padding 0.2s;
+}
+
+.aside__close {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 10px;
+  height: 10px;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
 @media (max-width: 1050px) {
   .aside {
-    display: none;
+    position: fixed;
+    width: 500px;
+    left: calc(50% - 250px);
+    top: 200px;
   }
 }
 

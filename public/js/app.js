@@ -2288,6 +2288,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2369,6 +2370,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -38824,7 +38828,9 @@ var render = function() {
           }
         }
       })
-    ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "aside__button schedule" })
   ])
 }
 var staticRenderFns = []
@@ -38879,7 +38885,11 @@ var render = function() {
             ])
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "aside__bgc" }),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "aside__button schedule" })
     ],
     1
   )
@@ -38890,9 +38900,17 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "aside" }, [
+      _c("div", { staticClass: "aside__close" }),
+      _vm._v(" "),
       _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
       _vm._v(" "),
-      _c("ul", { staticClass: "aside__list" }),
+      _c("ul", { staticClass: "aside__list" }, [
+        _c("li", [_vm._v("Mon premier")]),
+        _vm._v(" "),
+        _c("li", [_vm._v("Mon deuxième")]),
+        _vm._v(" "),
+        _c("li", [_vm._v("Mon troisième")])
+      ]),
       _vm._v(" "),
       _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
         _vm._v("Créer un agenda")
