@@ -2681,6 +2681,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2764,6 +2772,27 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteError: function deleteError() {
       this.error = "";
+    },
+    updateCheck: function updateCheck() {
+      var _this3 = this;
+
+      var bool = document.getElementById("indexed").checked;
+      var value = bool.toString();
+
+      if (value === "false") {
+        value = 0;
+      } else {
+        value = 1;
+      }
+
+      window.axios.post("/updateProfile", {
+        column: "schedule",
+        value: value
+      }).then(function (response) {
+        _this3.$store.dispatch("setCurrentUser");
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
     }
   }
 });
@@ -39326,7 +39355,30 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.userProfil
-        ? _c("div", { staticClass: "userProfil__info--buttons" }, [_vm._m(0)])
+        ? _c("div", { staticClass: "userProfil__info--buttons" }, [
+            _c("div", { staticClass: "radioButton" }, [
+              _c("input", {
+                staticClass: "radioButton__input sr-only",
+                attrs: { type: "checkbox", name: "indexed", id: "indexed" },
+                domProps: {
+                  value: _vm.person.schedule,
+                  checked: _vm.person.schedule ? "checked" : ""
+                },
+                on: { change: _vm.updateCheck }
+              }),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "radioButton__label",
+                  attrs: { for: "indexed" }
+                },
+                [_vm._v("Je veux que mon agenda soit indexé")]
+              )
+            ])
+          ])
         : _vm._e()
     ]),
     _vm._v(" "),
@@ -39431,29 +39483,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "radioButton" }, [
-      _c("input", {
-        staticClass: "radioButton__input sr-only",
-        attrs: { type: "checkbox", name: "indexed", id: "indexed" }
-      }),
-      _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "radioButton__bgc", attrs: { for: "indexed" } },
-        [
-          _c("label", {
-            staticClass: "radioButton__dot",
-            attrs: { for: "indexed" }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "radioButton__label", attrs: { for: "indexed" } },
-        [_vm._v("Je veux que mon agenda soit indexé")]
-      )
-    ])
+    return _c(
+      "label",
+      { staticClass: "radioButton__bgc", attrs: { for: "indexed" } },
+      [
+        _c("label", {
+          staticClass: "radioButton__dot",
+          attrs: { for: "indexed" }
+        })
+      ]
+    )
   }
 ]
 render._withStripped = true
