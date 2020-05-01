@@ -42,6 +42,7 @@ class ImageController extends Controller
 
         //return $_FILES;
 
+        $user = auth()->user();
         $target_dir = "../public/images/profiles/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         $uploadOk = 1;
@@ -83,7 +84,8 @@ class ImageController extends Controller
         } else {
             // return "image upload";
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                return "l'image a été upload";
+                $user->profilPic = $_FILES["image"]["name"];
+                $user->save();
             } else {
                 return "l'image n'a pas été upload";
             }

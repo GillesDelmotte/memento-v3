@@ -1,6 +1,9 @@
 <template>
   <li class="userCard">
-    <div class="userCard__img"></div>
+    <div v-if="user.profilPic" class="userCard__img--true">
+      <img :src="'../images/profiles/' + user.profilPic" alt />
+    </div>
+    <div class="userCard__img" v-else></div>
     <div class="userCard__name">
       <a href @click.prevent.stop="profilLink(user.id)">{{user.name}}</a>
     </div>
@@ -41,6 +44,7 @@ export default {
   methods: {
     profilLink(id) {
       router.push({ name: "praticien", params: { id: id } });
+      window.scrollTo(0, 0);
     }
   },
   props: {

@@ -1,7 +1,10 @@
 <template>
   <div class="userProfil">
     <div v-if="userProfil">
-      <label class="userProfil__img--true" for="imageFile">
+      <label for="imageFile" class="userProfil__pic" v-if="person.profilPic">
+        <img :src="'../images/profiles/' + person.profilPic" alt />
+      </label>
+      <label class="userProfil__img--true" for="imageFile" v-else>
         <div class="cross__first"></div>
         <div class="cross__second"></div>
       </label>
@@ -15,7 +18,10 @@
       />
     </div>
     <div v-else>
-      <div class="userProfil__img--false"></div>
+      <div v-if="person.profilPic" class="userProfil__pic">
+        <img :src="'../images/profiles/' + person.profilPic" alt />
+      </div>
+      <div class="userProfil__img--false" v-else></div>
     </div>
     <h1 class="userProfil__name">{{person.name}}</h1>
     <span class="userProfil__job" v-if="person.job">
@@ -119,6 +125,8 @@
   </div>
 </template>
 <script>
+import store from "../store.js";
+import { mapState } from "vuex";
 import { mapMutations } from "vuex";
 
 export default {
@@ -184,8 +192,7 @@ export default {
           }
         })
         .then(response => {
-          console.log(response);
-          //   router.go();
+          this.$store.dispatch("setCurrentUser");
         })
         .catch(error => {
           console.log(error);

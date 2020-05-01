@@ -33,6 +33,24 @@
         }
 
     }
+    &__pic{
+        width: 100px;
+        height: 100px;
+        float: left;
+        border-radius: 50%;
+        position: relative;
+        margin-left: -45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border: 2px solid $main-color;
+        background: white;
+        img{
+            width: 100%;
+            //min-height: 100px;
+        }
+    }
     &__img--false{
         width: 100px;
         height: 100px;

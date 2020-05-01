@@ -18,7 +18,7 @@
         <i class="icon"></i>
         <span>Profil</span>
       </router-link>
-      <a @click="logout" ref="logout" href class="nav__link disconnect">
+      <a @click="logout" ref="logout" shref class="nav__link disconnect">
         <i class="icon"></i>
         <span>Déconnexion</span>
       </a>

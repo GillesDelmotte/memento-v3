@@ -35,6 +35,23 @@
             background-size: 50%;
             background-position: center 47%;
             background-repeat: no-repeat;
+            &--true{
+                width: 90px;
+                height: 90px;
+                background: white;
+                position: absolute;
+                left: -45px;
+                top: calc(50% - 45px);
+                border-radius: 50%;
+                border: 2px solid $main-color;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+                img{
+                    width: 100%;
+                }
+            }
         }
     }
 }
