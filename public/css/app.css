@@ -177,6 +177,12 @@ body.freeze {
   cursor: pointer;
 }
 
+@media (max-width: 700px) {
+  .container {
+    margin: 0 70px;
+  }
+}
+
 .welcome {
   background-color: #1D1D1D;
   min-height: 100vh;
@@ -380,21 +386,11 @@ body.freeze {
   background-color: #1D1D1D;
   position: fixed;
   display: flex;
-  z-index: 10;
+  z-index: 99;
   flex-direction: column;
   height: 100vh;
   box-sizing: border-box;
-  padding: 10px 0;
-}
-
-.nav__logo {
-  position: relative;
-  left: -1px;
-  color: white;
-  font-weight: bold;
-  font-size: 30px;
-  margin-bottom: 10px;
-  padding-left: 15px;
+  padding: 56px 0 10px;
 }
 
 .nav__link {
@@ -488,18 +484,91 @@ body.freeze {
   display: block;
 }
 
+.responsive__burger {
+  display: none;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  background-color: #1D1D1D;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  border-radius: 0 4px 4px 0;
+  position: fixed;
+  bottom: 30px;
+  left: 0;
+  padding: 0;
+  transition: padding 0.2s;
+  cursor: pointer;
+}
+
+.responsive__burger:hover {
+  padding: 0 5px;
+  transition: padding 0.2s;
+}
+
+.responsive__burger span {
+  display: block;
+  position: absolute;
+  left: calc(50% - 12.5px);
+  height: 2px;
+  width: 25px;
+  background-color: white;
+  top: calc(50% - 1px);
+}
+
+.responsive__burger span.top {
+  top: calc(50% - 11px);
+}
+
+.responsive__burger span.bottom {
+  top: calc(50% + 9px);
+}
+
+@media (max-width: 700px) {
+  .nav {
+    width: 200px;
+    left: -200px;
+    transition: left 0.2s;
+  }
+
+  .nav__burger {
+    display: none;
+  }
+
+  .nav.responsive__open {
+    left: 0;
+    transition: left 0.2s;
+  }
+
+  .nav__link span {
+    display: block;
+  }
+
+  .responsive__burger {
+    display: block;
+  }
+}
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9;
+  z-index: 100;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 22px;
   box-sizing: border-box;
   background-color: #1D1D1D;
   padding: 14px;
-  text-align: right;
+}
+
+.header__logo {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 .header__title {
@@ -1065,12 +1134,12 @@ body.freeze {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   border-radius: 4px 0 0 4px;
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   right: 0;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 25px 25px;
-  padding-right: 0;
+  padding: 0;
   transition: padding 0.2s;
   cursor: pointer;
 }
@@ -1084,7 +1153,7 @@ body.freeze {
 }
 
 .aside__button:hover {
-  padding-right: 10px;
+  padding: 0 5px;
   transition: padding 0.2s;
 }
 

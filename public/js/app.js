@@ -1978,6 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: ["title"]
@@ -2096,6 +2097,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Navigation",
   methods: {
@@ -2116,6 +2123,19 @@ __webpack_require__.r(__webpack_exports__);
     closeMenu: function closeMenu() {
       var nav = document.querySelector(".nav");
       nav.classList.remove("open");
+    },
+    responsiveOpenMenu: function responsiveOpenMenu() {
+      var nav = document.querySelector(".nav");
+
+      if (nav.classList.contains("responsive__open")) {
+        nav.classList.remove("responsive__open");
+      } else {
+        nav.classList.add("responsive__open");
+      }
+    },
+    closeResponsiveMenu: function closeResponsiveMenu() {
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
     }
   }
 });
@@ -38534,6 +38554,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "header" }, [
+    _c("div", { staticClass: "header__logo" }, [_vm._v("M")]),
+    _vm._v(" "),
     _c("div", { staticClass: "header__title" }, [_vm._v(_vm._s(_vm.title))])
   ])
 }
@@ -38623,90 +38645,125 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "nav" }, [
-    _c("div", { staticClass: "nav__logo" }, [_vm._v("M")]),
+  return _c("div", [
+    _c("div", { staticClass: "nav" }, [
+      _c(
+        "div",
+        { staticClass: "nav__links" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "nav__link meet",
+              attrs: { to: { name: "meet" }, "active-class": "active" }
+            },
+            [
+              _c("i", {
+                staticClass: "icon",
+                on: { click: _vm.closeResponsiveMenu }
+              }),
+              _vm._v(" "),
+              _c("span", { on: { click: _vm.closeResponsiveMenu } }, [
+                _vm._v("Rendez-vous")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass: "nav__link praticiens",
+              attrs: { to: { name: "search" }, "active-class": "active" }
+            },
+            [
+              _c("i", {
+                staticClass: "icon",
+                on: { click: _vm.closeResponsiveMenu }
+              }),
+              _vm._v(" "),
+              _c("span", { on: { click: _vm.closeResponsiveMenu } }, [
+                _vm._v("Praticiens")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass: "nav__link schedule",
+              attrs: { to: { name: "schedule" }, "active-class": "active" }
+            },
+            [
+              _c("i", {
+                staticClass: "icon",
+                on: { click: _vm.closeResponsiveMenu }
+              }),
+              _vm._v(" "),
+              _c("span", { on: { click: _vm.closeResponsiveMenu } }, [
+                _vm._v("Horaire")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            {
+              staticClass: "nav__link user",
+              attrs: { to: { name: "user" }, "active-class": "active" }
+            },
+            [
+              _c("i", {
+                staticClass: "icon",
+                on: { click: _vm.closeResponsiveMenu }
+              }),
+              _vm._v(" "),
+              _c("span", { on: { click: _vm.closeResponsiveMenu } }, [
+                _vm._v("Profil")
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              ref: "logout",
+              staticClass: "nav__link disconnect",
+              attrs: { shref: "" },
+              on: { click: _vm.logout }
+            },
+            [
+              _c("i", { staticClass: "icon" }),
+              _vm._v(" "),
+              _c("span", [_vm._v("Déconnexion")])
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "nav__burger", on: { click: _vm.openMenu } }, [
+        _c("span", { staticClass: "top" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "mid" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "bottom" })
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "nav__links" },
+      {
+        staticClass: "responsive__burger",
+        on: { click: _vm.responsiveOpenMenu }
+      },
       [
-        _c(
-          "router-link",
-          {
-            staticClass: "nav__link meet",
-            attrs: { to: { name: "meet" }, "active-class": "active" }
-          },
-          [
-            _c("i", { staticClass: "icon" }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Rendez-vous")])
-          ]
-        ),
+        _c("span", { staticClass: "top" }),
         _vm._v(" "),
-        _c(
-          "router-link",
-          {
-            staticClass: "nav__link praticiens",
-            attrs: { to: { name: "search" }, "active-class": "active" }
-          },
-          [
-            _c("i", { staticClass: "icon" }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Praticiens")])
-          ]
-        ),
+        _c("span", { staticClass: "mid" }),
         _vm._v(" "),
-        _c(
-          "router-link",
-          {
-            staticClass: "nav__link schedule",
-            attrs: { to: { name: "schedule" }, "active-class": "active" }
-          },
-          [
-            _c("i", { staticClass: "icon" }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Horaire")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "router-link",
-          {
-            staticClass: "nav__link user",
-            attrs: { to: { name: "user" }, "active-class": "active" }
-          },
-          [
-            _c("i", { staticClass: "icon" }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Profil")])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            ref: "logout",
-            staticClass: "nav__link disconnect",
-            attrs: { shref: "" },
-            on: { click: _vm.logout }
-          },
-          [
-            _c("i", { staticClass: "icon" }),
-            _vm._v(" "),
-            _c("span", [_vm._v("Déconnexion")])
-          ]
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "nav__burger", on: { click: _vm.openMenu } }, [
-      _c("span", { staticClass: "top" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "mid" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "bottom" })
-    ])
+        _c("span", { staticClass: "bottom" })
+      ]
+    )
   ])
 }
 var staticRenderFns = []
