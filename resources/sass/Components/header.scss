@@ -3,13 +3,21 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9;
+    z-index: 100;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 22px;
     box-sizing: border-box;
     background-color: $main-color;
     padding: 14px;
-    text-align: right;
+    &__logo{
+        position: relative;
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+    }
     &__title{
         color: white;
     }
