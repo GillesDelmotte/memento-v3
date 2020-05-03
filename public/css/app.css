@@ -1081,23 +1081,13 @@ body.freeze {
 }
 
 .aside__list {
-  margin: 30px;
+  margin: 30px 0;
 }
 
 .aside__list li {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-}
-
-.aside__list li::before {
-  content: "";
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  margin-right: 10px;
-  display: block;
-  background-color: white;
+  padding: 20px 30px;
+  margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .aside__link {
@@ -1173,16 +1163,16 @@ body.freeze {
 @media (max-width: 1050px) {
   .aside {
     position: fixed;
-    left: calc(50% - (274px / 2));
-    top: 200px;
+    height: 100vh;
+    right: 0px;
+    top: 0;
+    padding-top: 75px;
+    transition: right 0.2s;
   }
 
   .aside.close {
-    display: none;
-  }
-
-  .aside__close {
-    display: block;
+    right: -275px;
+    transition: right 0.2s;
   }
 
   .aside__button {

@@ -2126,6 +2126,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     responsiveOpenMenu: function responsiveOpenMenu() {
       var nav = document.querySelector(".nav");
+      var filter = document.querySelector(".aside");
+
+      if (filter) {
+        filter.classList.add("close");
+      }
 
       if (nav.classList.contains("responsive__open")) {
         nav.classList.remove("responsive__open");
@@ -2317,7 +2322,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -2341,26 +2345,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     openFilter: function openFilter() {
       var filter = document.querySelector(".aside");
-      var bgc = document.querySelector(".aside__bgc");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
 
       if (filter.classList.contains("close")) {
         filter.classList.remove("close");
-        bgc.classList.remove("close");
-        document.querySelector("body").classList.add("freeze");
       } else {
         filter.classList.add("close");
-        bgc.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
-      }
-    },
-    closePopupWithBackground: function closePopupWithBackground(e) {
-      var bgc = document.querySelector(".aside__bgc");
-      var filter = document.querySelector(".aside");
-
-      if (e.target === bgc) {
-        bgc.classList.add("close");
-        filter.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
       }
     }
   },
@@ -2447,7 +2438,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 
@@ -2460,26 +2450,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     openFilter: function openFilter() {
       var filter = document.querySelector(".aside");
-      var bgc = document.querySelector(".aside__bgc");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
 
       if (filter.classList.contains("close")) {
         filter.classList.remove("close");
-        bgc.classList.remove("close");
-        document.querySelector("body").classList.add("freeze");
       } else {
         filter.classList.add("close");
-        bgc.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
-      }
-    },
-    closePopupWithBackground: function closePopupWithBackground(e) {
-      var bgc = document.querySelector(".aside__bgc");
-      var filter = document.querySelector(".aside");
-
-      if (e.target === bgc) {
-        bgc.classList.add("close");
-        filter.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
       }
     }
   },
@@ -38949,15 +38926,6 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", {
-      staticClass: "aside__bgc close",
-      on: {
-        click: function($event) {
-          return _vm.closePopupWithBackground($event)
-        }
-      }
-    }),
-    _vm._v(" "),
     _c("div", { staticClass: "aside close" }, [
       _c("div", { staticClass: "aside__close", on: { click: _vm.openFilter } }),
       _vm._v(" "),
@@ -39079,11 +39047,6 @@ var render = function() {
               _vm._v("Il n'y a pas de commentaires sur votre profil")
             ])
       ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "aside__bgc close",
-        on: { click: _vm.closePopupWithBackground }
-      }),
       _vm._v(" "),
       _c("div", { staticClass: "aside close", on: { click: _vm.openFilter } }, [
         _c("div", { staticClass: "aside__close" }),
