@@ -6,7 +6,6 @@
     <ul class="userCards" v-if="filteredBy === 'job'">
       <user-card v-for="user in filteredByJob" :key="user.id" :user="user"></user-card>
     </ul>
-    <div class="aside__bgc close" @click="closePopupWithBackground($event)"></div>
     <div class="aside close">
       <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Filter par</h2>
@@ -56,24 +55,12 @@ export default {
     },
     openFilter() {
       const filter = document.querySelector(".aside");
-      const bgc = document.querySelector(".aside__bgc");
+      const nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
       if (filter.classList.contains("close")) {
         filter.classList.remove("close");
-        bgc.classList.remove("close");
-        document.querySelector("body").classList.add("freeze");
       } else {
         filter.classList.add("close");
-        bgc.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
-      }
-    },
-    closePopupWithBackground(e) {
-      const bgc = document.querySelector(".aside__bgc");
-      const filter = document.querySelector(".aside");
-      if (e.target === bgc) {
-        bgc.classList.add("close");
-        filter.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
       }
     }
   },

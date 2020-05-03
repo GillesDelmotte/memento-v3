@@ -9,7 +9,6 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
-    <div class="aside__bgc close" @click="closePopupWithBackground"></div>
     <div class="aside close" @click="openFilter">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
@@ -39,24 +38,12 @@ export default {
   methods: {
     openFilter() {
       const filter = document.querySelector(".aside");
-      const bgc = document.querySelector(".aside__bgc");
+      const nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
       if (filter.classList.contains("close")) {
         filter.classList.remove("close");
-        bgc.classList.remove("close");
-        document.querySelector("body").classList.add("freeze");
       } else {
         filter.classList.add("close");
-        bgc.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
-      }
-    },
-    closePopupWithBackground(e) {
-      const bgc = document.querySelector(".aside__bgc");
-      const filter = document.querySelector(".aside");
-      if (e.target === bgc) {
-        bgc.classList.add("close");
-        filter.classList.add("close");
-        document.querySelector("body").classList.remove("freeze");
       }
     }
   },

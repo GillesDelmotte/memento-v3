@@ -59,6 +59,10 @@ export default {
     },
     responsiveOpenMenu() {
       const nav = document.querySelector(".nav");
+      const filter = document.querySelector(".aside");
+      if (filter) {
+        filter.classList.add("close");
+      }
       if (nav.classList.contains("responsive__open")) {
         nav.classList.remove("responsive__open");
       } else {
