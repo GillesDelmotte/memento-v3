@@ -76,3 +76,18 @@
     }
 
 }
+
+@media(max-width: 590px){
+    .popup{
+        box-sizing: border-box;
+        padding: 10px;
+        &__window{
+            width: 100%;
+            &__input{
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+        }
+    }
+}

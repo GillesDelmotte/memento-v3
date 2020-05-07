@@ -1,6 +1,8 @@
 .welcome{
     background-color: $main-color;
     min-height: 100vh;
+    overflow-x: hidden;
+
 
     &__container{
         position: relative;

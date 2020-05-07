@@ -98,3 +98,19 @@
         width: 100%;
     }
 }
+
+@media(max-width: 700px){
+    .userCards{
+        .userCard{
+            padding: 50px 30px;
+            &__img{
+                display: none;
+                &--true{
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+

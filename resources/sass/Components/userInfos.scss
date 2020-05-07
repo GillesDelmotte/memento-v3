@@ -132,3 +132,32 @@
         width: 100%;
     }
 }
+
+@media(max-width: 520px){
+    .userProfil{
+         &__img--true{
+             float: none;
+             margin: 0 auto;
+         }
+         &__img--false{
+             float: none;
+             margin: 0 auto;
+         }
+         &__pic{
+             float: none;
+             margin: 0 auto;
+
+         }
+         &__name{
+            text-align: center;
+            margin-left: 0;
+
+        }
+        &__job{
+            text-align: center;
+
+            margin-left: 0;
+
+        }
+    }
+}

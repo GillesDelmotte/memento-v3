@@ -99,3 +99,14 @@
         width: 100%;
     }
 }
+
+@media(max-width: 520px){
+    .comments{
+        .comment{
+            padding: 50px 30px;
+            &__ownerImg{
+                display: none;
+            }
+        }
+    }
+}

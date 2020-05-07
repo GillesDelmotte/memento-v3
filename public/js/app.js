@@ -2801,6 +2801,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     clickIcon: function clickIcon(label, type, name, test) {
+      var filter = document.querySelector(".aside");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+      filter.classList.add("close");
       this.popupLabel = label;
       this.popupType = type;
       this.popupName = name;

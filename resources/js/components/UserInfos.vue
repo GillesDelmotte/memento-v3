@@ -159,6 +159,10 @@ export default {
   },
   methods: {
     clickIcon(label, type, name, test) {
+      const filter = document.querySelector(".aside");
+      const nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+      filter.classList.add("close");
       this.popupLabel = label;
       this.popupType = type;
       this.popupName = name;

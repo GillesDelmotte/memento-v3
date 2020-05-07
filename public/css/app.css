@@ -183,9 +183,16 @@ body.freeze {
   }
 }
 
+@media (max-width: 520px) {
+  .container {
+    margin: 0 10px;
+  }
+}
+
 .welcome {
   background-color: #1D1D1D;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .welcome__container {
@@ -727,6 +734,33 @@ body.freeze {
   }
 }
 
+@media (max-width: 520px) {
+  .userProfil__img--true {
+    float: none;
+    margin: 0 auto;
+  }
+
+  .userProfil__img--false {
+    float: none;
+    margin: 0 auto;
+  }
+
+  .userProfil__pic {
+    float: none;
+    margin: 0 auto;
+  }
+
+  .userProfil__name {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .userProfil__job {
+    text-align: center;
+    margin-left: 0;
+  }
+}
+
 .radioButton {
   position: relative;
   display: flex;
@@ -906,6 +940,16 @@ body.freeze {
   }
 }
 
+@media (max-width: 520px) {
+  .comments .comment {
+    padding: 50px 30px;
+  }
+
+  .comments .comment__ownerImg {
+    display: none;
+  }
+}
+
 .userCards {
   width: 550px;
 }
@@ -1017,6 +1061,20 @@ body.freeze {
 @media (max-width: 1050px) {
   .userCards {
     width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .userCards .userCard {
+    padding: 50px 30px;
+  }
+
+  .userCards .userCard__img {
+    display: none;
+  }
+
+  .userCards .userCard__img--true {
+    display: none;
   }
 }
 
@@ -1288,6 +1346,22 @@ body.freeze {
   background-repeat: no-repeat;
   background-size: contain;
   cursor: pointer;
+}
+
+@media (max-width: 590px) {
+  .popup {
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  .popup__window {
+    width: 100%;
+  }
+
+  .popup__window__input {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .bgc__logo {
