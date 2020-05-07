@@ -17,8 +17,13 @@ export default {
   computed: {
     ...mapState(["currentUser"])
   },
-  mounted() {
-    this.$store.dispatch("setCurrentUser");
+  mounted() {},
+  beforeMount() {
+    this.$store.dispatch("setCurrentUser").then(() => {
+      if (this.currentUser.is_admin === 1) {
+        this.$router.push("/statistiques");
+      }
+    });
   }
 };
 </script>

@@ -447,6 +447,14 @@ body.freeze {
   background-image: url(/images/search.svg?ae3eb27599093561330a2e75e55c27fc);
 }
 
+.nav__link.stat .icon {
+  background-image: url(/images/report-white.svg?68e2a49a3f9670942ff7cf1bf4938e0f);
+}
+
+.nav__link.report .icon {
+  background-image: url(/images/warning-white.svg?c8fcd650d0ae2965e81114e60e568cb7);
+}
+
 .nav__burger {
   color: white;
   position: absolute;

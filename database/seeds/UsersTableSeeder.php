@@ -12,6 +12,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         App\User::create([
+            'name' => 'admin',
+            'email' => 'admin@admin.be',
+            'password' => Hash::make('azerty'),
+            'is_admin' => 1
+        ]);
+        App\User::create([
             'name' => 'Gilles Delmotte',
             'email' => 'gilles.delmotte@outlook.be',
             'address' => 'Rue Fraischamps 154, 4030 grivegnée',

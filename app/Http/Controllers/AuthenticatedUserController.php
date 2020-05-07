@@ -9,8 +9,12 @@ class AuthenticatedUserController extends Controller
     public function fetch(){
         $user = auth()->user();
 
-        $user->load('job');
-        $user->load('comments');
+        if($user->is_admin !== true){
+            $user->load('job');
+            $user->load('comments');
+        }
+
+
 
         //$image = FilesUpload::where('user_id', auth()->id())->first();
 

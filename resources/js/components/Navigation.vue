@@ -1,6 +1,28 @@
 <template>
   <div>
-    <div class="nav">
+    <div class="nav" v-if="currentUser.is_admin === 1">
+      <div class="nav__links">
+        <router-link :to="{name:'stat'}" active-class="active" class="nav__link stat">
+          <i class="icon" @click="closeResponsiveMenu"></i>
+          <span @click="closeResponsiveMenu">Statistiques</span>
+        </router-link>
+        <router-link :to="{name:'report'}" active-class="active" class="nav__link report">
+          <i class="icon" @click="closeResponsiveMenu"></i>
+          <span @click="closeResponsiveMenu">Signalement</span>
+        </router-link>
+        <a @click="logout" ref="logout" shref class="nav__link disconnect">
+          <i class="icon"></i>
+          <span>Déconnexion</span>
+        </a>
+      </div>
+
+      <div class="nav__burger" @click="openMenu">
+        <span class="top"></span>
+        <span class="mid"></span>
+        <span class="bottom"></span>
+      </div>
+    </div>
+    <div class="nav" v-else-if="currentUser.is_admin === 0">
       <div class="nav__links">
         <router-link :to="{name:'meet'}" active-class="active" class="nav__link meet">
           <i class="icon" @click="closeResponsiveMenu"></i>
@@ -29,6 +51,7 @@
         <span class="bottom"></span>
       </div>
     </div>
+
     <div class="responsive__burger" @click="responsiveOpenMenu">
       <span class="top"></span>
       <span class="mid"></span>
@@ -37,8 +60,12 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Navigation",
+  computed: {
+    ...mapState(["currentUser"])
+  },
   methods: {
     logout(e) {
       e.preventDefault();
@@ -73,6 +100,9 @@ export default {
       const nav = document.querySelector(".nav");
       nav.classList.remove("responsive__open");
     }
+  },
+  beforeMount() {
+    this.$store.dispatch("setCurrentUser");
   }
 };
 </script>

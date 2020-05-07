@@ -58,6 +58,12 @@
         &.praticiens .icon{
             background-image: url('../../img/search.svg');
         }
+        &.stat .icon{
+            background-image: url('../../img/report-white.svg');
+        }
+        &.report .icon{
+            background-image: url('../../img/warning-white.svg');
+        }
     }
     &__burger{
         color: white;

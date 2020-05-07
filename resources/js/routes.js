@@ -4,6 +4,8 @@ import User from './components/User';
 import Praticiens from './components/Praticiens';
 import PraticienProfil from './components/Praticien';
 import PraticiensSearch from './components/Search';
+import Stat from './components/Stat';
+import Report from './components/Report';
 
 
 export default [
@@ -12,6 +14,16 @@ export default [
         path: '/home',
         name: 'meet',
         component: Meet
+    },
+    {
+        path: '/statistiques',
+        name: 'stat',
+        component: Stat
+    },
+    {
+        path: '/signalement',
+        name: 'report',
+        component: Report
     },
     {
         path: '/mon-horaire',
