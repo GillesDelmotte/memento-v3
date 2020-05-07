@@ -2530,8 +2530,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -38695,7 +38693,7 @@ var render = function() {
       _vm._v(" "),
       _c("header-component", { attrs: { title: "Mes rendez-vous" } }),
       _vm._v(" "),
-      _c("div")
+      _c("div", [_vm._v(_vm._s(_vm.currentUser))])
     ],
     1
   )
@@ -39295,7 +39293,16 @@ var render = function() {
         _vm._v(" "),
         _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
         _vm._v(" "),
-        _vm._m(0),
+        _c(
+          "ul",
+          { staticClass: "aside__list" },
+          _vm._l(_vm.currentUser.schedules, function(schedule) {
+            return _c("li", { key: schedule.id }, [
+              _vm._v(_vm._s(schedule.name))
+            ])
+          }),
+          0
+        ),
         _vm._v(" "),
         _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
           _vm._v("Créer un agenda")
@@ -39310,20 +39317,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "aside__list" }, [
-      _c("li", [_vm._v("Mon premier")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Mon deuxième")]),
-      _vm._v(" "),
-      _c("li", [_vm._v("Mon troisième")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

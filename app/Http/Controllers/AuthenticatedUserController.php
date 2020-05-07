@@ -12,11 +12,8 @@ class AuthenticatedUserController extends Controller
         if($user->is_admin !== true){
             $user->load('job');
             $user->load('comments');
+            $user->load('schedules');
         }
-
-
-
-        //$image = FilesUpload::where('user_id', auth()->id())->first();
 
         return ['user' => $user];
     }

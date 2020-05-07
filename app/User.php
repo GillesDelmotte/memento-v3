@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class, 'user_id')->with('owner');
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::Class, 'user_id');
+    }
 }
