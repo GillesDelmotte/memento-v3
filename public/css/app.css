@@ -1290,3 +1290,41 @@ body.freeze {
   cursor: pointer;
 }
 
+.bgc__logo {
+  position: fixed;
+  width: 100%;
+  opacity: 0.1;
+  z-index: -1;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.bgc__logo.praticiens {
+  background-image: url(/images/search-black.svg?9b387d9d9e98727b43169a2da1dbd843);
+  background-size: 700px;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+.bgc__logo.praticien {
+  background-image: url(/images/user-black.svg?9b546a6f50c0334c651f5fdc4473b941);
+  background-size: 650px;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+.bgc__logo.schedule {
+  background-image: url(/images/calendar-black.svg?b4823222dc201af1615003df96faef37);
+  background-size: 650px;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+
+.bgc__logo.meet {
+  background-image: url(/images/watch-black.svg?a5a15b76c694558005b0eccb0332058d);
+  background-size: 700px;
+  background-position: top right;
+  background-repeat: no-repeat;
+}
+

@@ -1,0 +1,34 @@
+.bgc__logo{
+    position: fixed;
+    width: 100%;
+    //background-color: red;
+    opacity: 0.1;
+    z-index: -1;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    &.praticiens{
+        background-image: url('../../img/search-black.svg');
+        background-size: 700px;
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+    &.praticien{
+        background-image: url('../../img/user-black.svg');
+        background-size: 650px;
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+    &.schedule{
+        background-image: url('../../img/calendar-black.svg');
+        background-size: 650px;
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+    &.meet{
+        background-image: url('../../img/watch-black.svg');
+        background-size: 700px;
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+}

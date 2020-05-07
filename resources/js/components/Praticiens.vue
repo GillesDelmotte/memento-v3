@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="bgc__logo praticiens"></div>
     <header-component title="Les praticiens"></header-component>
     <router-view></router-view>
   </div>

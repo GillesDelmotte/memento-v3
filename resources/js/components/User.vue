@@ -1,5 +1,6 @@
 <template>
   <div class="profil">
+    <div class="bgc__logo praticien"></div>
     <header-component title="Mon profil"></header-component>
     <user-infos :person="currentUser" :userProfil="true"></user-infos>
     <section class="comments">

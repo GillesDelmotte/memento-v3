@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="bgc__logo meet"></div>
     <header-component title="Mes rendez-vous"></header-component>
     <div></div>
   </div>

@@ -2040,6 +2040,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2285,6 +2286,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2330,6 +2332,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2504,6 +2507,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -38683,6 +38687,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("div", { staticClass: "bgc__logo meet" }),
+      _vm._v(" "),
       _c("header-component", { attrs: { title: "Mes rendez-vous" } }),
       _vm._v(" "),
       _c("div")
@@ -39014,6 +39020,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("div", { staticClass: "bgc__logo praticiens" }),
+      _vm._v(" "),
       _c("header-component", { attrs: { title: "Les praticiens" } }),
       _vm._v(" "),
       _c("router-view")
@@ -39073,7 +39081,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    [_c("header-component", { attrs: { title: "Mon horaire" } })],
+    [
+      _c("div", { staticClass: "bgc__logo schedule" }),
+      _vm._v(" "),
+      _c("header-component", { attrs: { title: "Mon horaire" } })
+    ],
     1
   )
 }
@@ -39246,6 +39258,8 @@ var render = function() {
     "div",
     { staticClass: "profil" },
     [
+      _c("div", { staticClass: "bgc__logo praticien" }),
+      _vm._v(" "),
       _c("header-component", { attrs: { title: "Mon profil" } }),
       _vm._v(" "),
       _c("user-infos", {
