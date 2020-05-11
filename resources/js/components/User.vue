@@ -10,13 +10,13 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
-    <div class="aside close" @click="openFilter">
+    <div class="aside close">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
       <ul class="aside__list">
         <li v-for="schedule in currentUser.schedules" :key="schedule.id">{{schedule.name}}</li>
       </ul>
-      <a href class="aside__link">Créer un agenda</a>
+      <a @click="redirect('/creation-horaire')" class="aside__link">Créer un agenda</a>
     </div>
     <div class="aside__button schedule" @click="openFilter"></div>
   </div>
@@ -44,6 +44,9 @@ export default {
       } else {
         filter.classList.add("close");
       }
+    },
+    redirect(link) {
+      this.$router.push(link);
     }
   },
   mounted() {

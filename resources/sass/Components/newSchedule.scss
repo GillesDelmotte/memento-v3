@@ -1,0 +1,82 @@
+.newSchedule{
+    width: 550px;
+    &__explanation{
+        padding: 40px;
+        background-color: rgba(yellow, 0.3);
+        line-height: 1.5;
+        box-sizing: border-box;
+        margin-bottom: 50px;
+    }
+    &__day{
+        padding: 20px 40px;
+        box-sizing: border-box;
+        height: 56px;
+        box-shadow: $shadow;
+        margin-bottom: 20px;
+        background-color: white;
+        overflow: hidden;
+        transition: height 0.2s;
+        &.open{
+            height: 250px;
+            transition: height 0.2s;
+
+        }
+        &__header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        &__hours{
+            margin-top: 20px;
+            &__group{
+                margin-bottom: 30px;
+                &__inputs{
+                    display: flex;
+                    align-items: center;
+                }
+            }
+            &__title{
+                font-weight: bold;
+                margin-bottom: 10px
+            }
+        }
+        & .radioButton{
+            margin-bottom: 0;
+            &__bgc{
+                margin-right: 0;
+            }
+        }
+    }
+    &__input{
+        border: none;
+        padding: 10px;
+        background-color: rgba($main-color, 0.2);
+    }
+    &__sign{
+        width: 30px;
+        height: 30px;
+        display: block;
+        background-image: url('../../img/back.svg');
+        transform: rotate(180deg);
+        margin: 0 20px;
+        background-repeat: no-repeat;
+        background-size: 100%;
+
+    }
+}
+
+@media(max-width: 1050px){
+    .newSchedule{
+        width: 100%;
+    }
+}
+@media(max-width: 384px){
+    .newSchedule__day{
+        &.open{
+            height: 275px;
+            transition: height 0.2s;
+
+        }
+    }
+}

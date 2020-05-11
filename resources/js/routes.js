@@ -6,6 +6,7 @@ import PraticienProfil from './components/Praticien';
 import PraticiensSearch from './components/Search';
 import Stat from './components/Stat';
 import Report from './components/Report';
+import CreateSchedule from './components/CreateSchedule';
 
 
 export default [
@@ -29,6 +30,11 @@ export default [
         path: '/mon-horaire',
         name: 'schedule',
         component: Schedule
+    },
+    {
+        path: '/creation-horaire',
+        name: 'newSchedule',
+        component: CreateSchedule
     },
     {
         path: '/mon-profil',
