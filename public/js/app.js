@@ -2318,6 +2318,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2346,6 +2358,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (error) {
         console.log(error.response.data.message);
       });
+    },
+    openFilter: function openFilter() {
+      var filter = document.querySelector(".aside");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+      } else {
+        filter.classList.add("close");
+      }
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner", "currentUser"]), {
@@ -39229,7 +39252,57 @@ var render = function() {
             [_vm._v("Poster mon commentaire")]
           )
         ])
-      ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "aside close" }, [
+        _c("div", {
+          staticClass: "aside__close",
+          on: { click: _vm.openFilter }
+        }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "filter__title sr-only" }, [
+          _vm._v("Horaire du praticien")
+        ]),
+        _vm._v(" "),
+        _c("a", { staticClass: "aside__link", attrs: { href: "" } }, [
+          _vm._v("Prendre rendez-vous")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "aside__explanation" }, [
+          _vm._v(
+            "Pour ne pas chercher dans l’horaire, vous pouvez selectionner une date et heure ci-dessous, nous vous dirons directement si la plage horaire est libre."
+          )
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "filter__input",
+          attrs: {
+            type: "date",
+            name: "filter",
+            id: "filter",
+            autocomplete: "off"
+          }
+        }),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "filter__input",
+          attrs: {
+            type: "time",
+            name: "filter",
+            id: "filter",
+            autocomplete: "off"
+          }
+        }),
+        _vm._v(" "),
+        _c("a", { staticClass: "aside__link sendDate", attrs: { href: "" } }, [
+          _vm._v("Envoyer ma date")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "aside__button schedule",
+        on: { click: _vm.openFilter }
+      })
     ],
     1
   )

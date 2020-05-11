@@ -14,6 +14,18 @@
         <button @click="addComment" class="addComment__button">Poster mon commentaire</button>
       </section>
     </section>
+    <div class="aside close">
+      <div class="aside__close" @click="openFilter"></div>
+      <h2 class="filter__title sr-only">Horaire du praticien</h2>
+      <a href class="aside__link">Prendre rendez-vous</a>
+      <div
+        class="aside__explanation"
+      >Pour ne pas chercher dans l’horaire, vous pouvez selectionner une date et heure ci-dessous, nous vous dirons directement si la plage horaire est libre.</div>
+      <input type="date" name="filter" class="filter__input" id="filter" autocomplete="off" />
+      <input type="time" name="filter" class="filter__input" id="filter" autocomplete="off" />
+      <a href class="aside__link sendDate">Envoyer ma date</a>
+    </div>
+    <div class="aside__button schedule" @click="openFilter"></div>
   </div>
 </template>
 <script>
@@ -46,6 +58,16 @@ export default {
         .catch(function(error) {
           console.log(error.response.data.message);
         });
+    },
+    openFilter() {
+      const filter = document.querySelector(".aside");
+      const nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+      } else {
+        filter.classList.add("close");
+      }
     }
   },
   computed: {

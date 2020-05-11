@@ -1134,9 +1134,10 @@ body.freeze {
   color: white;
   border-bottom: 2px solid white;
   display: block;
-  margin: 30px;
+  margin: 10px 30px;
   box-sizing: border-box;
   padding: 10px;
+  box-sizing: border-box;
 }
 
 .aside__title {
@@ -1180,6 +1181,16 @@ body.freeze {
 .aside__link:focus::after {
   width: 100%;
   transition: all 0.2s;
+}
+
+.aside__link.sendDate {
+  margin-top: 30px;
+}
+
+.aside__explanation {
+  padding: 30px 30px 20px;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
 .aside__button {
