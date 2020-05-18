@@ -1103,6 +1103,14 @@ body.freeze {
   display: none;
 }
 
+.aside__error {
+  padding: 10px 40px;
+  background-color: rgba(255, 0, 0, 0.3);
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin: 20px 0 10px;
+}
+
 .aside .filter__title {
   font-size: 20px;
   font-weight: bold;
@@ -1185,6 +1193,11 @@ body.freeze {
 
 .aside__link.sendDate {
   margin-top: 30px;
+}
+
+.aside__link.save {
+  margin-top: 30px;
+  font-size: 15px;
 }
 
 .aside__explanation {
@@ -1392,10 +1405,17 @@ body.freeze {
   margin-bottom: 50px;
 }
 
+.newSchedule__error {
+  padding: 20px 40px;
+  background-color: rgba(255, 0, 0, 0.3);
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
 .newSchedule__day {
   padding: 20px 40px;
   box-sizing: border-box;
-  height: 56px;
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   margin-bottom: 20px;
   background-color: white;
@@ -1404,8 +1424,12 @@ body.freeze {
 }
 
 .newSchedule__day.open {
-  height: 250px;
+  height: 100%;
   transition: height 0.2s;
+}
+
+.newSchedule__day.open .newSchedule__day__hours {
+  display: block;
 }
 
 .newSchedule__day__header {
@@ -1417,15 +1441,39 @@ body.freeze {
 
 .newSchedule__day__hours {
   margin-top: 20px;
+  display: none;
 }
 
 .newSchedule__day__hours__group {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .newSchedule__day__hours__group__inputs {
   display: flex;
   align-items: center;
+}
+
+.newSchedule__day__hours__group__radio {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.newSchedule__day__hours__group__radio .radios {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.newSchedule__day__hours__group__radio .radios input:checked ~ .radios__dot {
+  background-color: #1D1D1D;
+}
+
+.newSchedule__day__hours__group__radio .radios__dot {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border: 1px solid #1D1D1D;
+  border-radius: 50%;
+  margin-right: 5px;
 }
 
 .newSchedule__day__hours__title {
@@ -1461,13 +1509,6 @@ body.freeze {
 @media (max-width: 1050px) {
   .newSchedule {
     width: 100%;
-  }
-}
-
-@media (max-width: 384px) {
-  .newSchedule__day.open {
-    height: 275px;
-    transition: height 0.2s;
   }
 }
 

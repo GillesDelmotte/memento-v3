@@ -36,3 +36,5 @@ Route::post('/addComment', 'CommentController@store');
 
 Route::post('/image/store', 'ImageController@store');
 
+Route::post('/createSchedule', 'ScheduleController@store');
+

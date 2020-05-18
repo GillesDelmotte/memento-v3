@@ -1939,6 +1939,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
 //
 //
 //
@@ -1990,14 +1991,87 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateSchedule",
   data: function data() {
     return {
-      days: ["lundi", "mardi", "Mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+      days: ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+      errors: []
     };
   },
+  computed: {},
   methods: {
+    findError: function findError(name) {
+      var result = this.errors.filter(function (error) {
+        return error.name === name;
+      });
+
+      if (result.length !== 0) {
+        return result[0].content;
+      }
+    },
     openFilter: function openFilter() {
       var filter = document.querySelector(".aside");
       var nav = document.querySelector(".nav");
@@ -2016,6 +2090,78 @@ __webpack_require__.r(__webpack_exports__);
         hours.classList.remove("open");
       } else {
         hours.classList.add("open");
+      }
+    },
+    createSchedule: function createSchedule() {
+      var _this = this;
+
+      this.errors = [];
+      var scheduledays = [];
+      var name = document.getElementById("scheduleName").value;
+
+      if (name === "") {
+        var error = {
+          name: "name",
+          content: "vous n‘avez pas entré de nom pour votre agenda"
+        };
+        this.errors.push(error);
+      }
+
+      this.days.forEach(function (day) {
+        var theDay = document.querySelector("#" + day);
+
+        if (theDay.checked === true) {
+          var ms = document.getElementById("ms-" + day).value;
+          var me = document.getElementById("me-" + day).value;
+          var as = document.getElementById("as-" + day).value;
+          var ae = document.getElementById("ae-" + day).value;
+
+          if (ms > me || ms > as || ms > ae || me > as || me > ae || as > ae) {
+            var _error = {
+              name: day,
+              content: "Vos heures ne sont pas juste"
+            };
+
+            _this.errors.push(_error);
+          }
+
+          var radios = document.getElementsByName("timer-" + day);
+
+          for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+              var time = radios[i].value;
+              break;
+            }
+          }
+
+          var dayData = {
+            name: day,
+            ms: ms,
+            me: me,
+            as: as,
+            ae: ae,
+            time: time
+          };
+          scheduledays.push(dayData);
+        }
+      });
+
+      if (scheduledays.length === 0) {
+        console.log("Vous n‘avez selectionné aucun jour");
+        return null;
+      }
+
+      if (this.errors.length === 0) {
+        window.axios.post("/createSchedule", {
+          name: name,
+          days: scheduledays
+        }).then(function (response) {
+          console.log(response.data);
+        })["catch"](function (error) {
+          console.log(error.response.data.message);
+        });
+      } else {
+        console.log(this.errors);
       }
     }
   }
@@ -38708,7 +38854,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "newSchedule__explanation" }, [
         _vm._v(
-          "Bienvenu sur la page de création d'agenda. Vous trouverez ci-dessous sept encars qui correspondent aux sept jours de la semaine. Pour ajouter un jour à votre agenda, coché le bouton à droite du jour désiré et remplisez les heures souhaités. Vous pouvez créer plusieurs agendas différents mais les jour ne peuvent se retrouver que dans un seul agenda"
+          "Bienvenu sur la page de création d'agenda. Vous trouverez ci-dessous sept encars qui correspondent aux sept jours de la semaine. Pour ajouter un jour à votre agenda, coché le bouton à droite du jour désiré et remplisez les heures souhaités. Vous pouvez créer plusieurs agendas différents mais les jours ne peuvent se retrouver que dans un seul agenda"
         )
       ]),
       _vm._v(" "),
@@ -38744,13 +38890,214 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(0, true)
+            _c("div", { staticClass: "newSchedule__day__hours" }, [
+              _c("div", { staticClass: "newSchedule__day__hours__group" }, [
+                _c("div", { staticClass: "newSchedule__day__hours__title" }, [
+                  _vm._v("Durée des rendez-vous")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "newSchedule__day__hours__group__radio" },
+                  [
+                    _c("div", { staticClass: "radios" }, [
+                      _c("input", {
+                        staticClass: "sr-only",
+                        attrs: {
+                          type: "radio",
+                          name: "timer-" + day,
+                          id: "timer15-" + day,
+                          value: "15",
+                          checked: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", {
+                        staticClass: "radios__dot",
+                        attrs: { for: "timer15-" + day }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "radios__label",
+                          attrs: { for: "timer15-" + day }
+                        },
+                        [_vm._v("15minutes")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "radios" }, [
+                      _c("input", {
+                        staticClass: "sr-only",
+                        attrs: {
+                          type: "radio",
+                          name: "timer-" + day,
+                          id: "timer30-" + day,
+                          value: "30"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", {
+                        staticClass: "radios__dot",
+                        attrs: { for: "timer30-" + day }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "radios__label",
+                          attrs: { for: "timer30-" + day }
+                        },
+                        [_vm._v("30minutes")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "radios" }, [
+                      _c("input", {
+                        staticClass: "sr-only",
+                        attrs: {
+                          type: "radio",
+                          name: "timer-" + day,
+                          id: "timer45-" + day,
+                          value: "45"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", {
+                        staticClass: "radios__dot",
+                        attrs: { for: "timer45-" + day }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "radios__label",
+                          attrs: { for: "timer45-" + day }
+                        },
+                        [_vm._v("45minutes")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "radios" }, [
+                      _c("input", {
+                        staticClass: "sr-only",
+                        attrs: {
+                          type: "radio",
+                          name: "timer-" + day,
+                          id: "timer60-" + day,
+                          value: "60"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", {
+                        staticClass: "radios__dot",
+                        attrs: { for: "timer60-" + day }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "radios__label",
+                          attrs: { for: "timer60-" + day }
+                        },
+                        [_vm._v("60minutes")]
+                      )
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "newSchedule__day__hours__group" }, [
+                _c("div", { staticClass: "newSchedule__day__hours__title" }, [
+                  _vm._v("Heures du début et fin de la matinée")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "newSchedule__day__hours__group__inputs" },
+                  [
+                    _c("input", {
+                      staticClass: "newSchedule__input",
+                      attrs: { type: "time", id: "ms-" + day }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "newSchedule__sign" }),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "newSchedule__input",
+                      attrs: { type: "time", id: "me-" + day }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "newSchedule__day__hours__group" }, [
+                _c("div", { staticClass: "newSchedule__day__hours__title" }, [
+                  _vm._v("Heures du début et fin de l'après-midi")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "newSchedule__day__hours__group__inputs" },
+                  [
+                    _c("input", {
+                      staticClass: "newSchedule__input",
+                      attrs: { type: "time", id: "as-" + day }
+                    }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "newSchedule__sign" }),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "newSchedule__input",
+                      attrs: { type: "time", id: "ae-" + day }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.findError(day)
+                ? _c("p", { staticClass: "newSchedule__error" }, [
+                    _vm._v(_vm._s(_vm.findError(day)))
+                  ])
+                : _vm._e()
+            ])
           ])
         }),
         0
       ),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", { staticClass: "aside close" }, [
+        _c("div", { staticClass: "aside__close" }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "aside__title" }, [_vm._v("Nom de l'agenda")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "filter__input",
+          attrs: {
+            type: "text",
+            name: "scheduleName",
+            id: "scheduleName",
+            autocomplete: "off",
+            placeholder: "Nom de l'agenda"
+          }
+        }),
+        _vm._v(" "),
+        _vm.findError("name")
+          ? _c("p", { staticClass: "aside__error" }, [
+              _vm._v(_vm._s(_vm.findError("name")))
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "aside__link save",
+            on: { click: _vm.createSchedule }
+          },
+          [_vm._v("Sauvegarder mon horaire")]
+        )
+      ]),
       _vm._v(" "),
       _c("div", {
         staticClass: "aside__button schedule",
@@ -38760,64 +39107,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "newSchedule__day__hours" }, [
-      _c("div", { staticClass: "newSchedule__day__hours__group" }, [
-        _c("div", { staticClass: "newSchedule__day__hours__title" }, [
-          _vm._v("Heures du début et fin de journée")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "newSchedule__day__hours__group__inputs" }, [
-          _c("input", {
-            staticClass: "newSchedule__input",
-            attrs: { type: "time" }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "newSchedule__sign" }),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "newSchedule__input",
-            attrs: { type: "time" }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "newSchedule__day__hours__group" }, [
-        _c("div", { staticClass: "newSchedule__day__hours__title" }, [
-          _vm._v("Heures du début et fin du temps de midi")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "newSchedule__day__hours__group__inputs" }, [
-          _c("input", {
-            staticClass: "newSchedule__input",
-            attrs: { type: "time" }
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "newSchedule__sign" }),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "newSchedule__input",
-            attrs: { type: "time" }
-          })
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "aside close" }, [
-      _c("div", { staticClass: "aside__close" }),
-      _vm._v(" "),
-      _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

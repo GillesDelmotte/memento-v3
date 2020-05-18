@@ -7,18 +7,28 @@
         box-sizing: border-box;
         margin-bottom: 50px;
     }
+    &__error{
+        padding: 20px 40px;
+        background-color: rgba(red, 0.3);
+        line-height: 1.5;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
     &__day{
         padding: 20px 40px;
         box-sizing: border-box;
-        height: 56px;
+        //height: 56px;
         box-shadow: $shadow;
         margin-bottom: 20px;
         background-color: white;
         overflow: hidden;
         transition: height 0.2s;
         &.open{
-            height: 250px;
+            height: 100%;
             transition: height 0.2s;
+            & .newSchedule__day__hours{
+                display: block;
+            }
 
         }
         &__header{
@@ -29,17 +39,38 @@
         }
         &__hours{
             margin-top: 20px;
+            display: none;
             &__group{
-                margin-bottom: 30px;
+                margin-bottom: 25px;
                 &__inputs{
                     display: flex;
                     align-items: center;
                 }
+                &__radio{
+                display: flex;
+                flex-wrap: wrap;
+                .radios{
+                    input:checked ~.radios__dot{
+                        background-color: $main-color;
+                    }
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                    &__dot{
+                        width: 10px;
+                        height: 10px;
+                        display: inline-block;
+                        border: 1px solid $main-color;
+                        border-radius: 50%;
+                        margin-right: 5px;
+                    }
+                }
+            }
             }
             &__title{
                 font-weight: bold;
                 margin-bottom: 10px
             }
+
         }
         & .radioButton{
             margin-bottom: 0;
@@ -71,12 +102,33 @@
         width: 100%;
     }
 }
-@media(max-width: 384px){
-    .newSchedule__day{
-        &.open{
-            height: 275px;
-            transition: height 0.2s;
+// @media(max-width: 685px){
+//     .newSchedule__day{
+//         &.open{
+//             height: 345px;
+//         }
+//     }
+// }
+// @media(max-width: 538px){
+//     .newSchedule__day{
+//         &.open{
+//             height: 361px;
+//         }
+//     }
+// }
+// @media(max-width: 529px){
+//     .newSchedule__day{
+//         &.open{
+//             height: 376px;
+//         }
+//     }
+// }
+// @media(max-width: 384px){
+//     .newSchedule__day{
+//         &.open{
+//             height: 375px;
+//             transition: height 0.2s;
 
-        }
-    }
-}
+//         }
+//     }
+// }
