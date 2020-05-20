@@ -21,7 +21,11 @@
         <li v-for="schedule in currentUser.schedules" :key="schedule.id">
           <p>{{schedule.name}}</p>
           <div>
-            <span v-for="day in schedule.days" :key="day.id">{{day.name.charAt(0)}}</span>
+            <span
+              v-for="day in schedule.days"
+              :key="day.id"
+              :title="day.name"
+            >{{day.name.charAt(0)}}</span>
           </div>
         </li>
       </ul>

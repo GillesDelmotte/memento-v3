@@ -1272,6 +1272,52 @@ body.freeze {
   cursor: pointer;
 }
 
+.aside__date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.aside__date div {
+  margin: 0 20px;
+}
+
+.aside__date span {
+  display: block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-image: url(/images/back-white.svg?329af0bc12e6568f5c18c45224f45f7b);
+  background-size: 100%;
+}
+
+.aside__date span.aside__date__next {
+  transform: rotate(180deg);
+}
+
+.aside__days__ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.aside__days__ul li {
+  cursor: pointer;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.aside__days__ul li.active {
+  background-color: grey;
+}
+
 @media (max-width: 1050px) {
   .aside {
     position: fixed;
@@ -1538,6 +1584,58 @@ body.freeze {
 
 @media (max-width: 1050px) {
   .newSchedule {
+    width: 100%;
+  }
+}
+
+.emptyDay {
+  width: 550px;
+  padding: 20px 40px;
+  background-color: rgba(255, 255, 0, 0.3);
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+}
+
+.schedule__list {
+  width: 550px;
+}
+
+.schedule__list li {
+  color: #1D1D1D;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  letter-spacing: 1.3px;
+}
+
+.schedule__list__hour {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  width: 100px;
+  margin-right: 15px;
+}
+
+.schedule__list__appointment {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  flex: 1 1 auto;
+}
+
+@media (max-width: 1050px) {
+  .emptyDay {
+    width: 100%;
+  }
+
+  .schedule__list {
     width: 100%;
   }
 }

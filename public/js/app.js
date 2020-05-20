@@ -2627,14 +2627,255 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Schedule"
+  name: "Schedule",
+  data: function data() {
+    return {
+      days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+      months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+      dayNumber: null,
+      monthNumber: null,
+      number0fdDayInMonth: null,
+      year: null,
+      date: null
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["currentUser"]), {
+    day: function day() {
+      var d = new Date();
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0");
+      var yyyy = today.getFullYear();
+      today = dd + "-" + mm + "-" + yyyy;
+      this.date = today;
+      this.dayNumber = d.getDay();
+      this.monthNumber = d.getMonth();
+      this.year = yyyy;
+    },
+    createListMorning: function createListMorning() {
+      var _this = this;
+
+      var morning = [];
+      var day = "";
+      this.currentUser.schedules.forEach(function (schedule) {
+        var test = schedule.days.find(function (day) {
+          return day.name === _this.days[_this.dayNumber];
+        });
+
+        if (test != undefined) {
+          day = test;
+        }
+      });
+
+      if (day != "") {
+        var ms = day.ms.split(":");
+        var msh = parseInt(ms[0], 10);
+        var msm = parseInt(ms[1], 10);
+        morning.push(msh + ":" + msm);
+        var milliDateStart = new Date("1970-01-01T" + day.ms + "Z").getTime();
+        var milliDateEnd = new Date("1970-01-01T" + day.me + "Z").getTime();
+        var diff = (milliDateEnd - milliDateStart) / (day.time * 60000);
+
+        for (var i = 1; i <= diff; i++) {
+          //var test = msm;
+          msm = msm + day.time;
+
+          if (msm >= 60) {
+            msm = msm - 60;
+            msh += 1;
+            morning.push(msh + ":" + msm);
+          } else {
+            morning.push(msh + ":" + msm);
+          }
+        }
+      }
+
+      return morning;
+    },
+    createListAfternoon: function createListAfternoon() {
+      var _this2 = this;
+
+      var afternoon = [];
+      var day = "";
+      this.currentUser.schedules.forEach(function (schedule) {
+        var test = schedule.days.find(function (day) {
+          return day.name === _this2.days[_this2.dayNumber];
+        });
+
+        if (test != undefined) {
+          day = test;
+        }
+      });
+
+      if (day != "") {
+        var as = day.as.split(":");
+        var ash = parseInt(as[0], 10);
+        var asm = parseInt(as[1], 10);
+        afternoon.push(ash + ":" + asm);
+        var milliDateStart = new Date("1970-01-01T" + day.as + "Z").getTime();
+        var milliDateEnd = new Date("1970-01-01T" + day.ae + "Z").getTime();
+        var diff = (milliDateEnd - milliDateStart) / (day.time * 60000);
+
+        for (var i = 1; i <= diff; i++) {
+          //var test = asm;
+          asm = asm + day.time;
+
+          if (asm >= 60) {
+            asm = asm - 60;
+            ash += 1;
+            afternoon.push(ash + ":" + asm);
+          } else {
+            afternoon.push(ash + ":" + asm);
+          }
+        }
+      }
+
+      return afternoon;
+    },
+    calculatedNumberOfDay: function calculatedNumberOfDay() {
+      return new Date(this.year, this.monthNumber + 1, 0).getDate();
+    },
+    makeListOfNumberOfDay: function makeListOfNumberOfDay() {
+      var listOfNumber = [];
+
+      for (var i = 1; i <= this.calculatedNumberOfDay; i++) {
+        if (this.date) {
+          var splitDate = this.date.split("-");
+
+          if (i == splitDate[0]) {
+            var active = true;
+          } else {
+            var active = false;
+          }
+
+          var number = {
+            active: active,
+            number: i
+          };
+          listOfNumber.push(number);
+        }
+      }
+
+      return listOfNumber;
+    }
+  }),
+  methods: {
+    openFilter: function openFilter() {
+      var filter = document.querySelector(".aside");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+      } else {
+        filter.classList.add("close");
+      }
+    },
+    nextMonth: function nextMonth() {
+      this.monthNumber = this.monthNumber + 1;
+
+      if (this.monthNumber === 12) {
+        this.monthNumber = 0;
+        this.year = this.year + 1;
+      }
+
+      var splitDate = this.date.split("-");
+      var date = this.monthNumber + 1 + "-" + splitDate[0] + "-" + this.year;
+      var newDate = new Date(date);
+      this.dayNumber = newDate.getDay();
+      this.monthNumber = newDate.getMonth();
+      var dd = String(newDate.getDate()).padStart(2, "0");
+      var mm = String(newDate.getMonth() + 1).padStart(2, "0"); //January is 0!
+
+      var yyyy = newDate.getFullYear();
+      this.date = dd + "-" + mm + "-" + yyyy;
+    },
+    previousMonth: function previousMonth() {
+      this.monthNumber = this.monthNumber - 1;
+
+      if (this.monthNumber === -1) {
+        this.monthNumber = 11;
+        this.year = this.year - 1;
+      }
+
+      var splitDate = this.date.split("-");
+      var date = this.monthNumber + 1 + "-" + splitDate[0] + "-" + this.year;
+      var newDate = new Date(date);
+      this.dayNumber = newDate.getDay();
+      this.monthNumber = newDate.getMonth();
+      var dd = String(newDate.getDate()).padStart(2, "0");
+      var mm = String(newDate.getMonth() + 1).padStart(2, "0"); //January is 0!
+
+      var yyyy = newDate.getFullYear();
+      this.date = dd + "-" + mm + "-" + yyyy;
+    },
+    changeDay: function changeDay(day) {
+      var splitDate = this.date.split("-");
+      var date = this.monthNumber + 1 + "-" + day + "-" + this.year;
+      var newDate = new Date(date);
+      this.dayNumber = newDate.getDay();
+      this.monthNumber = newDate.getMonth();
+      var dd = String(newDate.getDate()).padStart(2, "0");
+      var mm = String(newDate.getMonth() + 1).padStart(2, "0"); //January is 0!
+
+      var yyyy = newDate.getFullYear();
+      this.date = dd + "-" + mm + "-" + yyyy;
+    }
+  },
+  mounted: function mounted() {
+    this.day;
+  }
 });
 
 /***/ }),
@@ -2802,6 +3043,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -39750,7 +39995,101 @@ var render = function() {
     [
       _c("div", { staticClass: "bgc__logo schedule" }),
       _vm._v(" "),
-      _c("header-component", { attrs: { title: "Mon horaire" } })
+      _c("header-component", { attrs: { title: "Mon horaire" } }),
+      _vm._v(" "),
+      _vm.createListMorning.length === 0
+        ? _c("div", { staticClass: "emptyDay" }, [
+            _vm._v("Vous n'avez pas d'horaire pour aujourd'hui")
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "schedule__list" },
+        _vm._l(_vm.createListMorning, function(hour) {
+          return _c("li", { key: hour }, [
+            _c("div", { staticClass: "schedule__list__hour" }, [
+              _vm._v(_vm._s(hour))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "schedule__list__appointment" }, [
+              _vm._v("Plage horaire disponible")
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "schedule__list" },
+        _vm._l(_vm.createListAfternoon, function(hour) {
+          return _c("li", { key: hour }, [
+            _c("div", { staticClass: "schedule__list__hour" }, [
+              _vm._v(_vm._s(hour))
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "schedule__list__appointment" }, [
+              _vm._v("Plage horaire disponible")
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "aside close" }, [
+        _c("div", { staticClass: "aside__close" }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "aside__title" }, [_vm._v("Date")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "aside__date" }, [
+          _c("span", {
+            staticClass: "aside__date__previous",
+            on: { click: _vm.previousMonth }
+          }),
+          _vm._v(" "),
+          _c("div", [
+            _vm._v(
+              _vm._s(_vm.months[_vm.monthNumber]) + ", " + _vm._s(_vm.year)
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "aside__date__next",
+            on: { click: _vm.nextMonth }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "aside__days" }, [
+          _c(
+            "ul",
+            { staticClass: "aside__days__ul" },
+            _vm._l(_vm.makeListOfNumberOfDay, function(dayNumber) {
+              return _c(
+                "li",
+                {
+                  key: dayNumber.number,
+                  class: dayNumber.active
+                    ? "aside__days__ul__li active"
+                    : "aside__days__ul__li",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeDay(dayNumber.number)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(dayNumber.number))]
+              )
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "aside__button schedule",
+        on: { click: _vm.openFilter }
+      })
     ],
     1
   )
@@ -39971,9 +40310,11 @@ var render = function() {
                   _c(
                     "div",
                     _vm._l(schedule.days, function(day) {
-                      return _c("span", { key: day.id }, [
-                        _vm._v(_vm._s(day.name.charAt(0)))
-                      ])
+                      return _c(
+                        "span",
+                        { key: day.id, attrs: { title: day.name } },
+                        [_vm._v(_vm._s(day.name.charAt(0)))]
+                      )
                     }),
                     0
                   )

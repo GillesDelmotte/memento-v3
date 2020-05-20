@@ -163,6 +163,50 @@
         cursor: pointer;
     }
 
+    &__date{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        div{
+            margin: 0 20px;
+        }
+        span{
+            display: block;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            background-image: url('../../img/back-white.svg');
+            background-size: 100%;
+            &.aside__date__next{
+                transform: rotate(180deg);
+            }
+        }
+
+    }
+    &__days{
+        &__ul{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            li{
+                cursor: pointer;
+                margin: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                &.active{
+                background-color: grey;
+
+                }
+            }
+        }
+    }
+
 }
 
 @media(max-width: 1050px){
