@@ -5,7 +5,9 @@
     <div
       class="newSchedule__explanation"
     >Bienvenu sur la page de création d'agenda. Vous trouverez ci-dessous sept encars qui correspondent aux sept jours de la semaine. Pour ajouter un jour à votre agenda, coché le bouton à droite du jour désiré et remplisez les heures souhaités. Vous pouvez créer plusieurs agendas différents mais les jours ne peuvent se retrouver que dans un seul agenda</div>
-    <div class="newSchedule__days">
+    <p class="newSchedule__error" v-if="findError('emptyDay')">{{findError("emptyDay")}}</p>
+
+    <div class="newSchedule__days" v-if="days.length !== 0">
       <div :class="'newSchedule__day ' + day" v-for="day in days" :key="day">
         <div class="newSchedule__day__header">
           <div>{{day}}</div>
@@ -93,7 +95,8 @@
         </div>
       </div>
     </div>
-    <div class="aside close">
+    <div v-else class="newSchedule__fulltime">vous n'avez plus de jour libre</div>
+    <div class="aside close" v-if="days.length !== 0">
       <div class="aside__close"></div>
       <h2 class="aside__title">Nom de l'agenda</h2>
       <input
@@ -107,16 +110,27 @@
       <p class="aside__error" v-if="findError('name')">{{findError("name")}}</p>
       <a class="aside__link save" @click="createSchedule">Sauvegarder mon horaire</a>
     </div>
-    <div class="aside__button schedule" @click="openFilter"></div>
+    <div class="aside__button schedule" @click="openFilter" v-if="days.length !== 0"></div>
   </div>
 </template>
 <script>
+import store from "../store.js";
+import { mapState } from "vuex";
 import router from "../router.js";
+import { mapMutations } from "vuex";
+
 export default {
   name: "CreateSchedule",
   data() {
     return {
-      days: [
+      errors: []
+    };
+  },
+  computed: {
+    ...mapState(["currentUser"]),
+    days() {
+      var oldDays = [];
+      var alldays = [
         "lundi",
         "mardi",
         "mercredi",
@@ -124,11 +138,23 @@ export default {
         "vendredi",
         "samedi",
         "dimanche"
-      ],
-      errors: []
-    };
+      ];
+      this.currentUser.schedules.forEach(function(schedule) {
+        schedule.days.forEach(function(day) {
+          oldDays.push(day.name);
+        });
+      });
+      oldDays.forEach(function(day) {
+        var index = alldays.indexOf(day);
+
+        if (index > -1) {
+          alldays.splice(index, 1);
+        }
+      });
+
+      return alldays;
+    }
   },
-  computed: {},
   methods: {
     findError(name) {
       const result = this.errors.filter(error => error.name === name);
@@ -203,8 +229,11 @@ export default {
         }
       });
       if (scheduledays.length === 0) {
-        console.log("Vous n‘avez selectionné aucun jour");
-        return null;
+        const error = {
+          name: "emptyDay",
+          content: "Vous n‘avez sélectionné aucun jour"
+        };
+        this.errors.push(error);
       }
       if (this.errors.length === 0) {
         window.axios
@@ -213,13 +242,12 @@ export default {
             days: scheduledays
           })
           .then(response => {
-            console.log(response.data);
+            //console.log(response.data);
+            router.go(-1);
           })
           .catch(function(error) {
             console.log(error.response.data.message);
           });
-      } else {
-        console.log(this.errors);
       }
     }
   }

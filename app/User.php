@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::Class, 'user_id');
+        return $this->hasMany(Schedule::Class, 'user_id')->with('days');
     }
 }

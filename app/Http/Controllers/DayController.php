@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Schedule;
-use App\User;
 use App\Day;
 use Illuminate\Http\Request;
 
-class ScheduleController extends Controller
+class DayController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,33 +35,16 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request;
-
-        $name = $request['name'];
-        $days = $request['days'];
-
-
-
-        $schedule = Schedule::create(['name' => $name, 'user_id' => auth()->id()]);
-
-        $user = User::where('id', auth()->id())->first();
-        $user->schedule = true;
-        $user->save();
-
-        foreach($days as $day){
-            Day::create(['name' => $day['name'], 'schedule_id' => $schedule->id, 'ms' => $day['ms'], 'me' => $day['me'], 'as' => $day['as'], 'ae' => $day['ae'], 'time' => $day['time']]);
-        }
-
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Day  $day
      * @return \Illuminate\Http\Response
      */
-    public function show(Schedule $schedule)
+    public function show(Day $day)
     {
         //
     }
@@ -71,10 +52,10 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Day  $day
      * @return \Illuminate\Http\Response
      */
-    public function edit(Schedule $schedule)
+    public function edit(Day $day)
     {
         //
     }
@@ -83,10 +64,10 @@ class ScheduleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Day  $day
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request, Day $day)
     {
         //
     }
@@ -94,10 +75,10 @@ class ScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Day  $day
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy(Day $day)
     {
         //
     }

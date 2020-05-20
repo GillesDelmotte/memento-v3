@@ -13,8 +13,17 @@
     <div class="aside close">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
-      <ul class="aside__list">
-        <li v-for="schedule in currentUser.schedules" :key="schedule.id">{{schedule.name}}</li>
+      <p
+        class="aside__error"
+        v-if="currentUser.schedules.length === 0"
+      >Vous n'avez pas encore enregistré d'agenda</p>
+      <ul class="aside__list" v-else>
+        <li v-for="schedule in currentUser.schedules" :key="schedule.id">
+          <p>{{schedule.name}}</p>
+          <div>
+            <span v-for="day in schedule.days" :key="day.id">{{day.name.charAt(0)}}</span>
+          </div>
+        </li>
       </ul>
       <a @click="redirect('/creation-horaire')" class="aside__link">Créer un agenda</a>
     </div>

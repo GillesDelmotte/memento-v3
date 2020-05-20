@@ -1108,7 +1108,7 @@ body.freeze {
   background-color: rgba(255, 0, 0, 0.3);
   line-height: 1.5;
   box-sizing: border-box;
-  margin: 20px 0 10px;
+  margin: 20px 0 20px;
 }
 
 .aside .filter__title {
@@ -1163,6 +1163,28 @@ body.freeze {
   padding: 20px 30px;
   margin-bottom: 10px;
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.aside__list li p {
+  margin-bottom: 10px;
+}
+
+.aside__list li div {
+  display: flex;
+  align-items: center;
+}
+
+.aside__list li span {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
 }
 
 .aside__link {
@@ -1408,6 +1430,14 @@ body.freeze {
 .newSchedule__error {
   padding: 20px 40px;
   background-color: rgba(255, 0, 0, 0.3);
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.newSchedule__fulltime {
+  padding: 20px 40px;
+  background-color: rgba(0, 128, 0, 0.3);
   line-height: 1.5;
   box-sizing: border-box;
   margin-bottom: 20px;

@@ -25,7 +25,7 @@
         background-color: rgba(red, 0.3);
         line-height: 1.5;
         box-sizing: border-box;
-        margin: 20px 0 10px ;
+        margin: 20px 0 20px ;
     }
 
     // Style pour le filte de la page Search
@@ -80,8 +80,26 @@
             padding: 20px 30px;
             margin-bottom: 10px;
             background-color: rgba($color: white, $alpha: 0.2);
+            p{
+                margin-bottom: 10px;
+            }
+            div{
+                display: flex;
+                align-items: center;
+            }
+            span{
+                font-size: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 10px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: rgba(black, 0.7);
+                text-transform: uppercase;
 
-
+            }
         }
 
     }
