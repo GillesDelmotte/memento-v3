@@ -16,14 +16,14 @@
     </section>
     <div class="aside close">
       <div class="aside__close" @click="openFilter"></div>
-      <h2 class="filter__title sr-only">Horaire du praticien</h2>
-      <a href class="aside__link">Prendre rendez-vous</a>
-      <div
-        class="aside__explanation"
-      >Pour ne pas chercher dans l’horaire, vous pouvez selectionner une date et heure ci-dessous, nous vous dirons directement si la plage horaire est libre.</div>
-      <input type="date" name="filter" class="filter__input" id="filter" autocomplete="off" />
-      <input type="time" name="filter" class="filter__input" id="filter" autocomplete="off" />
-      <a href class="aside__link sendDate">Envoyer ma date</a>
+      <h2 class="filter__title">Horaires du praticien</h2>
+      <ul class="aside__list">
+        <li v-for="schedule in selectedPractitionnerSchedules" :key="schedule.id">
+          <p>{{schedule.name}}</p>
+          <a href class="aside__list__link" @click.prevent.stop="goOnSchedule"></a>
+        </li>
+      </ul>
+      <!-- <a href class="aside__link">Chercher un date</a> -->
     </div>
     <div class="aside__button schedule" @click="openFilter"></div>
   </div>
@@ -31,11 +31,14 @@
 <script>
 import { mapState } from "vuex";
 import router from "../router.js";
+import store from "../store.js";
 
 export default {
   name: "Praticien",
   data() {
-    return {};
+    return {
+      schedules: null
+    };
   },
   methods: {
     addComment() {
@@ -68,16 +71,30 @@ export default {
       } else {
         filter.classList.add("close");
       }
+    },
+    goOnSchedule() {
+      console.log("ok");
     }
   },
   computed: {
-    ...mapState(["allJob", "allPractitioner", "currentUser"]),
+    ...mapState([
+      "allJob",
+      "allPractitioner",
+      "currentUser",
+      "selectedPractitionnerSchedules"
+    ]),
     practitioner() {
       const practitioner = this.allPractitioner.filter(
         practitioner => practitioner.id === this.$route.params.id
       );
       return practitioner[0];
     }
+  },
+  beforeMount() {
+    this.$store.dispatch(
+      "setScheduleForSelectedPratitionner",
+      this.$route.params.id
+    );
   }
 };
 </script>

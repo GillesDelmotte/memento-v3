@@ -76,14 +76,20 @@
     }
     &__list{
         margin: 30px 0;
+        &__link{
+            position: absolute;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        }
         li{
+            position: relative;
             padding: 20px 30px;
             margin-bottom: 10px;
             background-color: rgba($color: white, $alpha: 0.2);
-            p{
-                margin-bottom: 10px;
-            }
             div{
+                margin-top: 10px;
                 display: flex;
                 align-items: center;
             }

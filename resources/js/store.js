@@ -9,6 +9,7 @@ const state = {
     currentUser: "",
     allJob: null,
     allPractitioner: null,
+    selectedPractitionnerSchedules: null
 };
 const mutations = {
     setCurrentUser(state, user) {
@@ -21,6 +22,9 @@ const mutations = {
     setAllPractitioner(state, practitioners) {
         state.allPractitioner = practitioners;
     },
+    setSchedulesForPractitionner(state, schedules) {
+        state.selectedPractitionnerSchedules = schedules;
+    }
 };
 const actions = {
 
@@ -64,6 +68,22 @@ const actions = {
                 })
         })
     },
+
+    // récupérer les agenda du praticien selectionné
+
+    setScheduleForSelectedPratitionner({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            window.axios
+                .post("/getPractitionerItems", { id: payload })
+                .then(response => {
+                    commit('setSchedulesForPractitionner', response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        })
+    },
+
 };
 
 export default new Vuex.Store({

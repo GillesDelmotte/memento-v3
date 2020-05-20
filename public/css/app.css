@@ -1159,17 +1159,23 @@ body.freeze {
   margin: 30px 0;
 }
 
+.aside__list__link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .aside__list li {
+  position: relative;
   padding: 20px 30px;
   margin-bottom: 10px;
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.aside__list li p {
-  margin-bottom: 10px;
-}
-
 .aside__list li div {
+  margin-top: 10px;
   display: flex;
   align-items: center;
 }

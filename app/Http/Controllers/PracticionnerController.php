@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Schedule;
+use App\Comment;
 
 class PracticionnerController extends Controller
 {
@@ -12,5 +14,10 @@ class PracticionnerController extends Controller
         $users = $users->load('job');
         $users = $users->load('comments');
         return $users;
+    }
+
+    public function getItem(User $user, Request $request){
+        $schedules = Schedule::Where('user_id', $request->id)->get();
+        return $schedules->load('days');
     }
 }

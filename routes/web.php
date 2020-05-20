@@ -30,6 +30,8 @@ Route::get('/getJobs', 'JobController@index');
 
 Route::get('/getPractitioners', 'PracticionnerController@index');
 
+Route::post('/getPractitionerItems', 'PracticionnerController@getItem');
+
 Route::post('/updateProfile', 'ProfileController@update');
 
 Route::post('/addComment', 'CommentController@store');
