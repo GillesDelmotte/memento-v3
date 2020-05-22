@@ -39857,7 +39857,7 @@ var render = function() {
       _vm._v(" "),
       _c("header-component", { attrs: { title: "Mes rendez-vous" } }),
       _vm._v(" "),
-      _c("div", [_vm._v(_vm._s(_vm.currentUser))])
+      _c("div")
     ],
     1
   )
