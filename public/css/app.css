@@ -1625,6 +1625,8 @@ body.freeze {
   border: none;
   padding: 10px;
   background-color: rgba(29, 29, 29, 0.2);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
 }
 
 .newSchedule__sign {
