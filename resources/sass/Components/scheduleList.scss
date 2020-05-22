@@ -34,6 +34,12 @@
         background-color: white;
         box-shadow: $shadow;
         flex: 1 1 auto;
+        &.myAppointment{
+            background-color: rgb(115, 171, 115);
+        }
+        &.false{
+            display: none;
+        }
     }
 }
 

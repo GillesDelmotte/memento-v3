@@ -22,6 +22,29 @@ body{
     cursor: pointer;
 }
 
+.error{
+        z-index: 100;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: indianred;
+        color: white;
+        padding: 20px;
+        padding-right: 60px;
+        &__cross{
+            position: absolute;
+            top: calc(50% - 5px);
+            right: 20px;
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-image: url('../../img/close.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+        }
+    }
+
 @media(max-width: 700px){
     .container{
         margin: 0 70px;

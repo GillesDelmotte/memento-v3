@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -33,9 +34,20 @@ class AppointmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Appointment $appointment, Request $request)
     {
-        //
+        $user_id = $request['user_id'];
+        $schedule_id = $request['schedule_id'];
+        $hour = $request['hour'];
+        $date = $request['date'];
+
+        $userAppointments = Appointment::where('date', $date)->where('user_id', $user_id)->get();
+
+        if( count($userAppointments) >= 1 ){
+            return 'false';
+        };
+
+        $appointment = Appointment::create(['user_id' => $user_id, 'schedule_id' => $schedule_id, 'hour' => $hour, 'date' => $date]);
     }
 
     /**
@@ -81,5 +93,10 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         //
+    }
+
+    public function myAppointments(Appointment $appointment){
+        $myAppointments = Appointment::where('user_id', Auth()->id())->whereDate('date', '>=', Carbon::now())->orderBy('date', 'asc')->get();
+        return $myAppointments->load('schedule');
     }
 }

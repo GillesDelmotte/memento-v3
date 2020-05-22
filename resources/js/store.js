@@ -9,7 +9,7 @@ const state = {
     currentUser: "",
     allJob: null,
     allPractitioner: null,
-    selectedPractitionnerSchedules: null
+    selectedPractitionnerSchedules: []
 };
 const mutations = {
     setCurrentUser(state, user) {

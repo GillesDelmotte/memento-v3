@@ -18,6 +18,8 @@ class PracticionnerController extends Controller
 
     public function getItem(User $user, Request $request){
         $schedules = Schedule::Where('user_id', $request->id)->get();
-        return $schedules->load('days');
+        $schedules->load('days');
+        $schedules->load('appointments');
+        return $schedules;
     }
 }

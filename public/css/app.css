@@ -177,6 +177,30 @@ body.freeze {
   cursor: pointer;
 }
 
+.error {
+  z-index: 100;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: indianred;
+  color: white;
+  padding: 20px;
+  padding-right: 60px;
+}
+
+.error__cross {
+  position: absolute;
+  top: calc(50% - 5px);
+  right: 20px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
 @media (max-width: 700px) {
   .container {
     margin: 0 70px;
@@ -727,30 +751,6 @@ body.freeze {
 
 .userProfil__info--buttons {
   margin-top: 30px;
-}
-
-.userProfil .error {
-  z-index: 100;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: indianred;
-  color: white;
-  padding: 20px;
-  padding-right: 60px;
-}
-
-.userProfil .error__cross {
-  position: absolute;
-  top: calc(50% - 5px);
-  right: 20px;
-  display: block;
-  width: 10px;
-  height: 10px;
-  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
-  background-repeat: no-repeat;
-  background-size: contain;
-  cursor: pointer;
 }
 
 @media (max-width: 1050px) {
@@ -1689,6 +1689,14 @@ body.freeze {
   flex: 1 1 auto;
 }
 
+.schedule__list__appointment.myAppointment {
+  background-color: #73ab73;
+}
+
+.schedule__list__appointment.false {
+  display: none;
+}
+
 @media (max-width: 1050px) {
   .emptyDay {
     width: 100%;
@@ -1696,6 +1704,126 @@ body.freeze {
 
   .schedule__list {
     width: 100%;
+  }
+}
+
+.appointments {
+  width: 550px;
+}
+
+.appointments .appointment {
+  position: relative;
+  background-color: white;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  padding: 50px 70px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.appointments .appointment__img {
+  background-color: #1D1D1D;
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: -45px;
+  top: calc(50% - 45px);
+  border-radius: 50%;
+  background-image: url(/images/user.svg?27bdbdfccf34048eca96ff049cc40f6e);
+  background-size: 50%;
+  background-position: center 47%;
+  background-repeat: no-repeat;
+}
+
+.appointments .appointment__img--true {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: -45px;
+  top: calc(50% - 45px);
+  border-radius: 50%;
+  border: 2px solid #1D1D1D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: white;
+}
+
+.appointments .appointment__img--true img {
+  width: 100%;
+  height: 90px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.appointments .appointment__infos__name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.appointments .appointment__infos__job {
+  margin-bottom: 20px;
+}
+
+.appointments .appointment__infos__date {
+  font-size: 20px;
+}
+
+.appointments .appointment__icons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.appointments .appointment__icons__link {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-color: initial;
+  transition: background-color 0.2s;
+  background-size: 50%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+.appointments .appointment__icons__link--schedule {
+  background-image: url(/images/calendar-black.svg?b4823222dc201af1615003df96faef37);
+}
+
+.appointments .appointment__icons__link--phone {
+  background-image: url(/images/phone.svg?c667501bf6d7214e120e3461bd206131);
+}
+
+.appointments .appointment__icons__link--mail {
+  background-image: url(/images/chat.svg?187c8efb5e476165e1ad7af88fdf5f61);
+}
+
+.appointments .appointment__icons__link:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s;
+}
+
+@media (max-width: 1050px) {
+  .appointments {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .appointments .appointment {
+    padding: 50px 30px;
+  }
+
+  .appointments .appointment__img {
+    display: none;
+  }
+
+  .appointments .appointment__img--true {
+    display: none;
   }
 }
 

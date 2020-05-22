@@ -1899,6 +1899,92 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Appointment.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Appointment.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Appointment",
+  data: function data() {
+    return {
+      days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+      months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
+    };
+  },
+  props: {
+    appointment: Object
+  },
+  computed: {
+    formatDate: function formatDate() {
+      var date = this.appointment.date;
+      var splitDate = date.split("-");
+      var test = new Date(splitDate[1] + "-" + splitDate[2] + "-" + splitDate[0]);
+      var day = this.days[test.getDay()];
+      var month = this.months[test.getMonth()];
+      var formatedDate = day + " " + splitDate[2] + " " + month + " " + splitDate[0];
+      return formatedDate;
+    }
+  },
+  methods: {
+    goOnSchedule: function goOnSchedule(scheduleId) {
+      _router_js__WEBPACK_IMPORTED_MODULE_0__["default"].push({
+        name: "praticien-schedule",
+        params: {
+          id: this.appointment.schedule.practitioner.id,
+          scheduleId: scheduleId
+        }
+      });
+      window.scrollTo(0, 0);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Comment.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Comment.vue?vue&type=script&lang=js& ***!
@@ -2313,15 +2399,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Meet",
   data: function data() {
-    return {};
+    return {
+      myAppointments: null
+    };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["currentUser"])),
+  methods: {
+    openFilter: function openFilter() {
+      var filter = document.querySelector(".aside");
+      var nav = document.querySelector(".nav");
+      nav.classList.remove("responsive__open");
+
+      if (filter.classList.contains("close")) {
+        filter.classList.remove("close");
+      } else {
+        filter.classList.add("close");
+      }
+    }
+  },
   mounted: function mounted() {},
   beforeMount: function beforeMount() {
     var _this = this;
@@ -2329,6 +2441,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.$store.dispatch("setCurrentUser").then(function () {
       if (_this.currentUser.is_admin === 1) {
         _this.$router.push("/statistiques");
+      } else {
+        window.axios.post("/getMyAppointments").then(function (response) {
+          _this.myAppointments = response.data;
+        });
       }
     });
   }
@@ -2599,6 +2715,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
+/* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2653,6 +2771,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PraticienSchedule",
@@ -2664,10 +2805,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       monthNumber: null,
       number0fdDayInMonth: null,
       year: null,
-      date: null
+      date: null,
+      error: ""
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["selectedPractitionnerSchedules", "allPractitioner"]), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["selectedPractitionnerSchedules", "allPractitioner", "currentUser"]), {
     schedule: function schedule() {
       var _this = this;
 
@@ -2812,6 +2954,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     nextMonth: function nextMonth() {
+      this.error = "";
       this.monthNumber = this.monthNumber + 1;
 
       if (this.monthNumber === 12) {
@@ -2831,6 +2974,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.date = dd + "-" + mm + "-" + yyyy;
     },
     previousMonth: function previousMonth() {
+      this.error = "";
       this.monthNumber = this.monthNumber - 1;
 
       if (this.monthNumber === -1) {
@@ -2850,6 +2994,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.date = dd + "-" + mm + "-" + yyyy;
     },
     changeDay: function changeDay(day) {
+      this.error = "";
       var splitDate = this.date.split("-");
       var date = this.monthNumber + 1 + "-" + day + "-" + this.year;
       var newDate = new Date(date);
@@ -2860,10 +3005,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var yyyy = newDate.getFullYear();
       this.date = dd + "-" + mm + "-" + yyyy;
+    },
+    reserve: function reserve(hour) {
+      var _this5 = this;
+
+      var splitDate = this.date.split("-");
+      var data = {
+        user_id: this.currentUser.id,
+        schedule_id: this.schedule.id,
+        hour: hour,
+        date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      };
+      window.axios.post("/createAppointment", data).then(function (response) {
+        if (response.data === false) {
+          _this5.error = "Vous avez déja un rendez-vous pour ce jour-ci";
+          return;
+        }
+
+        _this5.$store.dispatch("setScheduleForSelectedPratitionner", _this5.$route.params.id);
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+    },
+    reserved: function reserved(hour) {
+      var splitDate = this.date.split("-");
+      var appointment = this.schedule.appointments.filter(function (appointment) {
+        return appointment.hour === hour && appointment.date === splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
+      });
+
+      if (appointment[0] != undefined) {
+        if (appointment[0].user_id === this.currentUser.id) {
+          return "myAppointment";
+        }
+
+        return false;
+      } else {
+        return true;
+      }
+    },
+    deleteError: function deleteError() {
+      this.error = "";
     }
   },
   mounted: function mounted() {
     this.day;
+  },
+  beforeMount: function beforeMount() {
+    this.$store.dispatch("setScheduleForSelectedPratitionner", this.$route.params.id);
   }
 });
 
@@ -3426,13 +3614,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
-//
-//
-//
-//
-//
-//
-//
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3463,10 +3646,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({
   name: "UserCard",
   data: function data() {
     return {};
+  },
+  props: {
+    user: Object
   },
   methods: {
     profilLink: function profilLink(id) {
@@ -3478,11 +3664,10 @@ __webpack_require__.r(__webpack_exports__);
       });
       window.scrollTo(0, 0);
     }
-  },
-  props: {
-    user: Object
   }
-});
+}, "props", {
+  user: Object
+}));
 
 /***/ }),
 
@@ -39378,6 +39563,100 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "appointment" }, [
+    _vm.appointment.schedule.practitioner.profilPic
+      ? _c("div", { staticClass: "appointment__img--true" }, [
+          _c("img", {
+            attrs: {
+              src:
+                "../images/profiles/" +
+                _vm.appointment.schedule.practitioner.profilPic,
+              alt: ""
+            }
+          })
+        ])
+      : _c("div", { staticClass: "appointment__img" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "appointment__infos" }, [
+      _c("h2", { staticClass: "appointment__infos__name" }, [
+        _vm._v(_vm._s(_vm.appointment.schedule.practitioner.name))
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "appointment__infos__job" }, [
+        _vm._v(_vm._s(_vm.appointment.schedule.practitioner.job.name))
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "appointment__infos__date" }, [
+        _vm._v(_vm._s(_vm.formatDate))
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "appointment__icons" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "appointment__icons__link appointment__icons__link--mail",
+          attrs: {
+            href: "mailto:" + _vm.appointment.schedule.practitioner.email,
+            title:
+              "envoyer un email à " + _vm.appointment.schedule.practitioner.name
+          }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [
+            _vm._v(
+              "envoyer un email à " +
+                _vm._s(_vm.appointment.schedule.practitioner.name)
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass:
+            "appointment__icons__link appointment__icons__link--phone",
+          attrs: {
+            href: "tel:" + _vm.appointment.schedule.practitioner.gsm,
+            title: "téléphoner a " + _vm.appointment.schedule.practitioner.name
+          }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [
+            _vm._v(
+              "téléphoné à " +
+                _vm._s(_vm.appointment.schedule.practitioner.name)
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Comment.vue?vue&type=template&id=54ded044&":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Comment.vue?vue&type=template&id=54ded044& ***!
@@ -39857,7 +40136,31 @@ var render = function() {
       _vm._v(" "),
       _c("header-component", { attrs: { title: "Mes rendez-vous" } }),
       _vm._v(" "),
-      _c("div")
+      _c(
+        "div",
+        { staticClass: "appointments" },
+        _vm._l(_vm.myAppointments, function(appointment) {
+          return _c("appointment", {
+            key: appointment.id,
+            attrs: { appointment: appointment }
+          })
+        }),
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "aside close" }, [
+        _c("div", {
+          staticClass: "aside__close",
+          on: { click: _vm.openFilter }
+        }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "filter__title" }, [_vm._v("Filtre")])
+      ]),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "aside__button schedule",
+        on: { click: _vm.openFilter }
+      })
     ],
     1
   )
@@ -40254,9 +40557,34 @@ var render = function() {
             _vm._v(_vm._s(hour))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "schedule__list__appointment" }, [
-            _vm._v("Plage horaire disponible")
-          ])
+          _vm.reserved(hour) === "myAppointment"
+            ? _c(
+                "div",
+                { staticClass: "schedule__list__appointment myAppointment" },
+                [_vm._v(_vm._s(_vm.currentUser.name))]
+              )
+            : _vm.reserved(hour) === false
+            ? _c("div", { staticClass: "schedule__list__appointment false" }, [
+                _vm._v(" ")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.reserved(hour) === true
+            ? _c(
+                "div",
+                {
+                  staticClass: "schedule__list__appointment true",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      $event.stopPropagation()
+                      return _vm.reserve(hour)
+                    }
+                  }
+                },
+                [_vm._v("Plage horaire disponible")]
+              )
+            : _vm._e()
         ])
       }),
       0
@@ -40271,9 +40599,23 @@ var render = function() {
             _vm._v(_vm._s(hour))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "schedule__list__appointment" }, [
-            _vm._v("Plage horaire disponible")
-          ])
+          _vm.reserved(hour) === "myAppointment"
+            ? _c(
+                "div",
+                { staticClass: "schedule__list__appointment myAppointment" },
+                [_vm._v(_vm._s(_vm.currentUser.name))]
+              )
+            : _vm.reserved(hour) === false
+            ? _c("div", { staticClass: "schedule__list__appointment false" }, [
+                _vm._v(" ")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.reserved(hour) === true
+            ? _c("div", { staticClass: "schedule__list__appointment true" }, [
+                _vm._v("Plage horaire disponible")
+              ])
+            : _vm._e()
         ])
       }),
       0
@@ -40339,7 +40681,17 @@ var render = function() {
     _c("div", {
       staticClass: "aside__button schedule",
       on: { click: _vm.openFilter }
-    })
+    }),
+    _vm._v(" "),
+    _vm.error != ""
+      ? _c("div", { staticClass: "error", on: { click: _vm.deleteError } }, [
+          _c("span", {
+            staticClass: "error__cross",
+            on: { click: _vm.deleteError }
+          }),
+          _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -40838,19 +41190,6 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "userCard__icons" }, [
-      _c(
-        "a",
-        {
-          staticClass: "userCard__icons__link userCard__icons__link--schedule",
-          attrs: { href: "", title: "aller sur l‘horaire de " + _vm.user.name }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [
-            _vm._v("aller sur l'horaire de " + _vm._s(_vm.user.name))
-          ])
-        ]
-      ),
-      _vm._v(" "),
       _c(
         "a",
         {
@@ -57389,6 +57728,7 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./components/Appointment.vue": "./resources/js/components/Appointment.vue",
 	"./components/Comment.vue": "./resources/js/components/Comment.vue",
 	"./components/CreateSchedule.vue": "./resources/js/components/CreateSchedule.vue",
 	"./components/ExampleComponent.vue": "./resources/js/components/ExampleComponent.vue",
@@ -57522,6 +57862,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/Appointment.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Appointment.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Appointment.vue?vue&type=template&id=e91921f8& */ "./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8&");
+/* harmony import */ var _Appointment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Appointment.vue?vue&type=script&lang=js& */ "./resources/js/components/Appointment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Appointment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Appointment.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Appointment.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/Appointment.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Appointment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Appointment.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Appointment.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Appointment_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Appointment.vue?vue&type=template&id=e91921f8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Appointment.vue?vue&type=template&id=e91921f8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Appointment_vue_vue_type_template_id_e91921f8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -58817,7 +59226,7 @@ var state = {
   currentUser: "",
   allJob: null,
   allPractitioner: null,
-  selectedPractitionnerSchedules: null
+  selectedPractitionnerSchedules: []
 };
 var mutations = {
   setCurrentUser: function setCurrentUser(state, user) {

@@ -11,13 +11,6 @@
     <div class="useCard__address">{{user.address}}</div>
     <div class="userCard__icons">
       <a
-        href
-        :title="'aller sur l‘horaire de ' + user.name"
-        class="userCard__icons__link userCard__icons__link--schedule"
-      >
-        <span class="sr-only">aller sur l'horaire de {{user.name}}</span>
-      </a>
-      <a
         :href="'mailto:' + user.email"
         :title="'envoyer un email à ' + user.name"
         class="userCard__icons__link userCard__icons__link--mail"
@@ -40,6 +33,9 @@ export default {
   name: "UserCard",
   data() {
     return {};
+  },
+  props: {
+    user: Object
   },
   methods: {
     profilLink(id) {
