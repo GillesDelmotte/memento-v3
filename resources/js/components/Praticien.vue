@@ -17,12 +17,20 @@
     <div class="aside close">
       <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Horaires du praticien</h2>
-      <ul class="aside__list">
+      <ul class="aside__list" v-if="selectedPractitionnerSchedules.length != 0">
         <li v-for="schedule in selectedPractitionnerSchedules" :key="schedule.id">
           <p>{{schedule.name}}</p>
-          <a href class="aside__list__link" @click.prevent.stop="goOnSchedule"></a>
+          <div>
+            <span
+              v-for="day in schedule.days"
+              :key="day.id"
+              :title="day.name"
+            >{{day.name.charAt(0)}}</span>
+          </div>
+          <a href class="aside__list__link" @click.prevent.stop="goOnSchedule(schedule.id)"></a>
         </li>
       </ul>
+      <div v-else class="aside__error">Votre praticien n'a pas encore créer d'horaire</div>
       <!-- <a href class="aside__link">Chercher un date</a> -->
     </div>
     <div class="aside__button schedule" @click="openFilter"></div>
@@ -32,7 +40,6 @@
 import { mapState } from "vuex";
 import router from "../router.js";
 import store from "../store.js";
-
 export default {
   name: "Praticien",
   data() {
@@ -72,8 +79,12 @@ export default {
         filter.classList.add("close");
       }
     },
-    goOnSchedule() {
-      console.log("ok");
+    goOnSchedule(scheduleId) {
+      router.push({
+        name: "praticien-schedule",
+        params: { id: this.$route.params.id, scheduleId: scheduleId }
+      });
+      window.scrollTo(0, 0);
     }
   },
   computed: {

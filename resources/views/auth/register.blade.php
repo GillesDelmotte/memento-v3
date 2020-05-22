@@ -2,6 +2,9 @@
 
 @section('content')
 <section class="welcome">
+    <div class="welcome__bgc">
+                <img src="../images/calendar2.jpg" alt="">
+            </div>
     <div class="welcome__container">
         <a href="{{ url('/') }}" class="welcome__back" title="revenir à la page d'acceuil"><span class="sr-only">Revenir à la page d'accueil</span></a>
         <h1 class="welcome__title">Inscription</h1>
@@ -10,7 +13,7 @@
             <div class="form__container">
                 <div class="form__item">
                     <label for="name" class="form__item__label">Nom</label>
-                    <input id="name" type="text" placeholder="Jean Pierre" class="form__item__input" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                    <input id="name" autocomplete="off" type="text" placeholder="Jean Pierre" class="form__item__input" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
                     <div class="form__item__bgc"></div>
                     @error('name')
                         <span class="form__item__error">
@@ -20,7 +23,7 @@
                 </div>
                 <div class="form__item">
                     <label for="email" class="form__item__label">Email</label>
-                    <input id="email" type="email" placeholder="jean.pierre@gmail.com" class="form__item__input" name="email" value="{{ old('email') }}" required autocomplete="email">
+                    <input id="email" autocomplete="off" type="email" placeholder="jean.pierre@gmail.com" class="form__item__input" name="email" value="{{ old('email') }}" required autocomplete="email">
                     <div class="form__item__bgc"></div>
                     @error('email')
                         <span class="form__item__error">

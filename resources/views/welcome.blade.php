@@ -8,10 +8,16 @@
     </head>
     <body>
         <section class="welcome">
+            <div class="welcome__bgc">
+                <img src="../images/calendar2.jpg" alt="">
+            </div>
             <div class="welcome__container">
                 <h1 class="welcome__title">
                     {{ config('app.name', 'Laravel') }}
                 </h1>
+                <p class="welcome__desc">
+                    Votre assistant de prise de rendez-vous en ligne
+                </p>
                 <div class="welcome__nav">
                 <a href="{{ route('login') }}" class="welcome__nav__link">Connexion</a>
                 <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>

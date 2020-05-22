@@ -106,6 +106,9 @@
             padding: 50px 30px;
             &__ownerImg{
                 display: none;
+                &--true{
+                    display: none;
+                }
             }
         }
     }

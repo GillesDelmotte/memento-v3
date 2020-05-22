@@ -192,7 +192,32 @@ body.freeze {
 .welcome {
   background-color: #1D1D1D;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
+  position: relative;
+}
+
+.welcome__desc {
+  color: white;
+  font-size: 20px;
+  margin: 0 40px 40px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.welcome__bgc {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.4;
+}
+
+.welcome__bgc img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  min-height: 100%;
 }
 
 .welcome__container {
@@ -232,7 +257,7 @@ body.freeze {
   font-size: 68px;
   font-weight: bold;
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
@@ -948,6 +973,10 @@ body.freeze {
   .comments .comment__ownerImg {
     display: none;
   }
+
+  .comments .comment__ownerImg--true {
+    display: none;
+  }
 }
 
 .userCards {
@@ -1193,6 +1222,23 @@ body.freeze {
   text-transform: uppercase;
 }
 
+.aside__user__infos {
+  margin-bottom: 20px;
+}
+
+.aside__user__infos__name {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.aside__user__infos__schedule {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 .aside__link {
   text-decoration: none;
   color: white;
@@ -1321,6 +1367,10 @@ body.freeze {
 }
 
 .aside__days__ul li.active {
+  background-color: grey;
+}
+
+.aside__days__ul li:hover {
   background-color: grey;
 }
 
@@ -1605,6 +1655,7 @@ body.freeze {
 
 .schedule__list {
   width: 550px;
+  margin-bottom: 80px;
 }
 
 .schedule__list li {
