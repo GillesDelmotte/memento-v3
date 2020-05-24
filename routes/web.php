@@ -44,5 +44,7 @@ Route::post('/getMyAppointments', 'AppointmentController@myAppointments');
 
 Route::post('/createAppointment', 'AppointmentController@store');
 
+Route::post('/getMyScheduleAppointments', 'AppointmentController@index');
+
 
 

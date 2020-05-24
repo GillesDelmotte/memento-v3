@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,19 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+
+        $appointments = [];
+        $schedules = Schedule::where('user_id', auth()->id())->get();
+
+        foreach($schedules as $schedule){
+            $allAppointments = Appointment::where('schedule_id', $schedule->id)->get();
+            $allAppointments->load('user');
+            foreach($allAppointments as $appointment){
+                $appointments[] = $appointment;
+            }
+        }
+
+        return $appointments;
     }
 
     /**

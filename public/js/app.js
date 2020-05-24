@@ -3169,6 +3169,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Schedule",
@@ -3176,6 +3178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
       months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+      appointments: [],
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -3364,10 +3367,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var yyyy = newDate.getFullYear();
       this.date = dd + "-" + mm + "-" + yyyy;
+    },
+    reserved: function reserved(hour) {
+      var splitDate = this.date.split("-");
+      var appointment = this.appointments.filter(function (appointment) {
+        return appointment.hour === hour && appointment.date === splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
+      });
+
+      if (appointment[0] != undefined) {
+        return appointment[0].user.name;
+      } else {
+        return false;
+      }
     }
   },
   mounted: function mounted() {
     this.day;
+  },
+  beforeMount: function beforeMount() {
+    var _this3 = this;
+
+    window.axios.post("/getMyScheduleAppointments").then(function (response) {
+      console.log(response.data);
+      _this3.appointments = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -40800,9 +40825,13 @@ var render = function() {
               _vm._v(_vm._s(hour))
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "schedule__list__appointment" }, [
-              _vm._v("Plage horaire disponible")
-            ])
+            _vm.reserved(hour) === false
+              ? _c("div", { staticClass: "schedule__list__appointment" }, [
+                  _vm._v("Pas de rendez-vous")
+                ])
+              : _c("div", { staticClass: "schedule__list__appointment" }, [
+                  _vm._v(_vm._s(_vm.reserved(hour)))
+                ])
           ])
         }),
         0
@@ -40817,9 +40846,13 @@ var render = function() {
               _vm._v(_vm._s(hour))
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "schedule__list__appointment" }, [
-              _vm._v("Plage horaire disponible")
-            ])
+            _vm.reserved(hour) === false
+              ? _c("div", { staticClass: "schedule__list__appointment" }, [
+                  _vm._v("Pas de rendez-vous")
+                ])
+              : _c("div", { staticClass: "schedule__list__appointment" }, [
+                  _vm._v(_vm._s(_vm.reserved(hour)))
+                ])
           ])
         }),
         0

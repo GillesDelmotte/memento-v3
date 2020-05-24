@@ -9,13 +9,15 @@
     <ul class="schedule__list">
       <li v-for="hour in createListMorning" :key="hour">
         <div class="schedule__list__hour">{{hour}}</div>
-        <div class="schedule__list__appointment">Plage horaire disponible</div>
+        <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
+        <div class="schedule__list__appointment" v-else>{{reserved(hour)}}</div>
       </li>
     </ul>
     <ul class="schedule__list">
       <li v-for="hour in createListAfternoon" :key="hour">
         <div class="schedule__list__hour">{{hour}}</div>
-        <div class="schedule__list__appointment">Plage horaire disponible</div>
+        <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
+        <div class="schedule__list__appointment" v-else>{{reserved(hour)}}</div>
       </li>
     </ul>
     <div class="aside close">
@@ -69,6 +71,7 @@ export default {
         "Novembre",
         "Décembre"
       ],
+      appointments: [],
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -261,10 +264,35 @@ export default {
       var yyyy = newDate.getFullYear();
 
       this.date = dd + "-" + mm + "-" + yyyy;
+    },
+    reserved(hour) {
+      const splitDate = this.date.split("-");
+      const appointment = this.appointments.filter(
+        appointment =>
+          appointment.hour === hour &&
+          appointment.date ===
+            splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      );
+      if (appointment[0] != undefined) {
+        return appointment[0].user.name;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
     this.day;
+  },
+  beforeMount() {
+    window.axios
+      .post("/getMyScheduleAppointments")
+      .then(response => {
+        console.log(response.data);
+        this.appointments = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>
