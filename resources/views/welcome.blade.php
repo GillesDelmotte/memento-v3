@@ -23,6 +23,7 @@
                 <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>
             </div>
         </div>
+        <a href="{{ url('/informations') }}" title="Aller sur la page informations" class="welcome__infos">?</a>
         </section>
     </body>
 </html>

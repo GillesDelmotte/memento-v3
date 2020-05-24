@@ -11,6 +11,28 @@
         text-align: center;
         line-height: 1.5;
     }
+    &__infos{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        font-size: 22px;
+        font-weight: bold;
+        background-color: rgba($color: white, $alpha: 0.5);
+        color: $main-color;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+        &:hover{
+        background-color: rgba($color: white, $alpha: 1);
+        transition: background-color 0.3s;
+
+        }
+    }
 
     &__bgc{
         position: absolute;

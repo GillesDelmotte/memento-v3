@@ -8,7 +8,7 @@
     </ul>
     <div class="aside close">
       <div class="aside__close" @click="openFilter"></div>
-      <h2 class="filter__title">Filter par</h2>
+      <h2 class="filter__title">Filtré par</h2>
       <div class="filter__name__job">
         <div class="filter__name active" @click="changeFilter('name')">Nom</div>
         <div class="filter__job" @click="changeFilter('job')">Profession</div>
