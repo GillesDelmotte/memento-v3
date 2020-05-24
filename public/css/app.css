@@ -228,6 +228,29 @@ body.freeze {
   line-height: 1.5;
 }
 
+.welcome__infos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #1D1D1D;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.welcome__infos:hover {
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
 .welcome__bgc {
   position: absolute;
   top: 0;
@@ -1825,6 +1848,56 @@ body.freeze {
   .appointments .appointment__img--true {
     display: none;
   }
+}
+
+.infos {
+  padding: 100px 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.infos__section {
+  margin-bottom: 100px;
+}
+
+.infos__section__img {
+  width: 550px;
+  float: left;
+  margin-right: 30px;
+}
+
+.infos__section__overflow {
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+.infos__section__title {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.infos__section__content {
+  padding-top: 20px;
+}
+
+.infos__section__content h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.infos__section__content p {
+  line-height: 1.5;
+}
+
+.infos__section__content p b {
+  font-weight: bold;
+}
+
+.infos__container {
+  margin: 0 20px;
 }
 
 .bgc__logo {
