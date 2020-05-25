@@ -34,8 +34,38 @@
         background-color: white;
         box-shadow: $shadow;
         flex: 1 1 auto;
+        cursor: pointer;
         &.myAppointment{
             background-color: rgb(115, 171, 115);
+            position: relative;
+            a{
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+            .cross{
+                width: 15px;
+                height: 15px;
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                div{
+                    position: absolute;
+                    width: 100%;
+                    height: 2px;
+                    background-color: white;
+                    top: calc(50% - 1px);
+                    &.first{
+                        transform: rotate(45deg)
+                    }
+                    &.second{
+                        transform: rotate(-45deg)
+                    }
+                }
+            }
         }
         &.false{
             display: none;

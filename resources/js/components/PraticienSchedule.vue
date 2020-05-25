@@ -3,14 +3,21 @@
     <div
       class="emptyDay"
       v-if="createListMorning.length === 0 "
-    >Vous n'avez pas d'horaire pour aujourd'hui</div>
+    >Votre praticien n'a pas d'agenda pour aujourd'hui</div>
     <ul class="schedule__list">
       <li v-for="hour in createListMorning" :key="hour">
         <div class="schedule__list__hour">{{hour}}</div>
         <div
           class="schedule__list__appointment myAppointment"
           v-if="reserved(hour) === 'myAppointment'"
-        >{{currentUser.name}}</div>
+        >
+          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+          <div class="cross" @click="deleteAppointment(hour)">
+            <div class="first"></div>
+            <div class="second"></div>
+          </div>
+          {{currentUser.name}}
+        </div>
         <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
         <div
           class="schedule__list__appointment true"
@@ -25,10 +32,18 @@
         <div
           class="schedule__list__appointment myAppointment"
           v-if="reserved(hour) === 'myAppointment'"
-        >{{currentUser.name}}</div>
+        >
+          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+          <div class="cross" @click="deleteAppointment(hour)">
+            <div class="first"></div>
+            <div class="second"></div>
+          </div>
+          {{currentUser.name}}
+        </div>
         <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
         <div
           class="schedule__list__appointment true"
+          @click.prevent.stop="reserve(hour)"
           v-if="reserved(hour) === true"
         >Plage horaire disponible</div>
       </li>
@@ -61,9 +76,23 @@
       </div>
     </div>
     <div class="aside__button schedule" @click="openFilter"></div>
+
     <div class="error" v-if="error != ''" @click="deleteError">
       <span class="error__cross" @click="deleteError"></span>
       {{error}}
+    </div>
+
+    <div class="popup" @click="closePopupWithBackground($event)">
+      <div class="popup__window popup__window--schedule">
+        <button class="popup__window__close sr-only" @click="closePopup">close</button>
+        <span class="popup__window__close--cross" @click="closePopup"></span>
+        <h2 class="popup__window--schedule__title">Que voulez vous faire ?</h2>
+        <div class="popup__window--schedule__hour">{{selectedFormatDate}}</div>
+        <div class="popup__window--schedule__links">
+          <a href @click.prevent.stop="deleteFromPopUp">Supprimer le rendez-vous</a>
+          <a href>Modifier le rendez-vous</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +128,9 @@ export default {
         "Novembre",
         "Décembre"
       ],
+      selectedHour: "",
+      selectedDate: null,
+      selectedFormatDate: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -355,6 +387,94 @@ export default {
     },
     deleteError() {
       this.error = "";
+    },
+    deleteAppointment(hour) {
+      const splitDate = this.date.split("-");
+
+      window.axios
+        .post("/deleteAppointment", {
+          schedule_id: this.schedule.id,
+          hour: hour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        })
+        .then(response => {
+          this.$store.dispatch(
+            "setScheduleForSelectedPratitionner",
+            this.$route.params.id
+          );
+        })
+        .catch(error => console.error(error));
+    },
+    deleteFromPopUp() {
+      const splitDate = this.selectedDate.split("-");
+
+      window.axios
+        .post("/deleteAppointment", {
+          schedule_id: this.schedule.id,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        })
+        .then(response => {
+          this.$store.dispatch(
+            "setScheduleForSelectedPratitionner",
+            this.$route.params.id
+          );
+        })
+        .catch(error => console.error(error));
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    updateHour(hour) {
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+
+      this.selectedDate = this.date;
+      this.selectedHour = hour;
+
+      //console.log(this.selectedDate);
+
+      const splitDate = this.selectedDate.split("-");
+
+      //console.log(splitDate);
+
+      const test = new Date(
+        splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]
+      );
+
+      console.log(test);
+      const day = this.days[test.getDay()];
+      const month = this.months[test.getMonth()];
+
+      const formatedDate =
+        "Le " +
+        day +
+        " " +
+        splitDate[0] +
+        " " +
+        month +
+        " " +
+        splitDate[2] +
+        " à " +
+        hour;
+
+      this.selectedFormatDate = formatedDate;
+    },
+    closePopup() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.selectedHour = null;
+      this.selectedDate = null;
+      this.selectedFormatDate = null;
+    },
+    closePopupWithBackground(e) {
+      const bgc = document.querySelector(".popup");
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.selectedFormatDate = null;
+      }
     }
   },
   mounted() {

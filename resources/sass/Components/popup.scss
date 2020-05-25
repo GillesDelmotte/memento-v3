@@ -17,6 +17,29 @@
         position: relative;
         background-color: $main-color;
         padding: 20px;
+        &--schedule{
+            width: 500px;
+            &__title{
+                display: block;
+                font-size: 20px;
+                font-weight: bold;
+                color: white;
+                margin-bottom: 20px;
+            }
+            &__hour{
+                color: white;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+            &__links{
+                display: flex;
+                justify-content: center;
+                a{
+                    @include main-link(white, 16px);
+                    margin-right: 50px;
+                }
+            }
+        }
         &__label{
         display: block;
         font-size: 20px;

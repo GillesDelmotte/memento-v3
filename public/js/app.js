@@ -2827,6 +2827,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2836,6 +2865,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
       months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+      selectedHour: "",
+      selectedDate: null,
+      selectedFormatDate: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -3080,6 +3112,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     deleteError: function deleteError() {
       this.error = "";
+    },
+    deleteAppointment: function deleteAppointment(hour) {
+      var _this6 = this;
+
+      var splitDate = this.date.split("-");
+      window.axios.post("/deleteAppointment", {
+        schedule_id: this.schedule.id,
+        hour: hour,
+        date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      }).then(function (response) {
+        _this6.$store.dispatch("setScheduleForSelectedPratitionner", _this6.$route.params.id);
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    deleteFromPopUp: function deleteFromPopUp() {
+      var _this7 = this;
+
+      var splitDate = this.selectedDate.split("-");
+      window.axios.post("/deleteAppointment", {
+        schedule_id: this.schedule.id,
+        hour: this.selectedHour,
+        date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      }).then(function (response) {
+        _this7.$store.dispatch("setScheduleForSelectedPratitionner", _this7.$route.params.id);
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    updateHour: function updateHour(hour) {
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+      this.selectedDate = this.date;
+      this.selectedHour = hour; //console.log(this.selectedDate);
+
+      var splitDate = this.selectedDate.split("-"); //console.log(splitDate);
+
+      var test = new Date(splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]);
+      console.log(test);
+      var day = this.days[test.getDay()];
+      var month = this.months[test.getMonth()];
+      var formatedDate = "Le " + day + " " + splitDate[0] + " " + month + " " + splitDate[2] + " à " + hour;
+      this.selectedFormatDate = formatedDate;
+    },
+    closePopup: function closePopup() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.selectedHour = null;
+      this.selectedDate = null;
+      this.selectedFormatDate = null;
+    },
+    closePopupWithBackground: function closePopupWithBackground(e) {
+      var bgc = document.querySelector(".popup");
+
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.selectedFormatDate = null;
+      }
     }
   },
   mounted: function mounted() {
@@ -40682,7 +40777,7 @@ var render = function() {
   return _c("div", [
     _vm.createListMorning.length === 0
       ? _c("div", { staticClass: "emptyDay" }, [
-          _vm._v("Vous n'avez pas d'horaire pour aujourd'hui")
+          _vm._v("Votre praticien n'a pas d'agenda pour aujourd'hui")
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -40699,7 +40794,39 @@ var render = function() {
             ? _c(
                 "div",
                 { staticClass: "schedule__list__appointment myAppointment" },
-                [_vm._v(_vm._s(_vm.currentUser.name))]
+                [
+                  _c("a", {
+                    staticClass: "myAppointment__Link",
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        $event.stopPropagation()
+                        return _vm.updateHour(hour)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "cross",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteAppointment(hour)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "first" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "second" })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.currentUser.name) + "\n      "
+                  )
+                ]
               )
             : _vm.reserved(hour) === false
             ? _c("div", { staticClass: "schedule__list__appointment false" }, [
@@ -40741,7 +40868,39 @@ var render = function() {
             ? _c(
                 "div",
                 { staticClass: "schedule__list__appointment myAppointment" },
-                [_vm._v(_vm._s(_vm.currentUser.name))]
+                [
+                  _c("a", {
+                    staticClass: "myAppointment__Link",
+                    attrs: { href: "" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        $event.stopPropagation()
+                        return _vm.updateHour(hour)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "cross",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteAppointment(hour)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "first" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "second" })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n        " + _vm._s(_vm.currentUser.name) + "\n      "
+                  )
+                ]
               )
             : _vm.reserved(hour) === false
             ? _c("div", { staticClass: "schedule__list__appointment false" }, [
@@ -40750,9 +40909,20 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm.reserved(hour) === true
-            ? _c("div", { staticClass: "schedule__list__appointment true" }, [
-                _vm._v("Plage horaire disponible")
-              ])
+            ? _c(
+                "div",
+                {
+                  staticClass: "schedule__list__appointment true",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      $event.stopPropagation()
+                      return _vm.reserve(hour)
+                    }
+                  }
+                },
+                [_vm._v("Plage horaire disponible")]
+              )
             : _vm._e()
         ])
       }),
@@ -40829,7 +40999,65 @@ var render = function() {
           }),
           _vm._v("\n    " + _vm._s(_vm.error) + "\n  ")
         ])
-      : _vm._e()
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "popup",
+        on: {
+          click: function($event) {
+            return _vm.closePopupWithBackground($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "popup__window popup__window--schedule" }, [
+          _c(
+            "button",
+            {
+              staticClass: "popup__window__close sr-only",
+              on: { click: _vm.closePopup }
+            },
+            [_vm._v("close")]
+          ),
+          _vm._v(" "),
+          _c("span", {
+            staticClass: "popup__window__close--cross",
+            on: { click: _vm.closePopup }
+          }),
+          _vm._v(" "),
+          _c("h2", { staticClass: "popup__window--schedule__title" }, [
+            _vm._v("Que voulez vous faire ?")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "popup__window--schedule__hour" }, [
+            _vm._v(_vm._s(_vm.selectedFormatDate))
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "popup__window--schedule__links" }, [
+            _c(
+              "a",
+              {
+                attrs: { href: "" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    $event.stopPropagation()
+                    return _vm.deleteFromPopUp($event)
+                  }
+                }
+              },
+              [_vm._v("Supprimer le rendez-vous")]
+            ),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "" } }, [
+              _vm._v("Modifier le rendez-vous")
+            ])
+          ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

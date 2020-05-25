@@ -1530,6 +1530,54 @@ body.freeze {
   padding: 20px;
 }
 
+.popup__window--schedule {
+  width: 500px;
+}
+
+.popup__window--schedule__title {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.popup__window--schedule__hour {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.popup__window--schedule__links {
+  display: flex;
+  justify-content: center;
+}
+
+.popup__window--schedule__links a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  margin-right: 50px;
+}
+
+.popup__window--schedule__links a::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: white;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.popup__window--schedule__links a:hover::after,
+.popup__window--schedule__links a:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
 .popup__window__label {
   display: block;
   font-size: 20px;
@@ -1799,10 +1847,45 @@ body.freeze {
   background-color: white;
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   flex: 1 1 auto;
+  cursor: pointer;
 }
 
 .schedule__list__appointment.myAppointment {
   background-color: #73ab73;
+  position: relative;
+}
+
+.schedule__list__appointment.myAppointment a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.schedule__list__appointment.myAppointment .cross {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+.schedule__list__appointment.myAppointment .cross div {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  top: calc(50% - 1px);
+}
+
+.schedule__list__appointment.myAppointment .cross div.first {
+  transform: rotate(45deg);
+}
+
+.schedule__list__appointment.myAppointment .cross div.second {
+  transform: rotate(-45deg);
 }
 
 .schedule__list__appointment.false {
