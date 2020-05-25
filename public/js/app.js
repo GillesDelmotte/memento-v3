@@ -1946,6 +1946,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Appointment",
@@ -1970,12 +1975,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    goOnSchedule: function goOnSchedule(scheduleId) {
+    goOn: function goOn(id) {
       _router_js__WEBPACK_IMPORTED_MODULE_0__["default"].push({
-        name: "praticien-schedule",
+        name: "praticien",
         params: {
-          id: this.appointment.schedule.practitioner.id,
-          scheduleId: scheduleId
+          id: id
         }
       });
       window.scrollTo(0, 0);
@@ -2394,7 +2398,8 @@ Vue.component("navigation", __webpack_require__(/*! ./Navigation.vue */ "./resou
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2419,6 +2424,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2426,10 +2441,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "Meet",
   data: function data() {
     return {
-      myAppointments: null
+      myAppointments: [],
+      componentReady: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["currentUser"])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapState"])(["currentUser"])),
   methods: {
     openFilter: function openFilter() {
       var filter = document.querySelector(".aside");
@@ -2441,6 +2457,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         filter.classList.add("close");
       }
+    },
+    goOn: function goOn(page) {
+      _router_js__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+        name: page
+      });
+      window.scrollTo(0, 0);
     }
   },
   mounted: function mounted() {},
@@ -2453,6 +2475,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         window.axios.post("/getMyAppointments").then(function (response) {
           _this.myAppointments = response.data;
+          _this.componentReady = true;
         });
       }
     });
@@ -2643,6 +2666,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2650,7 +2675,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: "Praticien",
   data: function data() {
     return {
-      schedules: null
+      schedules: null,
+      practitioner: null,
+      componentReady: false
     };
   },
   methods: {
@@ -2697,18 +2724,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.scrollTo(0, 0);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner", "currentUser", "selectedPractitionnerSchedules"]), {
-    practitioner: function practitioner() {
-      var _this2 = this;
-
-      var practitioner = this.allPractitioner.filter(function (practitioner) {
-        return practitioner.id === _this2.$route.params.id;
-      });
-      return practitioner[0];
-    }
-  }),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["allJob", "allPractitioner", "currentUser", "selectedPractitionnerSchedules"])),
   beforeMount: function beforeMount() {
+    var _this2 = this;
+
     this.$store.dispatch("setScheduleForSelectedPratitionner", this.$route.params.id);
+    window.axios.post("/getSelectedPractitioner", {
+      id: this.$route.params.id
+    }).then(function (response) {
+      _this2.practitioner = response.data;
+      _this2.componentReady = true;
+    });
   }
 });
 
@@ -39650,7 +39676,20 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "appointment__infos" }, [
       _c("h2", { staticClass: "appointment__infos__name" }, [
-        _vm._v(_vm._s(_vm.appointment.schedule.practitioner.name))
+        _c(
+          "a",
+          {
+            attrs: { href: "" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                $event.stopPropagation()
+                return _vm.goOn(_vm.appointment.schedule.practitioner.id)
+              }
+            }
+          },
+          [_vm._v(_vm._s(_vm.appointment.schedule.practitioner.name))]
+        )
       ]),
       _vm._v(" "),
       _c("p", { staticClass: "appointment__infos__job" }, [
@@ -40192,31 +40231,59 @@ var render = function() {
       _vm._v(" "),
       _c("header-component", { attrs: { title: "Mes rendez-vous" } }),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "appointments" },
-        _vm._l(_vm.myAppointments, function(appointment) {
-          return _c("appointment", {
-            key: appointment.id,
-            attrs: { appointment: appointment }
-          })
-        }),
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { class: "aside close " + _vm.currentUser.theme }, [
-        _c("div", {
-          staticClass: "aside__close",
-          on: { click: _vm.openFilter }
-        }),
-        _vm._v(" "),
-        _c("h2", { staticClass: "filter__title" }, [_vm._v("Filtre")])
-      ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "aside__button schedule",
-        on: { click: _vm.openFilter }
-      })
+      _vm.componentReady
+        ? _c("div", [
+            _vm.myAppointments.length != 0
+              ? _c(
+                  "div",
+                  { staticClass: "appointments" },
+                  _vm._l(_vm.myAppointments, function(appointment) {
+                    return _c("appointment", {
+                      key: appointment.id,
+                      attrs: { appointment: appointment }
+                    })
+                  }),
+                  1
+                )
+              : _c("div", { staticClass: "emptyAppointment" }, [
+                  _c("p", { staticClass: "emptyAppointment__content" }, [
+                    _vm._v("Vous n'avez pas de rendez-vous de prévu")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "emptyAppointment__buttons" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            $event.stopPropagation()
+                            return _vm.goOn("search")
+                          }
+                        }
+                      },
+                      [_vm._v("Chercher un praticien")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            $event.stopPropagation()
+                            return _vm.goOn("user")
+                          }
+                        }
+                      },
+                      [_vm._v("Mon Profil")]
+                    )
+                  ])
+                ])
+          ])
+        : _vm._e()
     ],
     1
   )
@@ -40464,116 +40531,131 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("user-infos", {
-        attrs: { person: _vm.practitioner, userProfil: false }
-      }),
-      _vm._v(" "),
-      _c("section", { staticClass: "comments" }, [
-        _c("h2", { staticClass: "comments__title" }, [_vm._v("Commentaires")]),
-        _vm._v(" "),
-        _vm.practitioner.comments.length !== 0
-          ? _c(
-              "ul",
-              { staticClass: "comments__list" },
-              _vm._l(_vm.practitioner.comments, function(comment) {
-                return _c("comment", {
-                  key: comment.id,
-                  attrs: { comment: comment }
-                })
-              }),
-              1
-            )
-          : _c("div", { staticClass: "comments__empty" }, [
-              _vm._v("il n'y a pas de commentaire")
+  return _c("div", [
+    _vm.componentReady
+      ? _c(
+          "div",
+          [
+            _c("user-infos", {
+              attrs: { person: _vm.practitioner, userProfil: false }
+            }),
+            _vm._v(" "),
+            _c("section", { staticClass: "comments" }, [
+              _c("h2", { staticClass: "comments__title" }, [
+                _vm._v("Commentaires")
+              ]),
+              _vm._v(" "),
+              _vm.practitioner.comments.length !== 0
+                ? _c(
+                    "ul",
+                    { staticClass: "comments__list" },
+                    _vm._l(_vm.practitioner.comments, function(comment) {
+                      return _c("comment", {
+                        key: comment.id,
+                        attrs: { comment: comment }
+                      })
+                    }),
+                    1
+                  )
+                : _c("div", { staticClass: "comments__empty" }, [
+                    _vm._v("il n'y a pas de commentaire")
+                  ]),
+              _vm._v(" "),
+              _c("section", { staticClass: "addComment" }, [
+                _c("h2", { staticClass: "addComment__title sr-only" }, [
+                  _vm._v("Ajouter un commentaire")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "addComment__label",
+                    attrs: { for: "addComment" }
+                  },
+                  [_vm._v("Mon commentaire")]
+                ),
+                _vm._v(" "),
+                _c("textarea", {
+                  staticClass: "addComment__textarea",
+                  attrs: {
+                    name: "comment",
+                    id: "addComment",
+                    placeholder: "..."
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "addComment__button",
+                    on: { click: _vm.addComment }
+                  },
+                  [_vm._v("Poster mon commentaire")]
+                )
+              ])
             ]),
-        _vm._v(" "),
-        _c("section", { staticClass: "addComment" }, [
-          _c("h2", { staticClass: "addComment__title sr-only" }, [
-            _vm._v("Ajouter un commentaire")
-          ]),
-          _vm._v(" "),
-          _c(
-            "label",
-            { staticClass: "addComment__label", attrs: { for: "addComment" } },
-            [_vm._v("Mon commentaire")]
-          ),
-          _vm._v(" "),
-          _c("textarea", {
-            staticClass: "addComment__textarea",
-            attrs: { name: "comment", id: "addComment", placeholder: "..." }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "addComment__button",
-              on: { click: _vm.addComment }
-            },
-            [_vm._v("Poster mon commentaire")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { class: "aside close " + _vm.currentUser.theme }, [
-        _c("div", {
-          staticClass: "aside__close",
-          on: { click: _vm.openFilter }
-        }),
-        _vm._v(" "),
-        _c("h2", { staticClass: "filter__title" }, [
-          _vm._v("Horaires du praticien")
-        ]),
-        _vm._v(" "),
-        _vm.selectedPractitionnerSchedules.length != 0
-          ? _c(
-              "ul",
-              { staticClass: "aside__list" },
-              _vm._l(_vm.selectedPractitionnerSchedules, function(schedule) {
-                return _c("li", { key: schedule.id }, [
-                  _c("p", [_vm._v(_vm._s(schedule.name))]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    _vm._l(schedule.days, function(day) {
-                      return _c(
-                        "span",
-                        { key: day.id, attrs: { title: day.name } },
-                        [_vm._v(_vm._s(day.name.charAt(0)))]
-                      )
+            _vm._v(" "),
+            _c("div", { class: "aside close " + _vm.currentUser.theme }, [
+              _c("div", {
+                staticClass: "aside__close",
+                on: { click: _vm.openFilter }
+              }),
+              _vm._v(" "),
+              _c("h2", { staticClass: "filter__title" }, [
+                _vm._v("Horaires du praticien")
+              ]),
+              _vm._v(" "),
+              _vm.selectedPractitionnerSchedules.length != 0
+                ? _c(
+                    "ul",
+                    { staticClass: "aside__list" },
+                    _vm._l(_vm.selectedPractitionnerSchedules, function(
+                      schedule
+                    ) {
+                      return _c("li", { key: schedule.id }, [
+                        _c("p", [_vm._v(_vm._s(schedule.name))]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          _vm._l(schedule.days, function(day) {
+                            return _c(
+                              "span",
+                              { key: day.id, attrs: { title: day.name } },
+                              [_vm._v(_vm._s(day.name.charAt(0)))]
+                            )
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("a", {
+                          staticClass: "aside__list__link",
+                          attrs: { href: "" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              $event.stopPropagation()
+                              return _vm.goOnSchedule(schedule.id)
+                            }
+                          }
+                        })
+                      ])
                     }),
                     0
-                  ),
-                  _vm._v(" "),
-                  _c("a", {
-                    staticClass: "aside__list__link",
-                    attrs: { href: "" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        $event.stopPropagation()
-                        return _vm.goOnSchedule(schedule.id)
-                      }
-                    }
-                  })
-                ])
-              }),
-              0
-            )
-          : _c("div", { staticClass: "aside__error" }, [
-              _vm._v("Votre praticien n'a pas encore créer d'horaire")
-            ])
-      ]),
-      _vm._v(" "),
-      _c("div", {
-        staticClass: "aside__button schedule",
-        on: { click: _vm.openFilter }
-      })
-    ],
-    1
-  )
+                  )
+                : _c("div", { staticClass: "aside__error" }, [
+                    _vm._v("Votre praticien n'a pas encore créer d'horaire")
+                  ])
+            ]),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "aside__button schedule",
+              on: { click: _vm.openFilter }
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

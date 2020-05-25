@@ -2,22 +2,32 @@
   <div>
     <div class="bgc__logo meet"></div>
     <header-component title="Mes rendez-vous"></header-component>
-    <div class="appointments">
-      <appointment
-        v-for="appointment in myAppointments"
-        :key="appointment.id"
-        :appointment="appointment"
-      ></appointment>
+    <div v-if="componentReady">
+      <div class="appointments" v-if="myAppointments.length != 0">
+        <appointment
+          v-for="appointment in myAppointments"
+          :key="appointment.id"
+          :appointment="appointment"
+        ></appointment>
+      </div>
+      <div class="emptyAppointment" v-else>
+        <p class="emptyAppointment__content">Vous n'avez pas de rendez-vous de prévu</p>
+        <div class="emptyAppointment__buttons">
+          <a href @click.prevent.stop="goOn('search')">Chercher un praticien</a>
+          <a href @click.prevent.stop="goOn('user')">Mon Profil</a>
+        </div>
+      </div>
+      <!-- <div :class="'aside close ' + currentUser.theme">
+        <div class="aside__close" @click="openFilter"></div>
+        <h2 class="filter__title">Filtre</h2>
+      </div>
+      <div class="aside__button schedule" @click="openFilter"></div>-->
     </div>
-    <div :class="'aside close ' + currentUser.theme">
-      <div class="aside__close" @click="openFilter"></div>
-      <h2 class="filter__title">Filtre</h2>
-    </div>
-    <div class="aside__button schedule" @click="openFilter"></div>
   </div>
 </template>
 <script>
 import store from "../store.js";
+import router from "../router.js";
 import { mapState } from "vuex";
 import { mapMutations } from "vuex";
 
@@ -25,7 +35,8 @@ export default {
   name: "Meet",
   data() {
     return {
-      myAppointments: null
+      myAppointments: [],
+      componentReady: false
     };
   },
   computed: {
@@ -41,6 +52,10 @@ export default {
       } else {
         filter.classList.add("close");
       }
+    },
+    goOn(page) {
+      router.push({ name: page });
+      window.scrollTo(0, 0);
     }
   },
   mounted() {},
@@ -51,6 +66,7 @@ export default {
       } else {
         window.axios.post("/getMyAppointments").then(response => {
           this.myAppointments = response.data;
+          this.componentReady = true;
         });
       }
     });

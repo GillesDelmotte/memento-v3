@@ -22,4 +22,13 @@ class PracticionnerController extends Controller
         $schedules->load('appointments');
         return $schedules;
     }
+
+    public function getPractitionner(Request $request){
+        $user = User::where('id', $request['id'])->first();
+
+        $user->load('job');
+        $user->load('comments');
+
+        return $user;
+    }
 }

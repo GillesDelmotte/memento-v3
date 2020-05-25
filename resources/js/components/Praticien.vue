@@ -1,39 +1,41 @@
 <template>
   <div>
-    <user-infos :person="practitioner" :userProfil="false"></user-infos>
-    <section class="comments">
-      <h2 class="comments__title">Commentaires</h2>
-      <ul class="comments__list" v-if="practitioner.comments.length !== 0">
-        <comment v-for="comment in practitioner.comments" :key="comment.id" :comment="comment"></comment>
-      </ul>
-      <div v-else class="comments__empty">il n'y a pas de commentaire</div>
-      <section class="addComment">
-        <h2 class="addComment__title sr-only">Ajouter un commentaire</h2>
-        <label for="addComment" class="addComment__label">Mon commentaire</label>
-        <textarea name="comment" id="addComment" class="addComment__textarea" placeholder="..."></textarea>
-        <button @click="addComment" class="addComment__button">Poster mon commentaire</button>
+    <div v-if="componentReady">
+      <user-infos :person="practitioner" :userProfil="false"></user-infos>
+      <section class="comments">
+        <h2 class="comments__title">Commentaires</h2>
+        <ul class="comments__list" v-if="practitioner.comments.length !== 0">
+          <comment v-for="comment in practitioner.comments" :key="comment.id" :comment="comment"></comment>
+        </ul>
+        <div v-else class="comments__empty">il n'y a pas de commentaire</div>
+        <section class="addComment">
+          <h2 class="addComment__title sr-only">Ajouter un commentaire</h2>
+          <label for="addComment" class="addComment__label">Mon commentaire</label>
+          <textarea name="comment" id="addComment" class="addComment__textarea" placeholder="..."></textarea>
+          <button @click="addComment" class="addComment__button">Poster mon commentaire</button>
+        </section>
       </section>
-    </section>
-    <div :class="'aside close ' + currentUser.theme">
-      <div class="aside__close" @click="openFilter"></div>
-      <h2 class="filter__title">Horaires du praticien</h2>
-      <ul class="aside__list" v-if="selectedPractitionnerSchedules.length != 0">
-        <li v-for="schedule in selectedPractitionnerSchedules" :key="schedule.id">
-          <p>{{schedule.name}}</p>
-          <div>
-            <span
-              v-for="day in schedule.days"
-              :key="day.id"
-              :title="day.name"
-            >{{day.name.charAt(0)}}</span>
-          </div>
-          <a href class="aside__list__link" @click.prevent.stop="goOnSchedule(schedule.id)"></a>
-        </li>
-      </ul>
-      <div v-else class="aside__error">Votre praticien n'a pas encore créer d'horaire</div>
-      <!-- <a href class="aside__link">Chercher un date</a> -->
+      <div :class="'aside close ' + currentUser.theme">
+        <div class="aside__close" @click="openFilter"></div>
+        <h2 class="filter__title">Horaires du praticien</h2>
+        <ul class="aside__list" v-if="selectedPractitionnerSchedules.length != 0">
+          <li v-for="schedule in selectedPractitionnerSchedules" :key="schedule.id">
+            <p>{{schedule.name}}</p>
+            <div>
+              <span
+                v-for="day in schedule.days"
+                :key="day.id"
+                :title="day.name"
+              >{{day.name.charAt(0)}}</span>
+            </div>
+            <a href class="aside__list__link" @click.prevent.stop="goOnSchedule(schedule.id)"></a>
+          </li>
+        </ul>
+        <div v-else class="aside__error">Votre praticien n'a pas encore créer d'horaire</div>
+        <!-- <a href class="aside__link">Chercher un date</a> -->
+      </div>
+      <div class="aside__button schedule" @click="openFilter"></div>
     </div>
-    <div class="aside__button schedule" @click="openFilter"></div>
   </div>
 </template>
 <script>
@@ -44,7 +46,9 @@ export default {
   name: "Praticien",
   data() {
     return {
-      schedules: null
+      schedules: null,
+      practitioner: null,
+      componentReady: false
     };
   },
   methods: {
@@ -93,19 +97,20 @@ export default {
       "allPractitioner",
       "currentUser",
       "selectedPractitionnerSchedules"
-    ]),
-    practitioner() {
-      const practitioner = this.allPractitioner.filter(
-        practitioner => practitioner.id === this.$route.params.id
-      );
-      return practitioner[0];
-    }
+    ])
   },
   beforeMount() {
     this.$store.dispatch(
       "setScheduleForSelectedPratitionner",
       this.$route.params.id
     );
+
+    window.axios
+      .post("/getSelectedPractitioner", { id: this.$route.params.id })
+      .then(response => {
+        this.practitioner = response.data;
+        this.componentReady = true;
+      });
   }
 };
 </script>

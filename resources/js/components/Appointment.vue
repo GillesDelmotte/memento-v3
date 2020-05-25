@@ -5,7 +5,12 @@
     </div>
     <div class="appointment__img" v-else></div>
     <div class="appointment__infos">
-      <h2 class="appointment__infos__name">{{appointment.schedule.practitioner.name}}</h2>
+      <h2 class="appointment__infos__name">
+        <a
+          href
+          @click.prevent.stop="goOn(appointment.schedule.practitioner.id)"
+        >{{appointment.schedule.practitioner.name}}</a>
+      </h2>
       <p class="appointment__infos__job">{{appointment.schedule.practitioner.job.name}}</p>
       <p class="appointment__infos__date">{{formatDate}}</p>
     </div>
@@ -87,12 +92,11 @@ export default {
     }
   },
   methods: {
-    goOnSchedule(scheduleId) {
+    goOn(id) {
       router.push({
-        name: "praticien-schedule",
+        name: "praticien",
         params: {
-          id: this.appointment.schedule.practitioner.id,
-          scheduleId: scheduleId
+          id: id
         }
       });
       window.scrollTo(0, 0);

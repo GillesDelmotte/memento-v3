@@ -36,6 +36,8 @@ Route::get('/getPractitioners', 'PracticionnerController@index');
 
 Route::post('/getPractitionerItems', 'PracticionnerController@getItem');
 
+Route::post('/getSelectedPractitioner', 'PracticionnerController@getPractitionner');
+
 Route::post('/updateProfile', 'ProfileController@update');
 
 Route::post('/updateTheme', 'ProfileController@updateTheme');
