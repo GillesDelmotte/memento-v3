@@ -33,7 +33,7 @@
         >Plage horaire disponible</div>
       </li>
     </ul>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close"></div>
       <!-- <div v-if="practitioner.profilPic">
         <img :src="'../images/profiles/' + practitioner.profilPic" alt />

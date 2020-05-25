@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profilPic')->nullable();
+            $table->string('theme')->default('black');
             $table->text('description')->nullable();
             $table->boolean('schedule')->default(false);
             $table->boolean('is_admin')->default(false);

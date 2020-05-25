@@ -38,6 +38,8 @@ Route::post('/getPractitionerItems', 'PracticionnerController@getItem');
 
 Route::post('/updateProfile', 'ProfileController@update');
 
+Route::post('/updateTheme', 'ProfileController@updateTheme');
+
 Route::post('/addComment', 'CommentController@store');
 
 Route::post('/image/store', 'ImageController@store');

@@ -78,17 +78,28 @@
         </div>
         <div class="userProfil__info__content">{{person.description}}</div>
       </div>
+      <div class="userProfil__info" v-if="userProfil">
+        <div class="userProfil__info__label">Thême de l'applicaction</div>
+        <div class="userProfil__info__colorPicker">
+          <div
+            @click="changeTheme('black')"
+            :class="person.theme === 'black' ? 'color black selected' : 'color black'"
+          ></div>
+          <div
+            @click="changeTheme('green')"
+            :class="person.theme === 'green' ? 'color green selected' : 'color green'"
+          ></div>
+          <div
+            @click="changeTheme('red')"
+            :class="person.theme === 'red' ? 'color red selected' : 'color red'"
+          ></div>
+          <div
+            @click="changeTheme('brown')"
+            :class="person.theme === 'brown' ? 'color brown selected' : 'color brown'"
+          ></div>
+        </div>
+      </div>
       <div class="userProfil__info--buttons" v-if="userProfil">
-        <!-- <div class="radioButton">
-          <input type="checkbox" name="open" id="open" class="radioButton__input sr-only" />
-          <label for="open" class="radioButton__bgc">
-            <label for="open" class="radioButton__dot"></label>
-          </label>
-          <label
-            for="open"
-            class="radioButton__label"
-          >Autoriser mon profil à être vu par les personnes que je consulte</label>
-        </div>-->
         <div class="radioButton">
           <input
             type="checkbox"
@@ -232,6 +243,16 @@ export default {
 
       window.axios
         .post("/updateProfile", { column: "schedule", value: value })
+        .then(response => {
+          this.$store.dispatch("setCurrentUser");
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
+    },
+    changeTheme(color) {
+      window.axios
+        .post("/updateTheme", { color: color })
         .then(response => {
           this.$store.dispatch("setCurrentUser");
         })

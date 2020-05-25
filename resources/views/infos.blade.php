@@ -3,7 +3,7 @@
 @section('content')
 <div>
     <div class="header">
-        <div class="header__logo">M</div>
+        <div class="header__logo"><a href="{{ url('/') }}">M</a></div>
         <h1 class="header__title">Informations</h1>
     </div>
     <div class="infos">
@@ -75,9 +75,21 @@
                         </p>
                     </div>
                 </div>
+                <div class="infos__section__overflow">
+                    <img src="../images/mySchedule.png" alt="" class="infos__section__img">
+                    <div class="infos__section__content">
+                        <h3>Mon agenda</h3>
+                        <p>
+                            Quand vous vous trouvez sur cette page, même si vous avez créer trois agenda, il se rassemble pour vous facilité la navigation Grâce au calendrier <b>(n°1)</b>. A gauche, l'horaire du jour sélectionné avec, si la plage horaire est reservé, le nom de la personne concernée.
+                        </p>
+                    </div>
+                </div>
             </section>
         </div>
     </div>
-
+    <div class="redirect">
+        <a href="{{ route('login') }}" class="redirect__link">Connexion</a>
+        <a href="{{ route('register') }}" class="redirect__link">Inscription</a>
+    </div>
 </div>
 @endsection

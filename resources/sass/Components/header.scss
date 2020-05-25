@@ -10,13 +10,28 @@
     justify-content: space-between;
     font-size: 22px;
     box-sizing: border-box;
-    background-color: $main-color;
     padding: 14px;
+    &.black{
+        background-color: $main-color;
+    }
+    &.green{
+    background-color: rgb(29, 65, 29);
+    }
+    &.red{
+    background-color: rgb(113, 39, 39);
+    }
+    &.brown{
+    background-color: #c97f51;
+    }
     &__logo{
         position: relative;
         color: white;
         font-weight: bold;
         font-size: 30px;
+        a{
+            color: white;
+            text-decoration: none;
+        }
     }
     &__title{
         color: white;

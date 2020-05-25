@@ -1,5 +1,4 @@
 .nav{
-    background-color: $main-color;
     position: fixed;
     display: flex;
     z-index: 99;
@@ -8,6 +7,18 @@
     height: 100vh;
     box-sizing: border-box;
     padding: 56px 0 10px;
+    &.black{
+        background-color: $main-color;
+    }
+    &.green{
+    background-color: rgb(29, 65, 29);
+    }
+    &.red{
+    background-color: rgb(113, 39, 39);
+    }
+    &.brown{
+    background-color: #c97f51;
+    }
     &__links{
         //  display: flex;
         //  flex-direction: column;

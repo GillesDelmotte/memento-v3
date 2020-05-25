@@ -22,7 +22,7 @@
         <span class="bottom"></span>
       </div>
     </div>
-    <div class="nav" v-else-if="currentUser.is_admin === 0">
+    <div :class="'nav ' + currentUser.theme" v-else-if="currentUser.is_admin === 0">
       <div class="nav__links">
         <router-link :to="{name:'meet'}" active-class="active" class="nav__link meet">
           <i class="icon" @click="closeResponsiveMenu"></i>

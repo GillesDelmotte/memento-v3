@@ -14,7 +14,7 @@
         <button @click="addComment" class="addComment__button">Poster mon commentaire</button>
       </section>
     </section>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Horaires du praticien</h2>
       <ul class="aside__list" v-if="selectedPractitionnerSchedules.length != 0">

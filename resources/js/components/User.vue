@@ -10,7 +10,7 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
       <p

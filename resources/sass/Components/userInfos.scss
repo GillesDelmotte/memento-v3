@@ -102,6 +102,40 @@
         &--buttons{
             margin-top: 30px;
         }
+        &__colorPicker{
+            display: flex;
+            margin-top: 10px;
+            align-items: center;
+
+            .color{
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                margin-right: 10px;
+                border: 2px solid white;
+
+                &:hover{
+                    cursor: pointer;
+                     border: 2px solid $main-color;
+
+                }
+                &.selected{
+                    border: 2px solid $main-color;
+                }
+                &.black{
+                    background-color: $main-color;
+                }
+                &.green{
+                    background-color: rgb(29, 65, 29);
+                }
+                &.red{
+                    background-color: rgb(113, 39, 39);
+                }
+                &.brown{
+                    background-color: #c97f51;
+                }
+            }
+        }
     }
 }
 

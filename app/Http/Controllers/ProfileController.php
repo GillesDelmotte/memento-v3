@@ -31,4 +31,13 @@ class ProfileController extends Controller
         $user->save();
 
     }
+
+    public function updateTheme(Request $request, User $user)
+    {
+        $user = $user->where('id', auth()->id())->first();
+
+        $user->theme = $request['color'];
+
+        $user->save();
+    }
 }

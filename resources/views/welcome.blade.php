@@ -19,9 +19,9 @@
                     Votre assistant de prise de rendez-vous en ligne
                 </p>
                 <div class="welcome__nav">
-                <a href="{{ route('login') }}" class="welcome__nav__link">Connexion</a>
-                <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>
-            </div>
+                    <a href="{{ route('login') }}" class="welcome__nav__link">Connexion</a>
+                    <a href="{{ route('register') }}" class="welcome__nav__link">Inscription</a>
+                </div>
         </div>
         <a href="{{ url('/informations') }}" title="Aller sur la page informations" class="welcome__infos">?</a>
         </section>

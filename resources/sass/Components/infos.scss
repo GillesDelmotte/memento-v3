@@ -1,5 +1,5 @@
 .infos{
-    padding: 100px 0;
+    padding: 100px 0 50px;
     max-width: 1280px;
     margin: 0 auto;
     box-sizing: border-box;
@@ -38,4 +38,14 @@
         margin: 0 20px;
     }
 
+}
+
+.redirect{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+        &__link{
+            @include main-link($main-color, 30px);
+            margin: 0 30px;
+        }
 }

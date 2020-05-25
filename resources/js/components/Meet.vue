@@ -9,7 +9,7 @@
         :appointment="appointment"
       ></appointment>
     </div>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Filtre</h2>
     </div>

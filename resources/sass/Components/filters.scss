@@ -1,5 +1,4 @@
 .aside{
-    background-color: $main-color;
     width: 274px;
     box-sizing: border-box;
     position: fixed;
@@ -8,6 +7,18 @@
     right: 70px;
     color: white;
     box-shadow: $shadow;
+    &.black{
+        background-color: $main-color;
+    }
+    &.green{
+        background-color: rgb(29, 65, 29);
+    }
+    &.red{
+        background-color: rgb(113, 39, 39);
+    }
+    &.brown{
+        background-color: #c97f51;
+    }
     &__bgc{
         position: fixed;
         top:0;

@@ -6,7 +6,7 @@
     <ul class="userCards" v-if="filteredBy === 'job'">
       <user-card v-for="user in filteredByJob" :key="user.id" :user="user"></user-card>
     </ul>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close" @click="openFilter"></div>
       <h2 class="filter__title">Filtré par</h2>
       <div class="filter__name__job">
@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["allJob", "allPractitioner"]),
+    ...mapState(["allJob", "allPractitioner", "currentUser"]),
     filteredByName() {
       if (this.filter.length === 0) {
         return this.allPractitioner;

@@ -96,7 +96,7 @@
       </div>
     </div>
     <div v-else class="newSchedule__fulltime">vous n'avez plus de jour libre</div>
-    <div class="aside close" v-if="days.length !== 0">
+    <div :class="'aside close ' + currentUser.theme" v-if="days.length !== 0">
       <div class="aside__close"></div>
       <h2 class="aside__title">Nom de l'agenda</h2>
       <input

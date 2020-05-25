@@ -10,17 +10,17 @@
       <li v-for="hour in createListMorning" :key="hour">
         <div class="schedule__list__hour">{{hour}}</div>
         <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
-        <div class="schedule__list__appointment" v-else>{{reserved(hour)}}</div>
+        <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
       </li>
     </ul>
     <ul class="schedule__list">
       <li v-for="hour in createListAfternoon" :key="hour">
         <div class="schedule__list__hour">{{hour}}</div>
         <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
-        <div class="schedule__list__appointment" v-else>{{reserved(hour)}}</div>
+        <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
       </li>
     </ul>
-    <div class="aside close">
+    <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close"></div>
       <h2 class="aside__title">Date</h2>
       <div class="aside__date">
