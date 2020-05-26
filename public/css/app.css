@@ -168,8 +168,8 @@ body.freeze {
 
 .modifyIcon {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin-left: 15px;
   background: url(/images/edit.svg?eea18703d306b9c8ec78595ecf673e27);
   background-repeat: no-repeat;
@@ -1525,91 +1525,129 @@ body.freeze {
 }
 
 .popup__window {
+  max-height: 90vh;
   position: relative;
-  background-color: #1D1D1D;
-  padding: 20px;
-}
-
-.popup__window--schedule {
-  width: 500px;
-}
-
-.popup__window--schedule__title {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 20px;
-}
-
-.popup__window--schedule__hour {
-  color: white;
-  margin-bottom: 20px;
-  font-size: 20px;
-}
-
-.popup__window--schedule__links {
-  display: flex;
-  justify-content: center;
-}
-
-.popup__window--schedule__links a {
-  text-decoration: none;
-  color: white;
-  font-size: 16px;
-  margin-right: 50px;
-}
-
-.popup__window--schedule__links a::after {
-  margin-top: 10px;
-  position: relative;
-  left: -20px;
-  display: block;
-  content: "";
   background-color: white;
-  height: 2px;
-  width: 50%;
-  transition: all 0.2s;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  width: 600px;
+  padding: 20px;
+  border-radius: 3px;
 }
 
-.popup__window--schedule__links a:hover::after,
-.popup__window--schedule__links a:focus::after {
-  width: 100%;
-  transition: all 0.2s;
-}
-
-.popup__window__label {
-  display: block;
+.popup__window__title {
+  color: #1D1D1D;
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  margin-bottom: 20px;
 }
 
 .popup__window__input {
-  display: block;
-  padding: 10px 10px;
-  outline: none;
-  border: none;
-  font-size: 16px;
-  width: 500px;
-  margin-top: 20px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  color: white;
+  position: relative;
+  margin-bottom: 20px;
 }
 
-.popup__window__textarea {
+.popup__window__input.black {
+  border-bottom: 2px solid #1D1D1D;
+}
+
+.popup__window__input.green {
+  border-bottom: 2px solid #1d411d;
+}
+
+.popup__window__input.red {
+  border-bottom: 2px solid #712727;
+}
+
+.popup__window__input.brown {
+  border-bottom: 2px solid #c97f51;
+}
+
+.popup__window__input--textarea {
+  align-items: flex-start;
+}
+
+.popup__window__input--textarea label {
+  padding-top: 10px;
+}
+
+.popup__window__input--textarea textarea {
+  flex: initial;
+}
+
+.popup__window__input label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #1D1D1D;
+}
+
+.popup__window__input input,
+.popup__window__input textarea {
+  flex: 1 1 auto;
   border: none;
-  display: block;
+  background-color: initial;
   outline: none;
-  font-size: 16px;
-  margin-top: 20px;
-  padding: 10px 10px;
-  width: 500px;
-  resize: vertical;
-  min-height: 80px;
+  font-size: 20px;
+  resize: none;
+}
+
+.popup__window__input input.black,
+.popup__window__input textarea.black {
+  background-color: #1D1D1D;
+}
+
+.popup__window__input input.green,
+.popup__window__input textarea.green {
+  background-color: #1d411d;
+}
+
+.popup__window__input input.red,
+.popup__window__input textarea.red {
+  background-color: #712727;
+}
+
+.popup__window__input input.brown,
+.popup__window__input textarea.brown {
+  background-color: #c97f51;
+}
+
+.popup__window__input input:focus ~ .popup__window__input__bgc,
+.popup__window__input textarea:focus ~ .popup__window__input__bgc {
+  top: 0;
+  transition: top 0.2s;
+}
+
+.popup__window__input__bgc {
+  position: absolute;
+  top: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: top 0.2s;
+}
+
+.popup__window__input__bgc.black {
+  background-color: rgba(29, 29, 29, 0.2);
+}
+
+.popup__window__input__bgc.green {
+  background-color: rgba(29, 65, 29, 0.2);
+}
+
+.popup__window__input__bgc.red {
+  background-color: rgba(113, 39, 39, 0.2);
+}
+
+.popup__window__input__bgc.brown {
+  background-color: rgba(201, 127, 81, 0.2);
 }
 
 .popup__window__save {
   text-decoration: none;
-  color: white;
+  color: black;
   font-size: 20px;
   background-color: initial;
   border: none;
@@ -1625,7 +1663,7 @@ body.freeze {
   left: -20px;
   display: block;
   content: "";
-  background-color: white;
+  background-color: black;
   height: 2px;
   width: 50%;
   transition: all 0.2s;
@@ -1650,7 +1688,7 @@ body.freeze {
   display: block;
   width: 10px;
   height: 10px;
-  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-image: url(/images/close-black.svg?638cf7ec9bd85340653dd15887d1b043);
   background-repeat: no-repeat;
   background-size: contain;
   cursor: pointer;

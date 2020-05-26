@@ -14,62 +14,175 @@
         display: flex;
     }
     &__window{
+        max-height: 90vh;
         position: relative;
-        background-color: $main-color;
+        background-color: white;
+        box-shadow: $shadow;
+        width: 600px;
         padding: 20px;
-        &--schedule{
-            width: 500px;
-            &__title{
-                display: block;
-                font-size: 20px;
+        border-radius: 3px;
+        &__title{
+            color: $main-color;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        &__input{
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+            margin-bottom: 20px;
+            //background-color: rgba($color: black, $alpha: 0.2);
+            &.black{
+                border-bottom: 2px solid $main-color;
+            }
+            &.green{
+                border-bottom: 2px solid rgb(29, 65, 29);
+            }
+            &.red{
+                border-bottom: 2px solid rgb(113, 39, 39);
+            }
+            &.brown{
+                border-bottom: 2px solid #c97f51;
+            }
+
+            &--textarea{
+                align-items: flex-start;
+                label{
+                    padding-top: 10px;
+                }
+                textarea{
+                    flex: initial;
+                }
+            }
+
+            label{
                 font-weight: bold;
-                color: white;
-                margin-bottom: 20px;
+                margin-right: 10px;
+                color: $main-color;
             }
-            &__hour{
-                color: white;
-                margin-bottom: 20px;
+            input, textarea{
+                flex: 1 1 auto;
+                //color: white;
+                border:none;
+                background-color: initial;
+                outline: none;
                 font-size: 20px;
+                resize:none;
+                &.black{
+        background-color: $main-color;
+    }
+    &.green{
+    background-color: rgb(29, 65, 29);
+    }
+    &.red{
+    background-color: rgb(113, 39, 39);
+    }
+    &.brown{
+    background-color: #c97f51;
+    }
             }
-            &__links{
-                display: flex;
-                justify-content: center;
-                a{
-                    @include main-link(white, 16px);
-                    margin-right: 50px;
+            input:focus ~ .popup__window__input__bgc, textarea:focus ~ .popup__window__input__bgc{
+                top: 0;
+                transition: top 0.2s;
+            }
+            &__bgc{
+                position: absolute;
+                top:100%;
+                bottom: 0;
+                left:0;
+                right:0;
+                transition: top 0.2s;
+                &.black{
+                    background-color: rgba($color: $main-color, $alpha: 0.2);
+
+                }
+                &.green{
+                    background-color: rgba($color: rgb(29, 65, 29), $alpha: 0.2);
+
+                }
+                &.red{
+                    background-color: rgba($color: rgb(113, 39, 39), $alpha: 0.2);
+
+                }
+                &.brown{
+                    background-color: rgba($color: #c97f51, $alpha: 0.2);
+
                 }
             }
         }
-        &__label{
-        display: block;
-        font-size: 20px;
-        //margin-bottom: 20px;
-        font-weight: bold;
-        color: white;
-        }
-        &__input{
-            display: block;
-            padding: 10px 10px;
-            outline:none;
-            border: none;
-            font-size: 16px;
-            width: 500px;
-            margin-top: 20px;
 
-        }
-        &__textarea{
-            border: none;
-            display: block;
-            outline:none;
-            font-size: 16px;
-            margin-top: 20px;
-            padding: 10px 10px;
-            width: 500px;
-            resize: vertical;
-            min-height: 80px;
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // &--schedule{
+        //     width: 500px;
+        //     &__title{
+        //         display: block;
+        //         font-size: 20px;
+        //         font-weight: bold;
+        //         color: white;
+        //         margin-bottom: 20px;
+        //     }
+        //     &__hour{
+        //         color: white;
+        //         margin-bottom: 20px;
+        //         font-size: 20px;
+        //     }
+        //     &__links{
+        //         display: flex;
+        //         justify-content: center;
+        //         a{
+        //             @include main-link(white, 16px);
+        //             margin-right: 50px;
+        //         }
+        //     }
+        // }
+        // &__label{
+        // display: block;
+        // font-size: 20px;
+        // //margin-bottom: 20px;
+        // font-weight: bold;
+        // color: white;
+        // }
+        // &__input{
+        //     display: block;
+        //     padding: 10px 10px;
+        //     outline:none;
+        //     border: none;
+        //     font-size: 16px;
+        //     width: 500px;
+        //     margin-top: 20px;
+
+        // }
+        // &__textarea{
+        //     border: none;
+        //     display: block;
+        //     outline:none;
+        //     font-size: 16px;
+        //     margin-top: 20px;
+        //     padding: 10px 10px;
+        //     width: 500px;
+        //     resize: vertical;
+        //     min-height: 80px;
+        // }
         &__save{
-            @include main-link(white, 20px);
+            @include main-link(black, 20px);
             background-color: initial;
             border: none;
             margin-top: 20px;
@@ -88,7 +201,7 @@
                 display: block;
                 width: 10px;
                 height: 10px;
-                background-image: url('../../img/close.svg');
+                background-image: url('../../img/close-black.svg');
                 background-repeat: no-repeat;
                 background-size: contain;
                 cursor: pointer;

@@ -23,59 +23,28 @@
       </div>
       <div class="userProfil__img--false" v-else></div>
     </div>
-    <h1 class="userProfil__name">{{person.name}}</h1>
-    <span class="userProfil__job" v-if="person.job">
-      {{person.job.name}}
+    <h1 class="userProfil__name">
+      {{person.name}}
       <i
         class="modifyIcon"
-        title="modifier ma profession"
         v-if="userProfil"
-        @click="clickIcon('Profession', 'text', 'job', person.job.name)"
+        title="modifier ma description"
+        @click="clickIcon"
       ></i>
-    </span>
-    <span class="userProfil__job" v-if="!person.job && userProfil">
-      Votre profession
-      <i
-        class="modifyIcon"
-        title="modifier ma profession"
-        @click="clickIcon('Profession', 'text', 'job')"
-      ></i>
-    </span>
+    </h1>
+    <span class="userProfil__job" v-if="person.job && person.create">{{person.job.name}}</span>
+    <span class="userProfil__job" v-if="!person.job && userProfil && person.create">Votre profession</span>
     <div class="userProfil__infos">
       <div class="userProfil__info">
-        <div class="userProfil__info__label">
-          Gsm
-          <i
-            class="modifyIcon"
-            v-if="userProfil"
-            title="modifier mon numero de téléphone"
-            @click="clickIcon('Gsm', 'tel', 'gsm', person.gsm)"
-          ></i>
-        </div>
+        <div class="userProfil__info__label">Gsm</div>
         <div class="userProfil__info__content">{{person.gsm}}</div>
       </div>
       <div class="userProfil__info">
-        <div class="userProfil__info__label">
-          Adresse
-          <i
-            class="modifyIcon"
-            v-if="userProfil"
-            title="modifier mon adresse"
-            @click="clickIcon('Adresse', 'text', 'address', person.address)"
-          ></i>
-        </div>
+        <div class="userProfil__info__label">Adresse</div>
         <div class="userProfil__info__content">{{person.address}}</div>
       </div>
-      <div class="userProfil__info">
-        <div class="userProfil__info__label">
-          Description
-          <i
-            class="modifyIcon"
-            v-if="userProfil"
-            title="modifier ma description"
-            @click="clickIcon('Description', 'description', 'description')"
-          ></i>
-        </div>
+      <div class="userProfil__info" v-if="person.create">
+        <div class="userProfil__info__label">Description</div>
         <div class="userProfil__info__content">{{person.description}}</div>
       </div>
       <div class="userProfil__info" v-if="userProfil">
@@ -103,10 +72,27 @@
         <div class="radioButton">
           <input
             type="checkbox"
+            name="create"
+            :value="person.create"
+            :checked="person.create ? 'checked' : ''"
+            v-on:change="updateCheck('create', 'create')"
+            id="create"
+            class="radioButton__input sr-only"
+          />
+          <label for="create" class="radioButton__bgc">
+            <label for="create" class="radioButton__dot"></label>
+          </label>
+          <label for="create" class="radioButton__label">Je veux pouvoir créer des agendas</label>
+        </div>
+      </div>
+      <div class="userProfil__info--buttons" v-if="userProfil && person.create">
+        <div class="radioButton">
+          <input
+            type="checkbox"
             name="indexed"
             :value="person.schedule"
             :checked="person.schedule ? 'checked' : ''"
-            v-on:change="updateCheck"
+            v-on:change="updateCheck('schedule', 'indexed')"
             id="indexed"
             class="radioButton__input sr-only"
           />
@@ -121,23 +107,30 @@
       <div class="popup__window">
         <button class="popup__window__close sr-only" @click="closePopup">close</button>
         <span class="popup__window__close--cross" @click="closePopup"></span>
-        <label for="popup" class="popup__window__label">{{popupLabel}}</label>
-        <textarea
-          name
-          v-if="popupType === 'description'"
-          id
-          class="popup__window__textarea"
-          @keyup.enter="updateProfil"
-        >{{person.description}}</textarea>
-        <input
-          :type="popupType"
-          :name="popupName"
-          id="popup"
-          class="popup__window__input"
-          :value="popupValue"
-          @keyup.enter="updateProfil"
-          v-else
-        />
+        <h2 class="popup__window__title">Édition de mon profil</h2>
+        <div :class="'popup__window__input ' + person.theme" v-if="person.create">
+          <label for="job">Profession&nbsp;:</label>
+          <input type="tel" name="job" id="job" v-model="job" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+        <div :class="'popup__window__input ' + person.theme">
+          <label for="gsm">Gsm&nbsp;:</label>
+          <input type="tel" name="gsm" id="gsm" v-model="gsm" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+        <div :class="'popup__window__input ' + person.theme">
+          <label for="address">Adresse&nbsp;:</label>
+          <input type="tel" name="address" id="address" v-model="address" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+        <div
+          :class="'popup__window__input popup__window__input--textarea ' + person.theme"
+          v-if="person.create"
+        >
+          <label for="desc">Description&nbsp;:</label>
+          <textarea name="desc" id="desc" cols="10" rows="3" v-model="desc"></textarea>
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
         <button class="popup__window__save" @click="updateProfil">Enregistrer</button>
       </div>
     </div>
@@ -161,7 +154,11 @@ export default {
       popupName: "",
       popupValue: "",
       image: "",
-      error: ""
+      error: "",
+      job: "",
+      address: "",
+      desc: "",
+      gsm: ""
     };
   },
   props: {
@@ -169,27 +166,35 @@ export default {
     userProfil: Boolean
   },
   methods: {
-    clickIcon(label, type, name, test) {
-      const filter = document.querySelector(".aside");
+    clickIcon() {
       const nav = document.querySelector(".nav");
       nav.classList.remove("responsive__open");
-      filter.classList.add("close");
-      this.popupLabel = label;
-      this.popupType = type;
-      this.popupName = name;
-      this.popupValue = test;
+      if (this.person.create === 1) {
+        const filter = document.querySelector(".aside");
+        filter.classList.add("close");
+      }
+
+      this.job = this.person.job.name;
+      this.address = this.person.address;
+      this.desc = this.person.description;
+      this.gsm = this.person.gsm;
+
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
     updateProfil() {
-      if (this.popupType !== "description") {
-        var value = document.querySelector(".popup__window__input").value;
-      } else {
-        var value = document.querySelector(".popup__window__textarea").value;
-      }
+      var data = {
+        job: this.job,
+        description: this.desc,
+        gsm: this.gsm,
+        address: this.address,
+        type: "all"
+      };
+      //console.log(data);
       window.axios
-        .post("/updateProfile", { column: this.popupName, value: value })
+        .post("/updateProfile", data)
         .then(response => {
+          console.log(response.data);
           this.$store.dispatch("setCurrentUser");
           document.querySelector(".popup").classList.remove("open");
           document.querySelector("body").classList.remove("freeze");
@@ -232,8 +237,8 @@ export default {
     deleteError() {
       this.error = "";
     },
-    updateCheck() {
-      var bool = document.getElementById("indexed").checked;
+    updateCheck(column, input) {
+      var bool = document.getElementById(input).checked;
       var value = bool.toString();
       if (value === "false") {
         value = 0;
@@ -242,8 +247,9 @@ export default {
       }
 
       window.axios
-        .post("/updateProfile", { column: "schedule", value: value })
+        .post("/updateProfile", { column: column, value: value, type: "check" })
         .then(response => {
+          console.log(response.data);
           this.$store.dispatch("setCurrentUser");
         })
         .catch(function(error) {

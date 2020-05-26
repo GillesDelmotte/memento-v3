@@ -14,7 +14,7 @@
         <p class="emptyAppointment__content">Vous n'avez pas de rendez-vous de prévu</p>
         <div class="emptyAppointment__buttons">
           <a href @click.prevent.stop="goOn('search')">Chercher un praticien</a>
-          <a href @click.prevent.stop="goOn('user')">Mon Profil</a>
+          <a href @click.prevent.stop="goOn('user')">Mon profil</a>
         </div>
       </div>
       <!-- <div :class="'aside close ' + currentUser.theme">

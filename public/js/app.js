@@ -3979,13 +3979,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -3998,7 +3991,11 @@ __webpack_require__.r(__webpack_exports__);
       popupName: "",
       popupValue: "",
       image: "",
-      error: ""
+      error: "",
+      job: "",
+      address: "",
+      desc: "",
+      gsm: ""
     };
   },
   props: {
@@ -4006,31 +4003,36 @@ __webpack_require__.r(__webpack_exports__);
     userProfil: Boolean
   },
   methods: {
-    clickIcon: function clickIcon(label, type, name, test) {
-      var filter = document.querySelector(".aside");
+    clickIcon: function clickIcon() {
       var nav = document.querySelector(".nav");
       nav.classList.remove("responsive__open");
-      filter.classList.add("close");
-      this.popupLabel = label;
-      this.popupType = type;
-      this.popupName = name;
-      this.popupValue = test;
+
+      if (this.person.create === 1) {
+        var filter = document.querySelector(".aside");
+        filter.classList.add("close");
+      }
+
+      this.job = this.person.job.name;
+      this.address = this.person.address;
+      this.desc = this.person.description;
+      this.gsm = this.person.gsm;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
     updateProfil: function updateProfil() {
       var _this = this;
 
-      if (this.popupType !== "description") {
-        var value = document.querySelector(".popup__window__input").value;
-      } else {
-        var value = document.querySelector(".popup__window__textarea").value;
-      }
+      var data = {
+        job: this.job,
+        description: this.desc,
+        gsm: this.gsm,
+        address: this.address,
+        type: "all"
+      }; //console.log(data);
 
-      window.axios.post("/updateProfile", {
-        column: this.popupName,
-        value: value
-      }).then(function (response) {
+      window.axios.post("/updateProfile", data).then(function (response) {
+        console.log(response.data);
+
         _this.$store.dispatch("setCurrentUser");
 
         document.querySelector(".popup").classList.remove("open");
@@ -4074,10 +4076,10 @@ __webpack_require__.r(__webpack_exports__);
     deleteError: function deleteError() {
       this.error = "";
     },
-    updateCheck: function updateCheck() {
+    updateCheck: function updateCheck(column, input) {
       var _this3 = this;
 
-      var bool = document.getElementById("indexed").checked;
+      var bool = document.getElementById(input).checked;
       var value = bool.toString();
 
       if (value === "false") {
@@ -4087,9 +4089,12 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       window.axios.post("/updateProfile", {
-        column: "schedule",
-        value: value
+        column: column,
+        value: value,
+        type: "check"
       }).then(function (response) {
+        console.log(response.data);
+
         _this3.$store.dispatch("setCurrentUser");
       })["catch"](function (error) {
         console.log(error.response.data.message);
@@ -40373,7 +40378,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Mon Profil")]
+                      [_vm._v("Mon profil")]
                     )
                   ])
                 ])
@@ -41457,56 +41462,60 @@ var render = function() {
             ])
       ]),
       _vm._v(" "),
-      _c("div", { class: "aside close " + _vm.currentUser.theme }, [
-        _c("div", { staticClass: "aside__close" }),
-        _vm._v(" "),
-        _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
-        _vm._v(" "),
-        _vm.currentUser.schedules.length === 0
-          ? _c("p", { staticClass: "aside__error" }, [
-              _vm._v("Vous n'avez pas encore enregistré d'agenda")
-            ])
-          : _c(
-              "ul",
-              { staticClass: "aside__list" },
-              _vm._l(_vm.currentUser.schedules, function(schedule) {
-                return _c("li", { key: schedule.id }, [
-                  _c("p", [_vm._v(_vm._s(schedule.name))]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    _vm._l(schedule.days, function(day) {
-                      return _c(
-                        "span",
-                        { key: day.id, attrs: { title: day.name } },
-                        [_vm._v(_vm._s(day.name.charAt(0)))]
-                      )
-                    }),
-                    0
-                  )
+      _vm.currentUser.create
+        ? _c("div", { class: "aside close " + _vm.currentUser.theme }, [
+            _c("div", { staticClass: "aside__close" }),
+            _vm._v(" "),
+            _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
+            _vm._v(" "),
+            _vm.currentUser.schedules.length === 0
+              ? _c("p", { staticClass: "aside__error" }, [
+                  _vm._v("Vous n'avez pas encore enregistré d'agenda")
                 ])
-              }),
-              0
-            ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "aside__link",
-            on: {
-              click: function($event) {
-                return _vm.redirect("/creation-horaire")
-              }
-            }
-          },
-          [_vm._v("Créer un agenda")]
-        )
-      ]),
+              : _c(
+                  "ul",
+                  { staticClass: "aside__list" },
+                  _vm._l(_vm.currentUser.schedules, function(schedule) {
+                    return _c("li", { key: schedule.id }, [
+                      _c("p", [_vm._v(_vm._s(schedule.name))]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        _vm._l(schedule.days, function(day) {
+                          return _c(
+                            "span",
+                            { key: day.id, attrs: { title: day.name } },
+                            [_vm._v(_vm._s(day.name.charAt(0)))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  }),
+                  0
+                ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "aside__link",
+                on: {
+                  click: function($event) {
+                    return _vm.redirect("/creation-horaire")
+                  }
+                }
+              },
+              [_vm._v("Créer un agenda")]
+            )
+          ])
+        : _vm._e(),
       _vm._v(" "),
-      _c("div", {
-        staticClass: "aside__button schedule",
-        on: { click: _vm.openFilter }
-      })
+      _vm.currentUser.create
+        ? _c("div", {
+            staticClass: "aside__button schedule",
+            on: { click: _vm.openFilter }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -41678,62 +41687,31 @@ var render = function() {
         ]),
     _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
-      _vm._v(_vm._s(_vm.person.name))
+      _vm._v("\n    " + _vm._s(_vm.person.name) + "\n    "),
+      _vm.userProfil
+        ? _c("i", {
+            staticClass: "modifyIcon",
+            attrs: { title: "modifier ma description" },
+            on: { click: _vm.clickIcon }
+          })
+        : _vm._e()
     ]),
     _vm._v(" "),
-    _vm.person.job
+    _vm.person.job && _vm.person.create
       ? _c("span", { staticClass: "userProfil__job" }, [
-          _vm._v("\n    " + _vm._s(_vm.person.job.name) + "\n    "),
-          _vm.userProfil
-            ? _c("i", {
-                staticClass: "modifyIcon",
-                attrs: { title: "modifier ma profession" },
-                on: {
-                  click: function($event) {
-                    return _vm.clickIcon(
-                      "Profession",
-                      "text",
-                      "job",
-                      _vm.person.job.name
-                    )
-                  }
-                }
-              })
-            : _vm._e()
+          _vm._v(_vm._s(_vm.person.job.name))
         ])
       : _vm._e(),
     _vm._v(" "),
-    !_vm.person.job && _vm.userProfil
+    !_vm.person.job && _vm.userProfil && _vm.person.create
       ? _c("span", { staticClass: "userProfil__job" }, [
-          _vm._v("\n    Votre profession\n    "),
-          _c("i", {
-            staticClass: "modifyIcon",
-            attrs: { title: "modifier ma profession" },
-            on: {
-              click: function($event) {
-                return _vm.clickIcon("Profession", "text", "job")
-              }
-            }
-          })
+          _vm._v("Votre profession")
         ])
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "userProfil__infos" }, [
       _c("div", { staticClass: "userProfil__info" }, [
-        _c("div", { staticClass: "userProfil__info__label" }, [
-          _vm._v("\n        Gsm\n        "),
-          _vm.userProfil
-            ? _c("i", {
-                staticClass: "modifyIcon",
-                attrs: { title: "modifier mon numero de téléphone" },
-                on: {
-                  click: function($event) {
-                    return _vm.clickIcon("Gsm", "tel", "gsm", _vm.person.gsm)
-                  }
-                }
-              })
-            : _vm._e()
-        ]),
+        _c("div", { staticClass: "userProfil__info__label" }, [_vm._v("Gsm")]),
         _vm._v(" "),
         _c("div", { staticClass: "userProfil__info__content" }, [
           _vm._v(_vm._s(_vm.person.gsm))
@@ -41742,23 +41720,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "userProfil__info" }, [
         _c("div", { staticClass: "userProfil__info__label" }, [
-          _vm._v("\n        Adresse\n        "),
-          _vm.userProfil
-            ? _c("i", {
-                staticClass: "modifyIcon",
-                attrs: { title: "modifier mon adresse" },
-                on: {
-                  click: function($event) {
-                    return _vm.clickIcon(
-                      "Adresse",
-                      "text",
-                      "address",
-                      _vm.person.address
-                    )
-                  }
-                }
-              })
-            : _vm._e()
+          _vm._v("Adresse")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "userProfil__info__content" }, [
@@ -41766,30 +41728,17 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "userProfil__info" }, [
-        _c("div", { staticClass: "userProfil__info__label" }, [
-          _vm._v("\n        Description\n        "),
-          _vm.userProfil
-            ? _c("i", {
-                staticClass: "modifyIcon",
-                attrs: { title: "modifier ma description" },
-                on: {
-                  click: function($event) {
-                    return _vm.clickIcon(
-                      "Description",
-                      "description",
-                      "description"
-                    )
-                  }
-                }
-              })
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "userProfil__info__content" }, [
-          _vm._v(_vm._s(_vm.person.description))
-        ])
-      ]),
+      _vm.person.create
+        ? _c("div", { staticClass: "userProfil__info" }, [
+            _c("div", { staticClass: "userProfil__info__label" }, [
+              _vm._v("Description")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "userProfil__info__content" }, [
+              _vm._v(_vm._s(_vm.person.description))
+            ])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _vm.userProfil
         ? _c("div", { staticClass: "userProfil__info" }, [
@@ -41854,15 +41803,47 @@ var render = function() {
             _c("div", { staticClass: "radioButton" }, [
               _c("input", {
                 staticClass: "radioButton__input sr-only",
+                attrs: { type: "checkbox", name: "create", id: "create" },
+                domProps: {
+                  value: _vm.person.create,
+                  checked: _vm.person.create ? "checked" : ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.updateCheck("create", "create")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "label",
+                { staticClass: "radioButton__label", attrs: { for: "create" } },
+                [_vm._v("Je veux pouvoir créer des agendas")]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.userProfil && _vm.person.create
+        ? _c("div", { staticClass: "userProfil__info--buttons" }, [
+            _c("div", { staticClass: "radioButton" }, [
+              _c("input", {
+                staticClass: "radioButton__input sr-only",
                 attrs: { type: "checkbox", name: "indexed", id: "indexed" },
                 domProps: {
                   value: _vm.person.schedule,
                   checked: _vm.person.schedule ? "checked" : ""
                 },
-                on: { change: _vm.updateCheck }
+                on: {
+                  change: function($event) {
+                    return _vm.updateCheck("schedule", "indexed")
+                  }
+                }
               }),
               _vm._v(" "),
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               _c(
                 "label",
@@ -41903,52 +41884,141 @@ var render = function() {
             on: { click: _vm.closePopup }
           }),
           _vm._v(" "),
-          _c(
-            "label",
-            { staticClass: "popup__window__label", attrs: { for: "popup" } },
-            [_vm._v(_vm._s(_vm.popupLabel))]
-          ),
+          _c("h2", { staticClass: "popup__window__title" }, [
+            _vm._v("Édition de mon profil")
+          ]),
           _vm._v(" "),
-          _vm.popupType === "description"
-            ? _c(
-                "textarea",
-                {
-                  staticClass: "popup__window__textarea",
-                  attrs: { name: "", id: "" },
+          _vm.person.create
+            ? _c("div", { class: "popup__window__input " + _vm.person.theme }, [
+                _c("label", { attrs: { for: "job" } }, [
+                  _vm._v("Profession :")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.job,
+                      expression: "job"
+                    }
+                  ],
+                  attrs: { type: "tel", name: "job", id: "job" },
+                  domProps: { value: _vm.job },
                   on: {
-                    keyup: function($event) {
-                      if (
-                        !$event.type.indexOf("key") &&
-                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                      ) {
-                        return null
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
                       }
-                      return _vm.updateProfil($event)
+                      _vm.job = $event.target.value
                     }
                   }
-                },
-                [_vm._v(_vm._s(_vm.person.description))]
-              )
-            : _c("input", {
-                staticClass: "popup__window__input",
-                attrs: {
-                  type: _vm.popupType,
-                  name: _vm.popupName,
-                  id: "popup"
-                },
-                domProps: { value: _vm.popupValue },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !$event.type.indexOf("key") &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-                    ) {
-                      return null
-                    }
-                    return _vm.updateProfil($event)
-                  }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  class: "popup__window__input__bgc " + _vm.person.theme
+                })
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { class: "popup__window__input " + _vm.person.theme }, [
+            _c("label", { attrs: { for: "gsm" } }, [_vm._v("Gsm :")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.gsm,
+                  expression: "gsm"
                 }
-              }),
+              ],
+              attrs: { type: "tel", name: "gsm", id: "gsm" },
+              domProps: { value: _vm.gsm },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.gsm = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              class: "popup__window__input__bgc " + _vm.person.theme
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { class: "popup__window__input " + _vm.person.theme }, [
+            _c("label", { attrs: { for: "address" } }, [_vm._v("Adresse :")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.address,
+                  expression: "address"
+                }
+              ],
+              attrs: { type: "tel", name: "address", id: "address" },
+              domProps: { value: _vm.address },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.address = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              class: "popup__window__input__bgc " + _vm.person.theme
+            })
+          ]),
+          _vm._v(" "),
+          _vm.person.create
+            ? _c(
+                "div",
+                {
+                  class:
+                    "popup__window__input popup__window__input--textarea " +
+                    _vm.person.theme
+                },
+                [
+                  _c("label", { attrs: { for: "desc" } }, [
+                    _vm._v("Description :")
+                  ]),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.desc,
+                        expression: "desc"
+                      }
+                    ],
+                    attrs: { name: "desc", id: "desc", cols: "10", rows: "3" },
+                    domProps: { value: _vm.desc },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.desc = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("div", {
+                    class: "popup__window__input__bgc " + _vm.person.theme
+                  })
+                ]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _c(
             "button",
@@ -41974,6 +42044,21 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "radioButton__bgc", attrs: { for: "create" } },
+      [
+        _c("label", {
+          staticClass: "radioButton__dot",
+          attrs: { for: "create" }
+        })
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

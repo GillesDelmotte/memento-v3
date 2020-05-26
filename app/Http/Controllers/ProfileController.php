@@ -11,22 +11,28 @@ class ProfileController extends Controller
     public function update(Request $request, User $user){
         $user = $user->where('id', auth()->id())->first();
 
-        $column = $request['column'];
-        $value = $request['value'];
+        if($request['type'] === "check"){
+            $column = $request['column'];
+            $value = $request['value'];
 
-
-        if($column === 'job'){
-            $job = Job::where("name",  '=',  $value)->first();
-            if($job){
-                $user->job_id = $job->id;
-            }else{
-                $job = Job::create(['name' => $value]);
-                $user->job_id = $job->id;
-            }
-        }else{
             $user->$column = $value;
         }
 
+
+        if($request['type'] === "all"){
+            if($request['job'] != null){
+                $job = Job::where("name",  '=',  $request['job'])->first();
+                if($job){
+                    $user->job_id = $job->id;
+                }else{
+                    $job = Job::create(['name' => $request['job']]);
+                    $user->job_id = $job->id;
+                }
+            }
+            $user->address = $request['address'];
+            $user->description = $request['description'];
+            $user->gsm = $request['gsm'];
+        }
 
         $user->save();
 

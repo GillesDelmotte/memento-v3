@@ -10,7 +10,7 @@
       </ul>
       <div v-else class="comments__empty">Il n'y a pas de commentaires sur votre profil</div>
     </section>
-    <div :class="'aside close ' + currentUser.theme">
+    <div :class="'aside close ' + currentUser.theme" v-if="currentUser.create">
       <div class="aside__close"></div>
       <h2 class="aside__title">Mes agendas</h2>
       <p
@@ -31,7 +31,7 @@
       </ul>
       <a @click="redirect('/creation-horaire')" class="aside__link">Créer un agenda</a>
     </div>
-    <div class="aside__button schedule" @click="openFilter"></div>
+    <div class="aside__button schedule" @click="openFilter" v-if="currentUser.create"></div>
   </div>
 </template>
 <script>
