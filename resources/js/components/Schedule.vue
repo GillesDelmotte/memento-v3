@@ -8,14 +8,14 @@
     >Vous n'avez pas d'horaire pour aujourd'hui</div>
     <ul class="schedule__list">
       <li v-for="hour in createListMorning" :key="hour">
-        <div class="schedule__list__hour">{{hour}}</div>
+        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
         <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
         <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
       </li>
     </ul>
     <ul class="schedule__list">
       <li v-for="hour in createListAfternoon" :key="hour">
-        <div class="schedule__list__hour">{{hour}}</div>
+        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
         <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
         <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
       </li>
@@ -277,6 +277,15 @@ export default {
         return appointment[0].user.name;
       } else {
         return false;
+      }
+    },
+    formatedHour(hour) {
+      const splitHour = hour.split(":");
+      console.log(splitHour);
+      if (splitHour[1] === "0") {
+        return splitHour[0] + "H00";
+      } else {
+        return splitHour[0] + "H" + splitHour[1];
       }
     }
   },

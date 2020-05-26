@@ -34,7 +34,7 @@
     </h1>
     <span class="userProfil__job" v-if="person.job && person.create">{{person.job.name}}</span>
     <span class="userProfil__job" v-if="!person.job && userProfil && person.create">Votre profession</span>
-    <div class="userProfil__infos">
+    <div :class="person.create ? 'userProfil__infos' : 'userProfil__infos create'">
       <div class="userProfil__info">
         <div class="userProfil__info__label">Gsm</div>
         <div class="userProfil__info__content">{{person.gsm}}</div>

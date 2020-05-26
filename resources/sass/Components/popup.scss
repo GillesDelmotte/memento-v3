@@ -73,17 +73,17 @@
                 font-size: 20px;
                 resize:none;
                 &.black{
-        background-color: $main-color;
-    }
-    &.green{
-    background-color: rgb(29, 65, 29);
-    }
-    &.red{
-    background-color: rgb(113, 39, 39);
-    }
-    &.brown{
-    background-color: #c97f51;
-    }
+                    background-color: $main-color;
+                }
+                &.green{
+                    background-color: rgb(29, 65, 29);
+                }
+                &.red{
+                    background-color: rgb(113, 39, 39);
+                }
+                &.brown{
+                    background-color: #c97f51;
+                }
             }
             input:focus ~ .popup__window__input__bgc, textarea:focus ~ .popup__window__input__bgc{
                 top: 0;
@@ -115,74 +115,31 @@
             }
         }
 
+        &__hour{
+            color: $main-color;
+            margin-bottom: 20px;
+            font-size: 23px;
+        }
 
+        &__hour__sign{
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-image: url('../../img/back.svg');
+            transform: rotate(-90deg);
+            //background-repeat: no-repeat;
+            margin-bottom: 20px;
+            margin-left: 50px;
+            background-size: contain;
 
+        }
 
+        &__buttons{
+            display: flex;
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-        // &--schedule{
-        //     width: 500px;
-        //     &__title{
-        //         display: block;
-        //         font-size: 20px;
-        //         font-weight: bold;
-        //         color: white;
-        //         margin-bottom: 20px;
-        //     }
-        //     &__hour{
-        //         color: white;
-        //         margin-bottom: 20px;
-        //         font-size: 20px;
-        //     }
-        //     &__links{
-        //         display: flex;
-        //         justify-content: center;
-        //         a{
-        //             @include main-link(white, 16px);
-        //             margin-right: 50px;
-        //         }
-        //     }
-        // }
-        // &__label{
-        // display: block;
-        // font-size: 20px;
-        // //margin-bottom: 20px;
-        // font-weight: bold;
-        // color: white;
-        // }
-        // &__input{
-        //     display: block;
-        //     padding: 10px 10px;
-        //     outline:none;
-        //     border: none;
-        //     font-size: 16px;
-        //     width: 500px;
-        //     margin-top: 20px;
-
-        // }
-        // &__textarea{
-        //     border: none;
-        //     display: block;
-        //     outline:none;
-        //     font-size: 16px;
-        //     margin-top: 20px;
-        //     padding: 10px 10px;
-        //     width: 500px;
-        //     resize: vertical;
-        //     min-height: 80px;
-        // }
         &__save{
-            @include main-link(black, 20px);
+            @include main-link(black, 18px);
             background-color: initial;
             border: none;
             margin-top: 20px;

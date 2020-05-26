@@ -52,6 +52,8 @@ Route::post('/getMyAppointments', 'AppointmentController@myAppointments');
 
 Route::post('/createAppointment', 'AppointmentController@store');
 
+Route::post('/updateAppointment', 'AppointmentController@update');
+
 Route::post('/deleteAppointment', 'AppointmentController@destroy');
 
 Route::post('/getMyScheduleAppointments', 'AppointmentController@index');

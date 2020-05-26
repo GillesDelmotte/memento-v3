@@ -781,7 +781,6 @@ body.freeze {
 
 .userProfil__job {
   font-size: 30px;
-  margin-bottom: 15px;
   display: block;
   margin-left: 70px;
 }
@@ -791,6 +790,10 @@ body.freeze {
   padding: 20px;
   border-left: 4px solid #1D1D1D;
   margin-top: 30px;
+}
+
+.userProfil__infos.create {
+  margin-top: 65px;
 }
 
 .userProfil__info {
@@ -1645,10 +1648,31 @@ body.freeze {
   background-color: rgba(201, 127, 81, 0.2);
 }
 
+.popup__window__hour {
+  color: #1D1D1D;
+  margin-bottom: 20px;
+  font-size: 23px;
+}
+
+.popup__window__hour__sign {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-image: url(/images/back.svg?2f02a21a34054ddba3ac1abda0e0a41d);
+  transform: rotate(-90deg);
+  margin-bottom: 20px;
+  margin-left: 50px;
+  background-size: contain;
+}
+
+.popup__window__buttons {
+  display: flex;
+}
+
 .popup__window__save {
   text-decoration: none;
   color: black;
-  font-size: 20px;
+  font-size: 18px;
   background-color: initial;
   border: none;
   margin-top: 20px;
@@ -1853,6 +1877,30 @@ body.freeze {
   margin-bottom: 50px;
 }
 
+.modifyAppointment {
+  width: 550px;
+  padding: 20px 40px;
+  color: white;
+  background-color: #1D1D1D;
+  line-height: 1.5;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.modifyAppointment__cross {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
 .schedule__list {
   width: 550px;
   margin-bottom: 80px;
@@ -1931,6 +1979,10 @@ body.freeze {
 }
 
 @media (max-width: 1050px) {
+  .modifyAppointment {
+    width: 100%;
+  }
+
   .emptyDay {
     width: 100%;
   }

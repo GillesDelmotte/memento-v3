@@ -2856,6 +2856,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2865,9 +2878,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
       months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+      changeHour: false,
       selectedHour: "",
+      selectedNewHour: "",
       selectedDate: null,
+      selectedNewDate: null,
       selectedFormatDate: null,
+      selectedFormatNewDate: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -3076,6 +3093,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     reserve: function reserve(hour) {
       var _this5 = this;
 
+      if (this.changeHour) {
+        this.checkUpdate(hour);
+        return false;
+      }
+
       var splitDate = this.date.split("-");
       var data = {
         user_id: this.currentUser.id,
@@ -3093,6 +3115,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (error) {
         console.log(error.response.data.message);
       });
+    },
+    checkUpdate: function checkUpdate(hour) {
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+      this.selectedNewDate = this.date;
+      this.selectedNewHour = hour;
+      var splitDate = this.selectedNewDate.split("-");
+      var test = new Date(splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]);
+      var day = this.days[test.getDay()];
+      var month = this.months[test.getMonth()];
+      var formatedDate = day + " " + splitDate[0] + " " + month + " " + splitDate[2] + " à " + hour;
+      this.selectedFormatNewDate = formatedDate;
     },
     reserved: function reserved(hour) {
       var splitDate = this.date.split("-");
@@ -3144,26 +3178,72 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.querySelector("body").classList.remove("freeze");
     },
     updateHour: function updateHour(hour) {
+      if (this.changeHour) {
+        this.error = "vous avez déjà un rendez-vous à cette heure la";
+        return false;
+      }
+
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
       this.selectedDate = this.date;
-      this.selectedHour = hour; //console.log(this.selectedDate);
-
-      var splitDate = this.selectedDate.split("-"); //console.log(splitDate);
-
+      this.selectedHour = hour;
+      var splitDate = this.selectedDate.split("-");
       var test = new Date(splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]);
-      console.log(test);
       var day = this.days[test.getDay()];
       var month = this.months[test.getMonth()];
-      var formatedDate = "Le " + day + " " + splitDate[0] + " " + month + " " + splitDate[2] + " à " + hour;
+      var formatedDate = day + " " + splitDate[0] + " " + month + " " + splitDate[2] + " à " + hour;
       this.selectedFormatDate = formatedDate;
+    },
+    startUpdate: function startUpdate() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.changeHour = true;
+    },
+    endUpdate: function endUpdate() {
+      var _this8 = this;
+
+      console.log(this.selectedHour);
+      console.log(this.selectedDate);
+      console.log(this.selectedNewHour);
+      console.log(this.selectedNewDate);
+      var splitSelectedDate = this.selectedDate.split("-");
+      var splitSelectedNewDate = this.selectedNewDate.split("-");
+      var data = {
+        lastDate: splitSelectedDate[2] + "-" + splitSelectedDate[1] + "-" + splitSelectedDate[0],
+        lastHour: this.selectedHour,
+        newDate: splitSelectedNewDate[2] + "-" + splitSelectedNewDate[1] + "-" + splitSelectedNewDate[0],
+        newHour: this.selectedNewHour,
+        user_id: this.currentUser.id
+      };
+      window.axios.post("/updateAppointment", data).then(function (response) {
+        if (response.data === false) {
+          _this8.error = "Vous avez déja un rendez-vous pour ce jour-ci";
+          document.querySelector(".popup").classList.remove("open");
+          document.querySelector("body").classList.remove("freeze");
+          return;
+        }
+
+        _this8.$store.dispatch("setScheduleForSelectedPratitionner", _this8.$route.params.id);
+
+        _this8.stopUpdate();
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+    },
+    stopUpdate: function stopUpdate() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.changeHour = false;
     },
     closePopup: function closePopup() {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
-      this.selectedHour = null;
-      this.selectedDate = null;
-      this.selectedFormatDate = null;
+
+      if (!this.changeHour) {
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.selectedFormatDate = null;
+      }
     },
     closePopupWithBackground: function closePopupWithBackground(e) {
       var bgc = document.querySelector(".popup");
@@ -3171,9 +3251,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (e.target === bgc) {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
-        this.selectedHour = null;
-        this.selectedDate = null;
-        this.selectedFormatDate = null;
+
+        if (!this.changeHour) {
+          this.selectedHour = null;
+          this.selectedDate = null;
+          this.selectedFormatDate = null;
+        }
+      }
+    },
+    formatedHour: function formatedHour(hour) {
+      var splitHour = hour.split(":");
+      console.log(splitHour);
+
+      if (splitHour[1] === "0") {
+        return splitHour[0] + "H00";
+      } else {
+        return splitHour[0] + "H" + splitHour[1];
       }
     }
   },
@@ -3508,6 +3601,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return appointment[0].user.name;
       } else {
         return false;
+      }
+    },
+    formatedHour: function formatedHour(hour) {
+      var splitHour = hour.split(":");
+      console.log(splitHour);
+
+      if (splitHour[1] === "0") {
+        return splitHour[0] + "H00";
+      } else {
+        return splitHour[0] + "H" + splitHour[1];
       }
     }
   },
@@ -40780,6 +40883,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm.changeHour
+      ? _c("div", { staticClass: "modifyAppointment" }, [
+          _vm._v(
+            "\n    Modification du rendez-vous ( " +
+              _vm._s(_vm.selectedFormatDate) +
+              " )\n    "
+          ),
+          _c("span", {
+            staticClass: "modifyAppointment__cross",
+            on: { click: _vm.stopUpdate }
+          })
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _vm.createListMorning.length === 0
       ? _c("div", { staticClass: "emptyDay" }, [
           _vm._v("Votre praticien n'a pas d'agenda pour aujourd'hui")
@@ -40792,7 +40909,7 @@ var render = function() {
       _vm._l(_vm.createListMorning, function(hour) {
         return _c("li", { key: hour }, [
           _c("div", { staticClass: "schedule__list__hour" }, [
-            _vm._v(_vm._s(hour))
+            _vm._v(_vm._s(_vm.formatedHour(hour)))
           ]),
           _vm._v(" "),
           _vm.reserved(hour) === "myAppointment"
@@ -40866,7 +40983,7 @@ var render = function() {
       _vm._l(_vm.createListAfternoon, function(hour) {
         return _c("li", { key: hour }, [
           _c("div", { staticClass: "schedule__list__hour" }, [
-            _vm._v(_vm._s(hour))
+            _vm._v(_vm._s(_vm.formatedHour(hour)))
           ]),
           _vm._v(" "),
           _vm.reserved(hour) === "myAppointment"
@@ -41017,49 +41134,82 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "popup__window popup__window--schedule" }, [
-          _c(
-            "button",
-            {
-              staticClass: "popup__window__close sr-only",
-              on: { click: _vm.closePopup }
-            },
-            [_vm._v("close")]
-          ),
-          _vm._v(" "),
+        _c("div", { staticClass: "popup__window" }, [
           _c("span", {
             staticClass: "popup__window__close--cross",
             on: { click: _vm.closePopup }
           }),
           _vm._v(" "),
-          _c("h2", { staticClass: "popup__window--schedule__title" }, [
-            _vm._v("Que voulez vous faire ?")
+          _c("h2", { staticClass: "popup__window__title" }, [
+            _vm._v("Voulez vous changer")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "popup__window--schedule__hour" }, [
-            _vm._v(_vm._s(_vm.selectedFormatDate))
+          _c("div", { staticClass: "popup__window__hour" }, [
+            _vm._v("Le " + _vm._s(_vm.selectedFormatDate))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "popup__window--schedule__links" }, [
-            _c(
-              "a",
-              {
-                attrs: { href: "" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    $event.stopPropagation()
-                    return _vm.deleteFromPopUp($event)
-                  }
-                }
-              },
-              [_vm._v("Supprimer le rendez-vous")]
-            ),
-            _vm._v(" "),
-            _c("a", { attrs: { href: "" } }, [
-              _vm._v("Modifier le rendez-vous")
-            ])
-          ])
+          this.changeHour
+            ? _c("div", { staticClass: "popup__window__hour__sign" })
+            : _vm._e(),
+          _vm._v(" "),
+          this.changeHour
+            ? _c("div", { staticClass: "popup__window__hour" }, [
+                _vm._v("Le " + _vm._s(_vm.selectedFormatNewDate))
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          !this.changeHour
+            ? _c("div", { staticClass: "popup__widow__buttons" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "popup__window__save",
+                    on: { click: _vm.startUpdate }
+                  },
+                  [_vm._v("Modifier le rendez-vous")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "popup__window__save",
+                    on: { click: _vm.deleteFromPopUp }
+                  },
+                  [_vm._v("Supprimer le rendez-vous")]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          this.changeHour
+            ? _c("div", { staticClass: "popup__widow__buttons" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "popup__window__save",
+                    on: { click: _vm.endUpdate }
+                  },
+                  [_vm._v("Oui je le veux")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "popup__window__save",
+                    on: { click: _vm.closePopup }
+                  },
+                  [_vm._v("Non je ne veux pas")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "popup__window__save",
+                    on: { click: _vm.stopUpdate }
+                  },
+                  [_vm._v("Annuler")]
+                )
+              ])
+            : _vm._e()
         ])
       ]
     )
@@ -41168,7 +41318,7 @@ var render = function() {
         _vm._l(_vm.createListMorning, function(hour) {
           return _c("li", { key: hour }, [
             _c("div", { staticClass: "schedule__list__hour" }, [
-              _vm._v(_vm._s(hour))
+              _vm._v(_vm._s(_vm.formatedHour(hour)))
             ]),
             _vm._v(" "),
             _vm.reserved(hour) === false
@@ -41191,7 +41341,7 @@ var render = function() {
         _vm._l(_vm.createListAfternoon, function(hour) {
           return _c("li", { key: hour }, [
             _c("div", { staticClass: "schedule__list__hour" }, [
-              _vm._v(_vm._s(hour))
+              _vm._v(_vm._s(_vm.formatedHour(hour)))
             ]),
             _vm._v(" "),
             _vm.reserved(hour) === false
@@ -41709,154 +41859,167 @@ var render = function() {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "userProfil__infos" }, [
-      _c("div", { staticClass: "userProfil__info" }, [
-        _c("div", { staticClass: "userProfil__info__label" }, [_vm._v("Gsm")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "userProfil__info__content" }, [
-          _vm._v(_vm._s(_vm.person.gsm))
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "userProfil__info" }, [
-        _c("div", { staticClass: "userProfil__info__label" }, [
-          _vm._v("Adresse")
+    _c(
+      "div",
+      {
+        class: _vm.person.create
+          ? "userProfil__infos"
+          : "userProfil__infos create"
+      },
+      [
+        _c("div", { staticClass: "userProfil__info" }, [
+          _c("div", { staticClass: "userProfil__info__label" }, [
+            _vm._v("Gsm")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "userProfil__info__content" }, [
+            _vm._v(_vm._s(_vm.person.gsm))
+          ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "userProfil__info__content" }, [
-          _vm._v(_vm._s(_vm.person.address))
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.person.create
-        ? _c("div", { staticClass: "userProfil__info" }, [
-            _c("div", { staticClass: "userProfil__info__label" }, [
-              _vm._v("Description")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "userProfil__info__content" }, [
-              _vm._v(_vm._s(_vm.person.description))
-            ])
+        _c("div", { staticClass: "userProfil__info" }, [
+          _c("div", { staticClass: "userProfil__info__label" }, [
+            _vm._v("Adresse")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "userProfil__info__content" }, [
+            _vm._v(_vm._s(_vm.person.address))
           ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.userProfil
-        ? _c("div", { staticClass: "userProfil__info" }, [
-            _c("div", { staticClass: "userProfil__info__label" }, [
-              _vm._v("Thême de l'applicaction")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "userProfil__info__colorPicker" }, [
-              _c("div", {
-                class:
-                  _vm.person.theme === "black"
-                    ? "color black selected"
-                    : "color black",
-                on: {
-                  click: function($event) {
-                    return _vm.changeTheme("black")
-                  }
-                }
-              }),
+        ]),
+        _vm._v(" "),
+        _vm.person.create
+          ? _c("div", { staticClass: "userProfil__info" }, [
+              _c("div", { staticClass: "userProfil__info__label" }, [
+                _vm._v("Description")
+              ]),
               _vm._v(" "),
-              _c("div", {
-                class:
-                  _vm.person.theme === "green"
-                    ? "color green selected"
-                    : "color green",
-                on: {
-                  click: function($event) {
-                    return _vm.changeTheme("green")
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", {
-                class:
-                  _vm.person.theme === "red"
-                    ? "color red selected"
-                    : "color red",
-                on: {
-                  click: function($event) {
-                    return _vm.changeTheme("red")
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("div", {
-                class:
-                  _vm.person.theme === "brown"
-                    ? "color brown selected"
-                    : "color brown",
-                on: {
-                  click: function($event) {
-                    return _vm.changeTheme("brown")
-                  }
-                }
-              })
+              _c("div", { staticClass: "userProfil__info__content" }, [
+                _vm._v(_vm._s(_vm.person.description))
+              ])
             ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.userProfil
-        ? _c("div", { staticClass: "userProfil__info--buttons" }, [
-            _c("div", { staticClass: "radioButton" }, [
-              _c("input", {
-                staticClass: "radioButton__input sr-only",
-                attrs: { type: "checkbox", name: "create", id: "create" },
-                domProps: {
-                  value: _vm.person.create,
-                  checked: _vm.person.create ? "checked" : ""
-                },
-                on: {
-                  change: function($event) {
-                    return _vm.updateCheck("create", "create")
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.userProfil
+          ? _c("div", { staticClass: "userProfil__info" }, [
+              _c("div", { staticClass: "userProfil__info__label" }, [
+                _vm._v("Thême de l'applicaction")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "userProfil__info__colorPicker" }, [
+                _c("div", {
+                  class:
+                    _vm.person.theme === "black"
+                      ? "color black selected"
+                      : "color black",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeTheme("black")
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "label",
-                { staticClass: "radioButton__label", attrs: { for: "create" } },
-                [_vm._v("Je veux pouvoir créer des agendas")]
-              )
-            ])
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.userProfil && _vm.person.create
-        ? _c("div", { staticClass: "userProfil__info--buttons" }, [
-            _c("div", { staticClass: "radioButton" }, [
-              _c("input", {
-                staticClass: "radioButton__input sr-only",
-                attrs: { type: "checkbox", name: "indexed", id: "indexed" },
-                domProps: {
-                  value: _vm.person.schedule,
-                  checked: _vm.person.schedule ? "checked" : ""
-                },
-                on: {
-                  change: function($event) {
-                    return _vm.updateCheck("schedule", "indexed")
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  class:
+                    _vm.person.theme === "green"
+                      ? "color green selected"
+                      : "color green",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeTheme("green")
+                    }
                   }
-                }
-              }),
-              _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "label",
-                {
-                  staticClass: "radioButton__label",
-                  attrs: { for: "indexed" }
-                },
-                [_vm._v("Je veux que mon agenda soit indexé")]
-              )
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  class:
+                    _vm.person.theme === "red"
+                      ? "color red selected"
+                      : "color red",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeTheme("red")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  class:
+                    _vm.person.theme === "brown"
+                      ? "color brown selected"
+                      : "color brown",
+                  on: {
+                    click: function($event) {
+                      return _vm.changeTheme("brown")
+                    }
+                  }
+                })
+              ])
             ])
-          ])
-        : _vm._e()
-    ]),
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.userProfil
+          ? _c("div", { staticClass: "userProfil__info--buttons" }, [
+              _c("div", { staticClass: "radioButton" }, [
+                _c("input", {
+                  staticClass: "radioButton__input sr-only",
+                  attrs: { type: "checkbox", name: "create", id: "create" },
+                  domProps: {
+                    value: _vm.person.create,
+                    checked: _vm.person.create ? "checked" : ""
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.updateCheck("create", "create")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "radioButton__label",
+                    attrs: { for: "create" }
+                  },
+                  [_vm._v("Je veux pouvoir créer des agendas")]
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.userProfil && _vm.person.create
+          ? _c("div", { staticClass: "userProfil__info--buttons" }, [
+              _c("div", { staticClass: "radioButton" }, [
+                _c("input", {
+                  staticClass: "radioButton__input sr-only",
+                  attrs: { type: "checkbox", name: "indexed", id: "indexed" },
+                  domProps: {
+                    value: _vm.person.schedule,
+                    checked: _vm.person.schedule ? "checked" : ""
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.updateCheck("schedule", "indexed")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "radioButton__label",
+                    attrs: { for: "indexed" }
+                  },
+                  [_vm._v("Je veux que mon agenda soit indexé")]
+                )
+              ])
+            ])
+          : _vm._e()
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",

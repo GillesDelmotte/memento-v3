@@ -6,6 +6,29 @@
     box-sizing: border-box;
     margin-bottom: 50px;
 }
+
+.modifyAppointment{
+    width: 550px;
+    padding: 20px 40px;
+    color: white;
+    background-color: $main-color;
+    line-height: 1.5;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+    position: relative;
+    &__cross{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: block;
+        width: 10px;
+        height: 10px;
+        background-image: url('../../img/close.svg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+    }
+}
 .schedule__list{
     width: 550px;
     margin-bottom: 80px;
@@ -74,6 +97,9 @@
 }
 
 @media(max-width: 1050px){
+    .modifyAppointment{
+        width: 100%;
+    }
     .emptyDay{
         width: 100%;
     }

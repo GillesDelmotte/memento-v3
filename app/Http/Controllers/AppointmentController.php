@@ -94,7 +94,19 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+
+        $userAppointments = Appointment::where('date', $request['newDate'])->where('user_id', $request['user_id'])->get();
+
+        if( count($userAppointments) >= 1){
+            return 'false';
+        };
+
+        $appointment = Appointment::where('date', $request['lastDate'])->where('hour', $request['lastHour'])->first();
+
+        $appointment->date = $request['newDate'];
+        $appointment->hour = $request['newHour'];
+
+        $appointment->save();
     }
 
     /**

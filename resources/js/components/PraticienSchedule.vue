@@ -1,12 +1,19 @@
 <template>
   <div>
+    <div class="modifyAppointment" v-if="changeHour">
+      Modification du rendez-vous ( {{selectedFormatDate}} )
+      <span
+        class="modifyAppointment__cross"
+        @click="stopUpdate"
+      ></span>
+    </div>
     <div
       class="emptyDay"
       v-if="createListMorning.length === 0 "
     >Votre praticien n'a pas d'agenda pour aujourd'hui</div>
     <ul class="schedule__list">
       <li v-for="hour in createListMorning" :key="hour">
-        <div class="schedule__list__hour">{{hour}}</div>
+        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
         <div
           class="schedule__list__appointment myAppointment"
           v-if="reserved(hour) === 'myAppointment'"
@@ -28,7 +35,7 @@
     </ul>
     <ul class="schedule__list">
       <li v-for="hour in createListAfternoon" :key="hour">
-        <div class="schedule__list__hour">{{hour}}</div>
+        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
         <div
           class="schedule__list__appointment myAppointment"
           v-if="reserved(hour) === 'myAppointment'"
@@ -83,14 +90,20 @@
     </div>
 
     <div class="popup" @click="closePopupWithBackground($event)">
-      <div class="popup__window popup__window--schedule">
-        <button class="popup__window__close sr-only" @click="closePopup">close</button>
+      <div class="popup__window">
         <span class="popup__window__close--cross" @click="closePopup"></span>
-        <h2 class="popup__window--schedule__title">Que voulez vous faire ?</h2>
-        <div class="popup__window--schedule__hour">{{selectedFormatDate}}</div>
-        <div class="popup__window--schedule__links">
-          <a href @click.prevent.stop="deleteFromPopUp">Supprimer le rendez-vous</a>
-          <a href>Modifier le rendez-vous</a>
+        <h2 class="popup__window__title">Voulez vous changer</h2>
+        <div class="popup__window__hour">Le {{selectedFormatDate}}</div>
+        <div class="popup__window__hour__sign" v-if="this.changeHour"></div>
+        <div class="popup__window__hour" v-if="this.changeHour">Le {{selectedFormatNewDate}}</div>
+        <div class="popup__widow__buttons" v-if="!this.changeHour">
+          <button class="popup__window__save" @click="startUpdate">Modifier le rendez-vous</button>
+          <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
+        </div>
+        <div class="popup__widow__buttons" v-if="this.changeHour">
+          <button class="popup__window__save" @click="endUpdate">Oui je le veux</button>
+          <button class="popup__window__save" @click="closePopup">Non je ne veux pas</button>
+          <button class="popup__window__save" @click="stopUpdate">Annuler</button>
         </div>
       </div>
     </div>
@@ -128,9 +141,13 @@ export default {
         "Novembre",
         "Décembre"
       ],
+      changeHour: false,
       selectedHour: "",
+      selectedNewHour: "",
       selectedDate: null,
+      selectedNewDate: null,
       selectedFormatDate: null,
+      selectedFormatNewDate: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -343,6 +360,10 @@ export default {
       this.date = dd + "-" + mm + "-" + yyyy;
     },
     reserve(hour) {
+      if (this.changeHour) {
+        this.checkUpdate(hour);
+        return false;
+      }
       const splitDate = this.date.split("-");
 
       const data = {
@@ -367,6 +388,35 @@ export default {
         .catch(function(error) {
           console.log(error.response.data.message);
         });
+    },
+    checkUpdate(hour) {
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+
+      this.selectedNewDate = this.date;
+      this.selectedNewHour = hour;
+
+      const splitDate = this.selectedNewDate.split("-");
+
+      const test = new Date(
+        splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]
+      );
+
+      const day = this.days[test.getDay()];
+      const month = this.months[test.getMonth()];
+
+      const formatedDate =
+        day +
+        " " +
+        splitDate[0] +
+        " " +
+        month +
+        " " +
+        splitDate[2] +
+        " à " +
+        hour;
+
+      this.selectedFormatNewDate = formatedDate;
     },
     reserved(hour) {
       const splitDate = this.date.split("-");
@@ -425,28 +475,26 @@ export default {
       document.querySelector("body").classList.remove("freeze");
     },
     updateHour(hour) {
+      if (this.changeHour) {
+        this.error = "vous avez déjà un rendez-vous à cette heure la";
+        return false;
+      }
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
 
       this.selectedDate = this.date;
       this.selectedHour = hour;
 
-      //console.log(this.selectedDate);
-
       const splitDate = this.selectedDate.split("-");
-
-      //console.log(splitDate);
 
       const test = new Date(
         splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]
       );
 
-      console.log(test);
       const day = this.days[test.getDay()];
       const month = this.months[test.getMonth()];
 
       const formatedDate =
-        "Le " +
         day +
         " " +
         splitDate[0] +
@@ -459,21 +507,90 @@ export default {
 
       this.selectedFormatDate = formatedDate;
     },
+    startUpdate() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.changeHour = true;
+    },
+    endUpdate() {
+      console.log(this.selectedHour);
+      console.log(this.selectedDate);
+      console.log(this.selectedNewHour);
+      console.log(this.selectedNewDate);
+
+      const splitSelectedDate = this.selectedDate.split("-");
+      const splitSelectedNewDate = this.selectedNewDate.split("-");
+
+      const data = {
+        lastDate:
+          splitSelectedDate[2] +
+          "-" +
+          splitSelectedDate[1] +
+          "-" +
+          splitSelectedDate[0],
+        lastHour: this.selectedHour,
+        newDate:
+          splitSelectedNewDate[2] +
+          "-" +
+          splitSelectedNewDate[1] +
+          "-" +
+          splitSelectedNewDate[0],
+        newHour: this.selectedNewHour,
+        user_id: this.currentUser.id
+      };
+
+      window.axios
+        .post("/updateAppointment", data)
+        .then(response => {
+          if (response.data === false) {
+            this.error = "Vous avez déja un rendez-vous pour ce jour-ci";
+            document.querySelector(".popup").classList.remove("open");
+            document.querySelector("body").classList.remove("freeze");
+            return;
+          }
+          this.$store.dispatch(
+            "setScheduleForSelectedPratitionner",
+            this.$route.params.id
+          );
+          this.stopUpdate();
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
+    },
+    stopUpdate() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.changeHour = false;
+    },
     closePopup() {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
-      this.selectedHour = null;
-      this.selectedDate = null;
-      this.selectedFormatDate = null;
+      if (!this.changeHour) {
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.selectedFormatDate = null;
+      }
     },
     closePopupWithBackground(e) {
       const bgc = document.querySelector(".popup");
       if (e.target === bgc) {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
-        this.selectedHour = null;
-        this.selectedDate = null;
-        this.selectedFormatDate = null;
+        if (!this.changeHour) {
+          this.selectedHour = null;
+          this.selectedDate = null;
+          this.selectedFormatDate = null;
+        }
+      }
+    },
+    formatedHour(hour) {
+      const splitHour = hour.split(":");
+      console.log(splitHour);
+      if (splitHour[1] === "0") {
+        return splitHour[0] + "H00";
+      } else {
+        return splitHour[0] + "H" + splitHour[1];
       }
     }
   },
