@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div
+      class="emptySearch"
+      v-if="filteredBy === 'name' && filteredByName.length === 0 || filteredBy === 'job' && filteredByJob.length === 0"
+    >il n‘y a pas de résultat avec votre recherche</div>
+
     <ul class="userCards" v-if="filteredBy === 'name'">
       <user-card v-for="user in filteredByName" :key="user.id" :user="user"></user-card>
     </ul>
@@ -8,6 +13,7 @@
     </ul>
     <div :class="'aside close ' + currentUser.theme">
       <div class="aside__close" @click="openFilter"></div>
+      {{warning}}
       <h2 class="filter__title">Filtré par</h2>
       <div class="filter__name__job">
         <div class="filter__name active" @click="changeFilter('name')">Nom</div>
@@ -38,7 +44,8 @@ export default {
   data() {
     return {
       filteredBy: "name",
-      filter: ""
+      filter: "",
+      warning: ""
     };
   },
   methods: {

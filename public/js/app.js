@@ -3798,6 +3798,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3807,7 +3813,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       filteredBy: "name",
-      filter: ""
+      filter: "",
+      warning: ""
     };
   },
   methods: {
@@ -41646,6 +41653,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    (_vm.filteredBy === "name" && _vm.filteredByName.length === 0) ||
+    (_vm.filteredBy === "job" && _vm.filteredByJob.length === 0)
+      ? _c("div", { staticClass: "emptySearch" }, [
+          _vm._v("il n‘y a pas de résultat avec votre recherche")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _vm.filteredBy === "name"
       ? _c(
           "ul",
@@ -41670,7 +41684,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { class: "aside close " + _vm.currentUser.theme }, [
       _c("div", { staticClass: "aside__close", on: { click: _vm.openFilter } }),
-      _vm._v(" "),
+      _vm._v("\n    " + _vm._s(_vm.warning) + "\n    "),
       _c("h2", { staticClass: "filter__title" }, [_vm._v("Filtré par")]),
       _vm._v(" "),
       _c("div", { staticClass: "filter__name__job" }, [

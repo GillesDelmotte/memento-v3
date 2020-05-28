@@ -93,8 +93,20 @@
     }
 }
 
+.emptySearch{
+    width: 550px;
+    padding: 20px 40px;
+    background-color: rgba(yellow, 0.3);
+    line-height: 1.5;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+}
+
 @media(max-width: 1050px){
     .userCards{
+        width: 100%;
+    }
+    .emptySearch{
         width: 100%;
     }
 }
