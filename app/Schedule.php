@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Schedule extends Model
 {
     protected $fillable = [
-        'name', 'user_id'
+        'name', 'user_id', 'color'
     ];
 
     public function practitioner()

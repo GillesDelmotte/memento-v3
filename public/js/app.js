@@ -2153,6 +2153,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2216,6 +2263,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     createSchedule: function createSchedule() {
       var _this = this;
 
+      var color = document.querySelector('input[name="color"]:checked').value;
       this.errors = [];
       var scheduledays = [];
       var name = document.getElementById("scheduleName").value;
@@ -2278,6 +2326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.errors.length === 0) {
         window.axios.post("/createSchedule", {
           name: name,
+          color: color,
           days: scheduledays
         }).then(function (response) {
           //console.log(response.data);
@@ -3794,6 +3843,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -40278,6 +40328,8 @@ var render = function() {
               }
             }),
             _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
             _vm.findError("name")
               ? _c("p", { staticClass: "aside__error" }, [
                   _vm._v(_vm._s(_vm.findError("name")))
@@ -40305,7 +40357,67 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "aside__scheduleColors" }, [
+      _c("input", {
+        staticClass: "sr-only aside__scheduleColors__input",
+        attrs: {
+          type: "radio",
+          name: "color",
+          id: "red",
+          value: "red",
+          checked: ""
+        }
+      }),
+      _vm._v(" "),
+      _c("label", { staticClass: "scheduleColor red", attrs: { for: "red" } }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "sr-only aside__scheduleColors__input",
+        attrs: { type: "radio", name: "color", id: "blue", value: "blue" }
+      }),
+      _vm._v(" "),
+      _c("label", {
+        staticClass: "scheduleColor blue",
+        attrs: { for: "blue" }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "sr-only aside__scheduleColors__input",
+        attrs: { type: "radio", name: "color", id: "yellow", value: "yellow" }
+      }),
+      _vm._v(" "),
+      _c("label", {
+        staticClass: "scheduleColor yellow",
+        attrs: { for: "yellow" }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "sr-only aside__scheduleColors__input",
+        attrs: { type: "radio", name: "color", id: "green", value: "green" }
+      }),
+      _vm._v(" "),
+      _c("label", {
+        staticClass: "scheduleColor green",
+        attrs: { for: "green" }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "sr-only aside__scheduleColors__input",
+        attrs: { type: "radio", name: "color", id: "purple", value: "purple" }
+      }),
+      _vm._v(" "),
+      _c("label", {
+        staticClass: "scheduleColor purple",
+        attrs: { for: "purple" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -41646,7 +41758,9 @@ var render = function() {
                           )
                         }),
                         0
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("div", { class: "color " + schedule.color })
                     ])
                   }),
                   0

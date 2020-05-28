@@ -1318,6 +1318,36 @@ body.freeze {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+.aside__list li .color {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.aside__list li .color.red {
+  background-color: red;
+}
+
+.aside__list li .color.blue {
+  background-color: blue;
+}
+
+.aside__list li .color.yellow {
+  background-color: yellow;
+}
+
+.aside__list li .color.purple {
+  background-color: purple;
+}
+
+.aside__list li .color.green {
+  background-color: green;
+}
+
 .aside__list li div {
   margin-top: 10px;
   display: flex;
@@ -1487,6 +1517,45 @@ body.freeze {
 
 .aside__days__ul li:hover {
   background-color: grey;
+}
+
+.aside__scheduleColors {
+  display: flex;
+  padding: 0 30px;
+  margin: 20px 0;
+}
+
+.aside__scheduleColors__input:checked + .scheduleColor {
+  border-color: white;
+}
+
+.aside__scheduleColors .scheduleColor {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 2px solid #1D1D1D;
+}
+
+.aside__scheduleColors .scheduleColor.red {
+  background-color: red;
+}
+
+.aside__scheduleColors .scheduleColor.blue {
+  background-color: blue;
+}
+
+.aside__scheduleColors .scheduleColor.yellow {
+  background-color: yellow;
+}
+
+.aside__scheduleColors .scheduleColor.purple {
+  background-color: purple;
+}
+
+.aside__scheduleColors .scheduleColor.green {
+  background-color: green;
 }
 
 @media (max-width: 1050px) {

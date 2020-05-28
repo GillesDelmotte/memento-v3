@@ -17,6 +17,7 @@ class CreateSchedulesTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('name');
+            $table->string('color');
             $table->boolean('active')->default(false);
             $table->timestamps();
         });

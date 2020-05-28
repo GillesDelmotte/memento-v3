@@ -27,6 +27,7 @@
               :title="day.name"
             >{{day.name.charAt(0)}}</span>
           </div>
+          <div :class="'color ' + schedule.color"></div>
         </li>
       </ul>
       <a @click="redirect('/creation-horaire')" class="aside__link">Créer un agenda</a>

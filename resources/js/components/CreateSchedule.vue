@@ -107,6 +107,53 @@
         autocomplete="off"
         placeholder="Nom de l'agenda"
       />
+      <div class="aside__scheduleColors">
+        <input
+          type="radio"
+          class="sr-only aside__scheduleColors__input"
+          name="color"
+          id="red"
+          value="red"
+          checked
+        />
+        <label class="scheduleColor red" for="red"></label>
+
+        <input
+          type="radio"
+          class="sr-only aside__scheduleColors__input"
+          name="color"
+          id="blue"
+          value="blue"
+        />
+        <label class="scheduleColor blue" for="blue"></label>
+
+        <input
+          type="radio"
+          class="sr-only aside__scheduleColors__input"
+          name="color"
+          id="yellow"
+          value="yellow"
+        />
+        <label class="scheduleColor yellow" for="yellow"></label>
+
+        <input
+          type="radio"
+          class="sr-only aside__scheduleColors__input"
+          name="color"
+          id="green"
+          value="green"
+        />
+        <label class="scheduleColor green" for="green"></label>
+
+        <input
+          type="radio"
+          class="sr-only aside__scheduleColors__input"
+          name="color"
+          id="purple"
+          value="purple"
+        />
+        <label class="scheduleColor purple" for="purple"></label>
+      </div>
       <p class="aside__error" v-if="findError('name')">{{findError("name")}}</p>
       <a class="aside__link save" @click="createSchedule">Sauvegarder mon horaire</a>
     </div>
@@ -181,6 +228,7 @@ export default {
       }
     },
     createSchedule() {
+      const color = document.querySelector('input[name="color"]:checked').value;
       this.errors = [];
       const scheduledays = [];
       const name = document.getElementById("scheduleName").value;
@@ -239,6 +287,7 @@ export default {
         window.axios
           .post("/createSchedule", {
             name: name,
+            color: color,
             days: scheduledays
           })
           .then(response => {

@@ -41,10 +41,9 @@ class ScheduleController extends Controller
 
         $name = $request['name'];
         $days = $request['days'];
+        $color = $request['color'];
 
-
-
-        $schedule = Schedule::create(['name' => $name, 'user_id' => auth()->id()]);
+        $schedule = Schedule::create(['name' => $name, 'user_id' => auth()->id(), 'color' => $color]);
 
         $user = User::where('id', auth()->id())->first();
         $user->schedule = true;
