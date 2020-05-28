@@ -58,10 +58,6 @@
       </ul>
       <div :class="'aside close ' + currentUser.theme">
         <div class="aside__close"></div>
-        <!-- <div v-if="practitioner.profilPic">
-        <img :src="'../images/profiles/' + practitioner.profilPic" alt />
-      </div>
-        <div v-else></div>-->
         <h2 class="aside__title sr-only">Date</h2>
         <div class="aside__user__infos">
           <div class="aside__user__infos__name">{{practitioner.name}}</div>
@@ -523,11 +519,6 @@ export default {
       this.changeHour = true;
     },
     endUpdate() {
-      console.log(this.selectedHour);
-      console.log(this.selectedDate);
-      console.log(this.selectedNewHour);
-      console.log(this.selectedNewDate);
-
       const splitSelectedDate = this.selectedDate.split("-");
       const splitSelectedNewDate = this.selectedNewDate.split("-");
 

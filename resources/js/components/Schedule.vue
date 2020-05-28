@@ -9,15 +9,37 @@
     <ul class="schedule__list">
       <li v-for="hour in createListMorning" :key="hour">
         <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
-        <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
-        <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
+        <div
+          class="schedule__list__appointment"
+          v-if="reserved(hour) === false"
+          @click="addOnMySchedule"
+        >Pas de rendez-vous</div>
+        <div class="schedule__list__appointment myAppointment" v-else>
+          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+          <div class="cross" @click="deleteAppointment(hour)">
+            <div class="first"></div>
+            <div class="second"></div>
+          </div>
+          {{reserved(hour)}}
+        </div>
       </li>
     </ul>
     <ul class="schedule__list">
       <li v-for="hour in createListAfternoon" :key="hour">
         <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
-        <div class="schedule__list__appointment" v-if="reserved(hour) === false">Pas de rendez-vous</div>
-        <div class="schedule__list__appointment myAppointment" v-else>{{reserved(hour)}}</div>
+        <div
+          class="schedule__list__appointment"
+          v-if="reserved(hour) === false"
+          @click="addOnMySchedule"
+        >Pas de rendez-vous</div>
+        <div class="schedule__list__appointment myAppointment" v-else>
+          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+          <div class="cross" @click="deleteAppointment(hour)">
+            <div class="first"></div>
+            <div class="second"></div>
+          </div>
+          {{reserved(hour)}}
+        </div>
       </li>
     </ul>
     <div :class="'aside close ' + currentUser.theme">
@@ -40,6 +62,35 @@
       </div>
     </div>
     <div class="aside__button schedule" @click="openFilter"></div>
+
+    <div class="popup" @click="closePopupWithBackground($event)">
+      <div class="popup__window">
+        <span class="popup__window__close--cross" @click="closePopup"></span>
+        <div v-if="popupType === 'infos'">
+          <h2 class="popup__window__title">Information sur le rendez-vous</h2>
+          <div class="popup__window__userInfos" v-if="userSelected">
+            <div class="popup__window__userInfos__name">
+              <span>Nom du client&nbsp;:</span>
+              {{userSelected.name}}
+            </div>
+            <div class="popup__window__userInfos__name">
+              <span>Gsm&nbsp;:</span>
+              {{userSelected.gsm}}
+            </div>
+            <div class="popup__window__userInfos__name">
+              <span>Adresse&nbsp;:</span>
+              {{userSelected.address}}
+            </div>
+            <div class="popup__widow__buttons">
+              <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
+            </div>
+          </div>
+        </div>
+        <div v-if="popupType === 'add'">
+          <h2 class="popup__window__title">Ajouter une personne à mon horaire</h2>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -76,7 +127,11 @@ export default {
       monthNumber: null,
       number0fdDayInMonth: null,
       year: null,
-      date: null
+      date: null,
+      userSelected: null,
+      selectedDate: null,
+      selectedHour: null,
+      popupType: null
     };
   },
   computed: {
@@ -212,8 +267,6 @@ export default {
         }
       }
 
-      console.log(listOfNumber);
-
       return listOfNumber;
     }
   },
@@ -315,6 +368,108 @@ export default {
       } else {
         return "aside__days__ul__li";
       }
+    },
+    deleteAppointment(hour) {
+      const splitDate = this.date.split("-");
+
+      const appointment = this.appointments.filter(
+        appointment =>
+          appointment.hour === hour &&
+          appointment.date ===
+            splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      );
+
+      window.axios
+        .post("/deleteAppointment", {
+          schedule_id: appointment[0].schedule_id,
+          hour: hour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        })
+        .then(response => {
+          window.axios
+            .post("/getMyScheduleAppointments")
+            .then(response => {
+              this.appointments = response.data;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(error => console.error(error));
+    },
+    closePopup() {
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      //   if (!this.changeHour) {
+      //     this.selectedHour = null;
+      //     this.selectedDate = null;
+      //     this.selectedFormatDate = null;
+      //   }
+    },
+    closePopupWithBackground(e) {
+      const bgc = document.querySelector(".popup");
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+        // if (!this.changeHour) {
+        //   this.selectedHour = null;
+        //   this.selectedDate = null;
+        //   this.selectedFormatDate = null;
+        // }
+      }
+    },
+    updateHour(hour) {
+      this.popupType = "infos";
+      const splitDate = this.date.split("-");
+      const appointment = this.appointments.filter(
+        appointment =>
+          appointment.hour === hour &&
+          appointment.date ===
+            splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      );
+      this.selectedDate = this.date;
+      this.selectedHour = hour;
+      this.userSelected = appointment[0].user;
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+    },
+    deleteFromPopUp() {
+      const splitDate = this.selectedDate.split("-");
+
+      const appointment = this.appointments.filter(
+        appointment =>
+          appointment.hour === this.selectedHour &&
+          appointment.date ===
+            splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      );
+
+      window.axios
+        .post("/deleteAppointment", {
+          schedule_id: appointment[0].schedule_id,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        })
+        .then(response => {
+          window.axios
+            .post("/getMyScheduleAppointments")
+            .then(response => {
+              this.appointments = response.data;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          this.selectedDate = null;
+          this.selectedHour = null;
+          this.userSelected = null;
+        })
+        .catch(error => console.error(error));
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    addOnMySchedule() {
+      this.popupType = "add";
+      document.querySelector(".popup").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
     }
   },
   mounted() {

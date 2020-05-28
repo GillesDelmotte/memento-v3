@@ -54,24 +54,36 @@
                     align-items: center;
                 }
                 &__radio{
-                display: flex;
-                flex-wrap: wrap;
-                .radios{
-                    input:checked ~.radios__dot{
-                        background-color: $main-color;
-                    }
-                    margin-right: 10px;
-                    margin-bottom: 10px;
-                    &__dot{
-                        width: 10px;
-                        height: 10px;
-                        display: inline-block;
-                        border: 1px solid $main-color;
-                        border-radius: 50%;
-                        margin-right: 5px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    .radios{
+                        input:checked ~.radios__dot{
+                            background-color: $main-color;
+                        }
+                        margin-right: 10px;
+                        margin-bottom: 10px;
+                        &__dot{
+                            width: 10px;
+                            height: 10px;
+                            display: inline-block;
+                            border: 1px solid $main-color;
+                            border-radius: 50%;
+                            margin-right: 5px;
+                        }
                     }
                 }
-            }
+
+                &__days{
+                    .day{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 10px;
+                    }
+                    .label{
+                        margin-left: 10px;
+                    }
+
+                }
             }
             &__title{
                 font-weight: bold;
@@ -103,6 +115,27 @@
         background-repeat: no-repeat;
         background-size: 100%;
 
+    }
+
+    &__choice{
+        background-color: white;
+        padding:30px;
+        box-sizing: border-box;
+        width: 550px;
+        box-shadow: $shadow;
+        p{
+            margin-bottom: 15px;
+        }
+        &__buttons{
+            button{
+                @include main-link(black, 18px);
+                border: none;
+            margin-top: 20px;
+            margin-left: 15px;
+            outline: none;
+            font-family: $font-family-sans-serif;
+            }
+        }
     }
 }
 
