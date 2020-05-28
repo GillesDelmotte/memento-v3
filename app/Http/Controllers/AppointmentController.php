@@ -101,7 +101,7 @@ class AppointmentController extends Controller
             return 'false';
         };
 
-        $appointment = Appointment::where('date', $request['lastDate'])->where('hour', $request['lastHour'])->first();
+        $appointment = Appointment::where('date', $request['lastDate'])->where('hour', $request['lastHour'])->where('schedule_id', $request['schedule_id'])->first();
 
         $appointment->date = $request['newDate'];
         $appointment->hour = $request['newHour'];

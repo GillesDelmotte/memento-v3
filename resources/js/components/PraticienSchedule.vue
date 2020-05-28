@@ -536,7 +536,8 @@ export default {
           "-" +
           splitSelectedNewDate[0],
         newHour: this.selectedNewHour,
-        user_id: this.currentUser.id
+        user_id: this.currentUser.id,
+        schedule_id: this.schedule.id
       };
 
       window.axios
@@ -586,7 +587,6 @@ export default {
     },
     formatedHour(hour) {
       const splitHour = hour.split(":");
-      console.log(splitHour);
       if (splitHour[1] === "0") {
         return splitHour[0] + "H00";
       } else {

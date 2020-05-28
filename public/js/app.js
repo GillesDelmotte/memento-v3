@@ -3213,7 +3213,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         lastHour: this.selectedHour,
         newDate: splitSelectedNewDate[2] + "-" + splitSelectedNewDate[1] + "-" + splitSelectedNewDate[0],
         newHour: this.selectedNewHour,
-        user_id: this.currentUser.id
+        user_id: this.currentUser.id,
+        schedule_id: this.schedule.id
       };
       window.axios.post("/updateAppointment", data).then(function (response) {
         if (response.data === false) {
@@ -3261,7 +3262,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     formatedHour: function formatedHour(hour) {
       var splitHour = hour.split(":");
-      console.log(splitHour);
 
       if (splitHour[1] === "0") {
         return splitHour[0] + "H00";
@@ -3940,6 +3940,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -42096,7 +42103,13 @@ var render = function() {
                   expression: "gsm"
                 }
               ],
-              attrs: { type: "tel", name: "gsm", id: "gsm" },
+              attrs: {
+                type: "tel",
+                name: "gsm",
+                id: "gsm",
+                pattern: "[0-9]{10}",
+                placeholder: "0497368595"
+              },
               domProps: { value: _vm.gsm },
               on: {
                 input: function($event) {

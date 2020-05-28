@@ -115,7 +115,14 @@
         </div>
         <div :class="'popup__window__input ' + person.theme">
           <label for="gsm">Gsm&nbsp;:</label>
-          <input type="tel" name="gsm" id="gsm" v-model="gsm" />
+          <input
+            type="tel"
+            name="gsm"
+            id="gsm"
+            v-model="gsm"
+            pattern="[0-9]{10}"
+            placeholder="0497368595"
+          />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
         <div :class="'popup__window__input ' + person.theme">
