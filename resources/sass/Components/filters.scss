@@ -255,8 +255,27 @@
                 width: 30px;
                 height: 30px;
                 &.active{
-                background-color: grey;
+                    background-color: white;
+                    color: $main-color;
 
+                }
+                &.red{
+                    background-color: rgba(red, 0.2);
+                }
+                &.blue{
+                    background-color:  rgba(blue, 0.2);
+                }
+                &.yellow{
+                    background-color:  rgba(yellow, 0.2);
+                }
+                &.purple{
+                    background-color:  rgba(purple, 0.2);
+                }
+                &.green{
+                    background-color:  rgba(green, 0.2);
+                }
+                &.grey{
+                    background-color:  rgba(grey, 0.4);
                 }
                 &:hover{
                    background-color: grey;

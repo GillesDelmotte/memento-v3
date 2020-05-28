@@ -1512,7 +1512,32 @@ body.freeze {
 }
 
 .aside__days__ul li.active {
-  background-color: grey;
+  background-color: white;
+  color: #1D1D1D;
+}
+
+.aside__days__ul li.red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.aside__days__ul li.blue {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+
+.aside__days__ul li.yellow {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+
+.aside__days__ul li.purple {
+  background-color: rgba(128, 0, 128, 0.2);
+}
+
+.aside__days__ul li.green {
+  background-color: rgba(0, 128, 0, 0.2);
+}
+
+.aside__days__ul li.grey {
+  background-color: rgba(128, 128, 128, 0.4);
 }
 
 .aside__days__ul li:hover {

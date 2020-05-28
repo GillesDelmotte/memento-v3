@@ -22,6 +22,7 @@ class CreateDaysTable extends Migration
             $table->string('as');
             $table->string('ae');
             $table->integer('time');
+            $table->string('color');
             $table->timestamps();
         });
     }

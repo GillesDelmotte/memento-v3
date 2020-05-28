@@ -50,7 +50,7 @@ class ScheduleController extends Controller
         $user->save();
 
         foreach($days as $day){
-            Day::create(['name' => $day['name'], 'schedule_id' => $schedule->id, 'ms' => $day['ms'], 'me' => $day['me'], 'as' => $day['as'], 'ae' => $day['ae'], 'time' => $day['time']]);
+            Day::create(['name' => $day['name'], 'schedule_id' => $schedule->id, 'ms' => $day['ms'], 'me' => $day['me'], 'as' => $day['as'], 'ae' => $day['ae'], 'time' => $day['time'],'color' => $color]);
         }
 
 

@@ -31,7 +31,7 @@
       <div class="aside__days">
         <ul class="aside__days__ul">
           <li
-            :class=" dayNumber.active ? 'aside__days__ul__li active': 'aside__days__ul__li'"
+            :class="calculatedClass(dayNumber)"
             v-for="dayNumber in makeListOfNumberOfDay"
             :key="dayNumber.number"
             @click="changeDay(dayNumber.number)"
@@ -181,18 +181,38 @@ export default {
     },
     makeListOfNumberOfDay() {
       const listOfNumber = [];
+      const listOfDays = [];
+      this.currentUser.schedules.forEach(schedule => {
+        schedule.days.forEach(day => {
+          listOfDays.push(day);
+        });
+      });
       for (let i = 1; i <= this.calculatedNumberOfDay; i++) {
         if (this.date) {
           const splitDate = this.date.split("-");
+          const d = new Date(splitDate[1] + "-" + i + "-" + splitDate[2]);
+
+          var test = listOfDays.find(day => {
+            return day.name === this.days[d.getDay()];
+          });
+
+          if (test != undefined) {
+            var color = test.color;
+          } else {
+            var color = undefined;
+          }
+
           if (i == splitDate[0]) {
             var active = true;
           } else {
             var active = false;
           }
-          const number = { active: active, number: i };
+          const number = { active: active, number: i, color: color };
           listOfNumber.push(number);
         }
       }
+
+      console.log(listOfNumber);
 
       return listOfNumber;
     }
@@ -281,11 +301,19 @@ export default {
     },
     formatedHour(hour) {
       const splitHour = hour.split(":");
-      console.log(splitHour);
       if (splitHour[1] === "0") {
         return splitHour[0] + "H00";
       } else {
         return splitHour[0] + "H" + splitHour[1];
+      }
+    },
+    calculatedClass(data) {
+      if (data.active) {
+        return "aside__days__ul__li active";
+      } else if (data.color) {
+        return "aside__days__ul__li " + data.color;
+      } else {
+        return "aside__days__ul__li";
       }
     }
   },
@@ -296,7 +324,6 @@ export default {
     window.axios
       .post("/getMyScheduleAppointments")
       .then(response => {
-        console.log(response.data);
         this.appointments = response.data;
       })
       .catch(error => {

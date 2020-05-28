@@ -1,109 +1,111 @@
 <template>
   <div>
-    <div class="modifyAppointment" v-if="changeHour">
-      Modification du rendez-vous ( {{selectedFormatDate}} )
-      <span
-        class="modifyAppointment__cross"
-        @click="stopUpdate"
-      ></span>
-    </div>
-    <div
-      class="emptyDay"
-      v-if="createListMorning.length === 0 "
-    >Votre praticien n'a pas d'agenda pour aujourd'hui</div>
-    <ul class="schedule__list">
-      <li v-for="hour in createListMorning" :key="hour">
-        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
-        <div
-          class="schedule__list__appointment myAppointment"
-          v-if="reserved(hour) === 'myAppointment'"
-        >
-          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
-          <div class="cross" @click="deleteAppointment(hour)">
-            <div class="first"></div>
-            <div class="second"></div>
+    <div v-if="componentReady">
+      <div class="modifyAppointment" v-if="changeHour">
+        Modification du rendez-vous ( {{selectedFormatDate}} )
+        <span
+          class="modifyAppointment__cross"
+          @click="stopUpdate"
+        ></span>
+      </div>
+      <div
+        class="emptyDay"
+        v-if="createListMorning.length === 0 "
+      >Votre praticien n'a pas d'agenda pour aujourd'hui</div>
+      <ul class="schedule__list">
+        <li v-for="hour in createListMorning" :key="hour">
+          <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
+          <div
+            class="schedule__list__appointment myAppointment"
+            v-if="reserved(hour) === 'myAppointment'"
+          >
+            <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+            <div class="cross" @click="deleteAppointment(hour)">
+              <div class="first"></div>
+              <div class="second"></div>
+            </div>
+            {{currentUser.name}}
           </div>
-          {{currentUser.name}}
-        </div>
-        <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
-        <div
-          class="schedule__list__appointment true"
-          @click.prevent.stop="reserve(hour)"
-          v-if="reserved(hour) === true"
-        >Plage horaire disponible</div>
-      </li>
-    </ul>
-    <ul class="schedule__list">
-      <li v-for="hour in createListAfternoon" :key="hour">
-        <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
-        <div
-          class="schedule__list__appointment myAppointment"
-          v-if="reserved(hour) === 'myAppointment'"
-        >
-          <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
-          <div class="cross" @click="deleteAppointment(hour)">
-            <div class="first"></div>
-            <div class="second"></div>
+          <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
+          <div
+            class="schedule__list__appointment true"
+            @click.prevent.stop="reserve(hour)"
+            v-if="reserved(hour) === true"
+          >Plage horaire disponible</div>
+        </li>
+      </ul>
+      <ul class="schedule__list">
+        <li v-for="hour in createListAfternoon" :key="hour">
+          <div class="schedule__list__hour">{{formatedHour(hour)}}</div>
+          <div
+            class="schedule__list__appointment myAppointment"
+            v-if="reserved(hour) === 'myAppointment'"
+          >
+            <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
+            <div class="cross" @click="deleteAppointment(hour)">
+              <div class="first"></div>
+              <div class="second"></div>
+            </div>
+            {{currentUser.name}}
           </div>
-          {{currentUser.name}}
-        </div>
-        <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
-        <div
-          class="schedule__list__appointment true"
-          @click.prevent.stop="reserve(hour)"
-          v-if="reserved(hour) === true"
-        >Plage horaire disponible</div>
-      </li>
-    </ul>
-    <div :class="'aside close ' + currentUser.theme">
-      <div class="aside__close"></div>
-      <!-- <div v-if="practitioner.profilPic">
+          <div class="schedule__list__appointment false" v-else-if="reserved(hour) === false">&nbsp;</div>
+          <div
+            class="schedule__list__appointment true"
+            @click.prevent.stop="reserve(hour)"
+            v-if="reserved(hour) === true"
+          >Plage horaire disponible</div>
+        </li>
+      </ul>
+      <div :class="'aside close ' + currentUser.theme">
+        <div class="aside__close"></div>
+        <!-- <div v-if="practitioner.profilPic">
         <img :src="'../images/profiles/' + practitioner.profilPic" alt />
       </div>
-      <div v-else></div>-->
-      <h2 class="aside__title sr-only">Date</h2>
-      <div class="aside__user__infos">
-        <div class="aside__user__infos__name">{{practitioner.name}}</div>
-        <div class="aside__user__infos__schedule">{{schedule.name}}</div>
-      </div>
-      <div class="aside__date">
-        <span class="aside__date__previous" @click="previousMonth"></span>
-        <div>{{months[monthNumber]}}, {{year}}</div>
-        <span class="aside__date__next" @click="nextMonth"></span>
-      </div>
-      <div class="aside__days">
-        <ul class="aside__days__ul">
-          <li
-            :class=" dayNumber.active ? 'aside__days__ul__li active': 'aside__days__ul__li'"
-            v-for="dayNumber in makeListOfNumberOfDay"
-            :key="dayNumber.number"
-            @click="changeDay(dayNumber.number)"
-          >{{dayNumber.number}}</li>
-        </ul>
-      </div>
-    </div>
-    <div class="aside__button schedule" @click="openFilter"></div>
-
-    <div class="error" v-if="error != ''" @click="deleteError">
-      <span class="error__cross" @click="deleteError"></span>
-      {{error}}
-    </div>
-
-    <div class="popup" @click="closePopupWithBackground($event)">
-      <div class="popup__window">
-        <span class="popup__window__close--cross" @click="closePopup"></span>
-        <h2 class="popup__window__title">Voulez vous changer</h2>
-        <div class="popup__window__hour">Le {{selectedFormatDate}}</div>
-        <div class="popup__window__hour__sign" v-if="this.changeHour"></div>
-        <div class="popup__window__hour" v-if="this.changeHour">Le {{selectedFormatNewDate}}</div>
-        <div class="popup__widow__buttons" v-if="!this.changeHour">
-          <button class="popup__window__save" @click="startUpdate">Modifier le rendez-vous</button>
-          <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
+        <div v-else></div>-->
+        <h2 class="aside__title sr-only">Date</h2>
+        <div class="aside__user__infos">
+          <div class="aside__user__infos__name">{{practitioner.name}}</div>
+          <div class="aside__user__infos__schedule">{{schedule.name}}</div>
         </div>
-        <div class="popup__widow__buttons" v-if="this.changeHour">
-          <button class="popup__window__save" @click="endUpdate">Oui je le veux</button>
-          <button class="popup__window__save" @click="closePopup">Non je ne veux pas</button>
-          <button class="popup__window__save" @click="stopUpdate">Annuler</button>
+        <div class="aside__date">
+          <span class="aside__date__previous" @click="previousMonth"></span>
+          <div>{{months[monthNumber]}}, {{year}}</div>
+          <span class="aside__date__next" @click="nextMonth"></span>
+        </div>
+        <div class="aside__days">
+          <ul class="aside__days__ul">
+            <li
+              :class="calculatedClass(dayNumber)"
+              v-for="dayNumber in makeListOfNumberOfDay"
+              :key="dayNumber.number"
+              @click="changeDay(dayNumber.number)"
+            >{{dayNumber.number}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="aside__button schedule" @click="openFilter"></div>
+
+      <div class="error" v-if="error != ''" @click="deleteError">
+        <span class="error__cross" @click="deleteError"></span>
+        {{error}}
+      </div>
+
+      <div class="popup" @click="closePopupWithBackground($event)">
+        <div class="popup__window">
+          <span class="popup__window__close--cross" @click="closePopup"></span>
+          <h2 class="popup__window__title">Voulez vous changer</h2>
+          <div class="popup__window__hour">Le {{selectedFormatDate}}</div>
+          <div class="popup__window__hour__sign" v-if="this.changeHour"></div>
+          <div class="popup__window__hour" v-if="this.changeHour">Le {{selectedFormatNewDate}}</div>
+          <div class="popup__widow__buttons" v-if="!this.changeHour">
+            <button class="popup__window__save" @click="startUpdate">Modifier le rendez-vous</button>
+            <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
+          </div>
+          <div class="popup__widow__buttons" v-if="this.changeHour">
+            <button class="popup__window__save" @click="endUpdate">Oui je le veux</button>
+            <button class="popup__window__save" @click="closePopup">Non je ne veux pas</button>
+            <button class="popup__window__save" @click="stopUpdate">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
@@ -153,7 +155,9 @@ export default {
       number0fdDayInMonth: null,
       year: null,
       date: null,
-      error: ""
+      error: "",
+      practitioner: null,
+      componentReady: false
     };
   },
   computed: {
@@ -167,12 +171,6 @@ export default {
         return schedule.id === this.$route.params.scheduleId;
       });
       return schedule;
-    },
-    practitioner() {
-      const practitioner = this.allPractitioner.filter(
-        practitioner => practitioner.id === this.$route.params.id
-      );
-      return practitioner[0];
     },
     day() {
       var d = new Date();
@@ -275,12 +273,24 @@ export default {
       for (let i = 1; i <= this.calculatedNumberOfDay; i++) {
         if (this.date) {
           const splitDate = this.date.split("-");
+          const d = new Date(splitDate[1] + "-" + i + "-" + splitDate[2]);
+
+          var test = this.schedule.days.find(day => {
+            return day.name === this.days[d.getDay()];
+          });
+
+          if (test != undefined) {
+            var color = "grey";
+          } else {
+            var color = undefined;
+          }
+
           if (i == splitDate[0]) {
             var active = true;
           } else {
             var active = false;
           }
-          const number = { active: active, number: i };
+          const number = { active: active, number: i, color: color };
           listOfNumber.push(number);
         }
       }
@@ -592,6 +602,15 @@ export default {
       } else {
         return splitHour[0] + "H" + splitHour[1];
       }
+    },
+    calculatedClass(data) {
+      if (data.active) {
+        return "aside__days__ul__li active";
+      } else if (data.color) {
+        return "aside__days__ul__li " + data.color;
+      } else {
+        return "aside__days__ul__li";
+      }
     }
   },
   mounted() {
@@ -602,6 +621,13 @@ export default {
       "setScheduleForSelectedPratitionner",
       this.$route.params.id
     );
+
+    window.axios
+      .post("/getSelectedPractitioner", { id: this.$route.params.id })
+      .then(response => {
+        this.practitioner = response.data;
+        this.componentReady = true;
+      });
   }
 };
 </script>
