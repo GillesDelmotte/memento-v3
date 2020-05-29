@@ -175,6 +175,21 @@
             }
         }
 
+        &__clientList{
+            background-color: rgba($color: $main-color, $alpha: 0.2);
+            height: 150px;
+            box-sizing: border-box;
+            overflow-y: scroll;
+            box-shadow: $shadow;
+            .client{
+                box-sizing: border-box;
+                background-color: rgba($color: $main-color, $alpha: 0.2);
+                padding: 10px 20px;
+                margin: 10px 0;
+                cursor: pointer;
+            }
+        }
+
     }
 
 }

@@ -48,7 +48,7 @@
         <div class="userProfil__info__content">{{person.description}}</div>
       </div>
       <div class="userProfil__info" v-if="userProfil">
-        <div class="userProfil__info__label">Thême de l'applicaction</div>
+        <div class="userProfil__info__label">Thême de l'application</div>
         <div class="userProfil__info__colorPicker">
           <div
             @click="changeTheme('black')"
@@ -113,6 +113,13 @@
           <input type="tel" name="job" id="job" v-model="job" />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
+
+        <div :class="'popup__window__input ' + person.theme">
+          <label for="gsm">Email&nbsp;:</label>
+          <input type="email" name="email" id="email" v-model="email" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+
         <div :class="'popup__window__input ' + person.theme">
           <label for="gsm">Gsm&nbsp;:</label>
           <input
@@ -125,6 +132,7 @@
           />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
+
         <div :class="'popup__window__input ' + person.theme">
           <label for="address">Adresse&nbsp;:</label>
           <input type="tel" name="address" id="address" v-model="address" />
@@ -165,7 +173,8 @@ export default {
       job: "",
       address: "",
       desc: "",
-      gsm: ""
+      gsm: "",
+      email: ""
     };
   },
   props: {
@@ -185,6 +194,7 @@ export default {
       this.address = this.person.address;
       this.desc = this.person.description;
       this.gsm = this.person.gsm;
+      this.email = this.person.email;
 
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
@@ -195,6 +205,7 @@ export default {
         description: this.desc,
         gsm: this.gsm,
         address: this.address,
+        email: this.email,
         type: "all"
       };
       //console.log(data);

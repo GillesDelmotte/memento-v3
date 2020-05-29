@@ -3676,6 +3676,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Schedule",
@@ -3684,6 +3697,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
       months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
       appointments: [],
+      scheduleId: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -3692,7 +3706,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       userSelected: null,
       selectedDate: null,
       selectedHour: null,
-      popupType: null
+      popupType: null,
+      filter: "",
+      clients: []
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["currentUser"]), {
@@ -3719,6 +3735,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         if (test != undefined) {
+          _this.scheduleId = schedule.id;
           day = test;
         }
       });
@@ -3841,6 +3858,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return listOfNumber;
+    },
+    filteredClients: function filteredClients() {
+      var _this4 = this;
+
+      if (this.filter.length === 0) {
+        return this.clients;
+      } else {
+        return this.clients.filter(function (client) {
+          return client.name.toLowerCase().match(_this4.filter.toLowerCase());
+        });
+      }
     }
   }),
   methods: {
@@ -3936,7 +3964,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     deleteAppointment: function deleteAppointment(hour) {
-      var _this4 = this;
+      var _this5 = this;
 
       var splitDate = this.date.split("-");
       var appointment = this.appointments.filter(function (appointment) {
@@ -3948,7 +3976,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
       }).then(function (response) {
         window.axios.post("/getMyScheduleAppointments").then(function (response) {
-          _this4.appointments = response.data;
+          _this5.appointments = response.data;
         })["catch"](function (error) {
           console.log(error);
         });
@@ -3989,11 +4017,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       document.querySelector("body").classList.add("freeze");
     },
     deleteFromPopUp: function deleteFromPopUp() {
-      var _this5 = this;
+      var _this6 = this;
 
       var splitDate = this.selectedDate.split("-");
       var appointment = this.appointments.filter(function (appointment) {
-        return appointment.hour === _this5.selectedHour && appointment.date === splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
+        return appointment.hour === _this6.selectedHour && appointment.date === splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0];
       });
       window.axios.post("/deleteAppointment", {
         schedule_id: appointment[0].schedule_id,
@@ -4001,35 +4029,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
       }).then(function (response) {
         window.axios.post("/getMyScheduleAppointments").then(function (response) {
-          _this5.appointments = response.data;
+          _this6.appointments = response.data;
         })["catch"](function (error) {
           console.log(error);
         });
-        _this5.selectedDate = null;
-        _this5.selectedHour = null;
-        _this5.userSelected = null;
+        _this6.selectedDate = null;
+        _this6.selectedHour = null;
+        _this6.userSelected = null;
       })["catch"](function (error) {
         return console.error(error);
       });
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
     },
-    addOnMySchedule: function addOnMySchedule() {
+    addOnMySchedule: function addOnMySchedule(hour) {
       this.popupType = "add";
+      this.selectedDate = this.date;
+      this.selectedHour = hour;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
+    },
+    createAppointment: function createAppointment(client) {
+      var _this7 = this;
+
+      var splitDate = this.selectedDate.split("-");
+      var data = {
+        user_id: client.id,
+        schedule_id: this.scheduleId,
+        hour: this.selectedHour,
+        date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      };
+      window.axios.post("/createAppointment", data).then(function (response) {
+        window.axios.post("/getMyScheduleAppointments").then(function (response) {
+          _this7.appointments = response.data;
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
     }
   },
   mounted: function mounted() {
     this.day;
   },
   beforeMount: function beforeMount() {
-    var _this6 = this;
+    var _this8 = this;
 
     window.axios.post("/getMyScheduleAppointments").then(function (response) {
-      _this6.appointments = response.data;
+      _this8.appointments = response.data;
     })["catch"](function (error) {
       console.log(error);
+    });
+    window.axios.post("/getClients").then(function (response) {
+      _this8.clients = response.data;
     });
   }
 });
@@ -4099,7 +4154,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       filteredBy: "name",
       filter: "",
-      warning: ""
+      warning: "",
+      componentReady: false
     };
   },
   methods: {
@@ -4159,6 +4215,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.$store.dispatch("setAllJob").then(function () {
       _this3.$store.dispatch("setAllPractitioner");
+
+      _this3.componentReady = true;
     });
   }
 });
@@ -4502,6 +4560,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4518,7 +4584,8 @@ __webpack_require__.r(__webpack_exports__);
       job: "",
       address: "",
       desc: "",
-      gsm: ""
+      gsm: "",
+      email: ""
     };
   },
   props: {
@@ -4539,6 +4606,7 @@ __webpack_require__.r(__webpack_exports__);
       this.address = this.person.address;
       this.desc = this.person.description;
       this.gsm = this.person.gsm;
+      this.email = this.person.email;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
@@ -4550,6 +4618,7 @@ __webpack_require__.r(__webpack_exports__);
         description: this.desc,
         gsm: this.gsm,
         address: this.address,
+        email: this.email,
         type: "all"
       }; //console.log(data);
 
@@ -42083,7 +42152,11 @@ var render = function() {
                   "div",
                   {
                     staticClass: "schedule__list__appointment",
-                    on: { click: _vm.addOnMySchedule }
+                    on: {
+                      click: function($event) {
+                        return _vm.addOnMySchedule(hour)
+                      }
+                    }
                   },
                   [_vm._v("Pas de rendez-vous")]
                 )
@@ -42143,7 +42216,11 @@ var render = function() {
                   "div",
                   {
                     staticClass: "schedule__list__appointment",
-                    on: { click: _vm.addOnMySchedule }
+                    on: {
+                      click: function($event) {
+                        return _vm.addOnMySchedule(hour)
+                      }
+                    }
                   },
                   [_vm._v("Pas de rendez-vous")]
                 )
@@ -42324,7 +42401,73 @@ var render = function() {
               ? _c("div", [
                   _c("h2", { staticClass: "popup__window__title" }, [
                     _vm._v("Ajouter une personne à mon horaire")
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { class: "popup__window__input " + this.currentUser.theme },
+                    [
+                      _c("label", { attrs: { for: "gsm" } }, [
+                        _vm._v("Nom de la personne :")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.filter,
+                            expression: "filter"
+                          }
+                        ],
+                        attrs: {
+                          type: "name",
+                          name: "name",
+                          id: "name",
+                          autocomplete: "off"
+                        },
+                        domProps: { value: _vm.filter },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.filter = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        class:
+                          "popup__window__input__bgc " + this.currentUser.theme
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "popup__window__clientList" },
+                    _vm._l(_vm.filteredClients, function(client) {
+                      return _c(
+                        "div",
+                        {
+                          key: client.id,
+                          staticClass: "client",
+                          on: {
+                            click: function($event) {
+                              return _vm.createAppointment(client)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            _vm._s(client.name) + " - " + _vm._s(client.email)
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
                 ])
               : _vm._e()
           ])
@@ -42357,13 +42500,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    (_vm.filteredBy === "name" && _vm.filteredByName.length === 0) ||
-    (_vm.filteredBy === "job" && _vm.filteredByJob.length === 0)
-      ? _c("div", { staticClass: "emptySearch" }, [
-          _vm._v("il n‘y a pas de résultat avec votre recherche")
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _vm.filteredBy === "name"
       ? _c(
           "ul",
@@ -42830,7 +42966,7 @@ var render = function() {
         _vm.userProfil
           ? _c("div", { staticClass: "userProfil__info" }, [
               _c("div", { staticClass: "userProfil__info__label" }, [
-                _vm._v("Thême de l'applicaction")
+                _vm._v("Thême de l'application")
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "userProfil__info__colorPicker" }, [
@@ -43011,6 +43147,35 @@ var render = function() {
                 })
               ])
             : _vm._e(),
+          _vm._v(" "),
+          _c("div", { class: "popup__window__input " + _vm.person.theme }, [
+            _c("label", { attrs: { for: "gsm" } }, [_vm._v("Email :")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
+              attrs: { type: "email", name: "email", id: "email" },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              class: "popup__window__input__bgc " + _vm.person.theme
+            })
+          ]),
           _vm._v(" "),
           _c("div", { class: "popup__window__input " + _vm.person.theme }, [
             _c("label", { attrs: { for: "gsm" } }, [_vm._v("Gsm :")]),

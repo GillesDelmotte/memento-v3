@@ -1403,6 +1403,7 @@ body.freeze {
   font-size: 20px;
   display: inline-block;
   margin-left: 30px;
+  cursor: pointer;
 }
 
 .aside__link::after {
@@ -1833,6 +1834,22 @@ body.freeze {
   font-weight: bold;
 }
 
+.popup__window__clientList {
+  background-color: rgba(29, 29, 29, 0.2);
+  height: 150px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+}
+
+.popup__window__clientList .client {
+  box-sizing: border-box;
+  background-color: rgba(29, 29, 29, 0.2);
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
 @media (max-width: 590px) {
   .popup {
     box-sizing: border-box;
@@ -1928,7 +1945,7 @@ body.freeze {
 }
 
 .newSchedule__day__hours__group__radio .radios {
-  margin-right: 10px;
+  margin-right: 30px;
   margin-bottom: 10px;
 }
 
@@ -1977,9 +1994,10 @@ body.freeze {
 }
 
 .newSchedule__sign {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   display: block;
+  opacity: 0.7;
   background-image: url(/images/back.svg?2f02a21a34054ddba3ac1abda0e0a41d);
   transform: rotate(180deg);
   margin: 0 20px;
@@ -2006,6 +2024,7 @@ body.freeze {
   border: none;
   margin-top: 20px;
   margin-left: 15px;
+  background-color: initial;
   outline: none;
   font-family: "Montserrat", sans-serif;
 }
@@ -2117,11 +2136,11 @@ body.freeze {
 }
 
 .schedule__list__appointment.myAppointment .cross {
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 5px;
+  right: 5px;
 }
 
 .schedule__list__appointment.myAppointment .cross div {

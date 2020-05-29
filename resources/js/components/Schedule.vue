@@ -12,7 +12,7 @@
         <div
           class="schedule__list__appointment"
           v-if="reserved(hour) === false"
-          @click="addOnMySchedule"
+          @click="addOnMySchedule(hour)"
         >Pas de rendez-vous</div>
         <div class="schedule__list__appointment myAppointment" v-else>
           <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
@@ -30,7 +30,7 @@
         <div
           class="schedule__list__appointment"
           v-if="reserved(hour) === false"
-          @click="addOnMySchedule"
+          @click="addOnMySchedule(hour)"
         >Pas de rendez-vous</div>
         <div class="schedule__list__appointment myAppointment" v-else>
           <a href class="myAppointment__Link" @click.prevent.stop="updateHour(hour)"></a>
@@ -88,6 +88,19 @@
         </div>
         <div v-if="popupType === 'add'">
           <h2 class="popup__window__title">Ajouter une personne à mon horaire</h2>
+          <div :class="'popup__window__input ' + this.currentUser.theme">
+            <label for="gsm">Nom de la personne&nbsp;:</label>
+            <input type="name" name="name" id="name" v-model="filter" autocomplete="off" />
+            <div :class="'popup__window__input__bgc ' + this.currentUser.theme"></div>
+          </div>
+          <div class="popup__window__clientList">
+            <div
+              class="client"
+              v-for="client in filteredClients"
+              :key="client.id"
+              @click="createAppointment(client)"
+            >{{client.name}} - {{client.email}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -123,6 +136,7 @@ export default {
         "Décembre"
       ],
       appointments: [],
+      scheduleId: null,
       dayNumber: null,
       monthNumber: null,
       number0fdDayInMonth: null,
@@ -131,7 +145,9 @@ export default {
       userSelected: null,
       selectedDate: null,
       selectedHour: null,
-      popupType: null
+      popupType: null,
+      filter: "",
+      clients: []
     };
   },
   computed: {
@@ -159,6 +175,7 @@ export default {
           return day.name === this.days[this.dayNumber];
         });
         if (test != undefined) {
+          this.scheduleId = schedule.id;
           day = test;
         }
       });
@@ -268,6 +285,15 @@ export default {
       }
 
       return listOfNumber;
+    },
+    filteredClients() {
+      if (this.filter.length === 0) {
+        return this.clients;
+      } else {
+        return this.clients.filter(client => {
+          return client.name.toLowerCase().match(this.filter.toLowerCase());
+        });
+      }
     }
   },
   methods: {
@@ -466,10 +492,39 @@ export default {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
     },
-    addOnMySchedule() {
+    addOnMySchedule(hour) {
       this.popupType = "add";
+      this.selectedDate = this.date;
+      this.selectedHour = hour;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
+    },
+    createAppointment(client) {
+      const splitDate = this.selectedDate.split("-");
+      const data = {
+        user_id: client.id,
+        schedule_id: this.scheduleId,
+        hour: this.selectedHour,
+        date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+      };
+
+      window.axios
+        .post("/createAppointment", data)
+        .then(response => {
+          window.axios
+            .post("/getMyScheduleAppointments")
+            .then(response => {
+              this.appointments = response.data;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
     }
   },
   mounted() {
@@ -484,6 +539,9 @@ export default {
       .catch(error => {
         console.log(error);
       });
+    window.axios.post("/getClients").then(response => {
+      this.clients = response.data;
+    });
   }
 };
 </script>

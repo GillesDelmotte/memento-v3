@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Schedule;
 use App\Comment;
+use App\Appointment;
 
 class PracticionnerController extends Controller
 {
@@ -30,5 +31,33 @@ class PracticionnerController extends Controller
         $user->load('comments');
 
         return $user;
+    }
+
+    public function getClients(){
+
+        $user = User::where('id', Auth()->id())->first();
+        $user->load('schedules');
+
+        $clients_id = [];
+
+        $clients = [];
+
+        foreach($user->schedules as $schedule){
+            $clientsAppointment = Appointment::where('schedule_id', $schedule['id'])->distinct()->get('user_id');
+
+            foreach($clientsAppointment as $client){
+                $clients_id[] = $client->user_id;
+            }
+        }
+
+        $unique = array_unique($clients_id);
+
+        foreach($unique as $id){
+            $user = User::where('id', $id)->first();
+            $clients[] = $user;
+        }
+
+        return $clients;
+
     }
 }

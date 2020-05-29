@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div
+    <!-- <div
       class="emptySearch"
-      v-if="filteredBy === 'name' && filteredByName.length === 0 || filteredBy === 'job' && filteredByJob.length === 0"
-    >il n‘y a pas de résultat avec votre recherche</div>
+      v-if="filteredBy === 'name' && filteredByName.length === 0 && componentReady || filteredBy === 'job' && filteredByJob.length === 0 && componentReady"
+    >il n‘y a pas de résultat avec votre recherche</div>-->
 
     <ul class="userCards" v-if="filteredBy === 'name'">
       <user-card v-for="user in filteredByName" :key="user.id" :user="user"></user-card>
@@ -45,7 +45,8 @@ export default {
     return {
       filteredBy: "name",
       filter: "",
-      warning: ""
+      warning: "",
+      componentReady: false
     };
   },
   methods: {
@@ -106,6 +107,7 @@ export default {
   mounted() {
     this.$store.dispatch("setAllJob").then(() => {
       this.$store.dispatch("setAllPractitioner");
+      this.componentReady = true;
     });
   }
 };
