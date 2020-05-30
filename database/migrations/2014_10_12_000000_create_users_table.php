@@ -21,7 +21,8 @@ class CreateUsersTable extends Migration
             $table->char('gsm')->nullable();
             $table->string('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('token')->nullable();
             $table->string('profilPic')->nullable();
             $table->string('theme')->default('black');
             $table->text('description')->nullable();

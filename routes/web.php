@@ -24,9 +24,15 @@ Route::get('/informations', function () {
     return view('infos');
 });
 
+Route::get('/verifyToken/{token}', function () {
+    return view('token');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/verifyToken/{token}', 'tokenController@index');
 
 Route::get('/authenticated-user', 'AuthenticatedUserController@fetch');
 
