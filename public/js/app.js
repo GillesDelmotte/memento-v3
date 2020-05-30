@@ -2539,6 +2539,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _router_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router.js */ "./resources/js/router.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2552,11 +2553,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: ["title"],
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["currentUser"]))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["currentUser"])),
+  methods: {
+    goOnProfile: function goOnProfile() {
+      _router_js__WEBPACK_IMPORTED_MODULE_1__["default"].push({
+        name: "user"
+      });
+      window.scrollTo(0, 0);
+    }
+  }
 });
 
 /***/ }),
@@ -41332,7 +41351,35 @@ var render = function() {
   return _c("div", { class: "header " + _vm.currentUser.theme }, [
     _c("div", { staticClass: "header__logo" }, [_vm._v("M")]),
     _vm._v(" "),
-    _c("div", { staticClass: "header__title" }, [_vm._v(_vm._s(_vm.title))])
+    _c("div", { staticClass: "header__right" }, [
+      _c(
+        "div",
+        {
+          staticClass: "header__right__profile",
+          on: { click: _vm.goOnProfile }
+        },
+        [
+          _c("div", { staticClass: "name" }, [
+            _vm._v(_vm._s(_vm.currentUser.name))
+          ]),
+          _vm._v(" "),
+          _vm.currentUser.profilPic
+            ? _c("div", { staticClass: "profilePic--true" }, [
+                _c("img", {
+                  attrs: {
+                    src: "../images/profiles/" + _vm.currentUser.profilPic,
+                    alt: ""
+                  }
+                })
+              ])
+            : _c("div", { staticClass: "profilePic--false" })
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "header__right__title" }, [
+        _vm._v(_vm._s(_vm.title))
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

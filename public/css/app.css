@@ -662,7 +662,7 @@ body.freeze {
   justify-content: space-between;
   font-size: 22px;
   box-sizing: border-box;
-  padding: 14px;
+  padding: 0 14px;
 }
 
 .header.black {
@@ -693,8 +693,59 @@ body.freeze {
   text-decoration: none;
 }
 
-.header__title {
+.header__right {
+  display: flex;
+  align-items: center;
+}
+
+.header__right__profile {
+  box-sizing: border-box;
+  padding: 17px;
   color: white;
+  margin-right: 30px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.header__right__profile .profilePic--false {
+  width: 25px;
+  height: 25px;
+  background-color: #1D1D1D;
+  margin-left: 10px;
+  border-radius: 50%;
+  background-image: url(/images/user.svg?27bdbdfccf34048eca96ff049cc40f6e);
+  background-size: 50%;
+  background-position: center 47%;
+  background-repeat: no-repeat;
+}
+
+.header__right__profile .profilePic--true {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 1px solid white;
+  overflow: hidden;
+}
+
+.header__right__profile .profilePic--true img {
+  width: 100%;
+  height: 25px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.header__right__profile:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.2s;
+}
+
+.header__right__title {
+  color: white;
+  padding: 17px 0;
 }
 
 .userProfil {
