@@ -21,6 +21,8 @@
         width: 600px;
         padding: 20px;
         border-radius: 3px;
+        max-height: 70vh;
+        overflow-y: scroll;
         &__title{
             color: $main-color;
             font-size: 20px;
@@ -179,8 +181,15 @@
             background-color: rgba($color: $main-color, $alpha: 0.2);
             height: 150px;
             box-sizing: border-box;
+            margin-bottom: 20px;
             overflow-y: scroll;
             box-shadow: $shadow;
+            .empty{
+                p{
+                    padding: 10px 20px;
+                    margin: 10px 0;
+                }
+            }
             .client{
                 box-sizing: border-box;
                 background-color: rgba($color: $main-color, $alpha: 0.2);
@@ -192,6 +201,26 @@
                     color: white;
                 }
             }
+            &__search{
+                @include main-link($main-color, 20px);
+                display: inline-block;
+                margin: 10px 20px;
+            }
+        }
+
+        &__add{
+            &:first-of-type{
+                margin-bottom: 50px;
+            }
+            &__explanation{
+                line-height: 1.5;
+                background-color: rgba($color: yellow, $alpha: 0.3);
+                padding: 20px;
+                margin-bottom: 20px;
+
+            }
+
+
         }
 
     }

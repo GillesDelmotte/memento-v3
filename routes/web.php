@@ -38,6 +38,8 @@ Route::post('/getPractitionerItems', 'PracticionnerController@getItem');
 
 Route::post('/getClients', 'PracticionnerController@getClients');
 
+Route::post('/findPersons', 'PracticionnerController@findPersons');
+
 Route::post('/getSelectedPractitioner', 'PracticionnerController@getPractitionner');
 
 Route::post('/updateProfile', 'ProfileController@update');
@@ -53,6 +55,10 @@ Route::post('/createSchedule', 'ScheduleController@store');
 Route::post('/getMyAppointments', 'AppointmentController@myAppointments');
 
 Route::post('/createAppointment', 'AppointmentController@store');
+
+Route::post('/createAppointment', 'AppointmentController@store');
+
+Route::post('/createAppointmentWithNewUser', 'AppointmentController@createAppointmentWithNewUser');
 
 Route::post('/updateAppointment', 'AppointmentController@update');
 

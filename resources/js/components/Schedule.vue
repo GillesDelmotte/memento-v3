@@ -85,22 +85,91 @@
               <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
             </div>
           </div>
+          <div class="popup__window__userInfos" v-else-if="fakeUserSelected">
+            <div class="popup__window__userInfos__name">
+              <span>Nom du client&nbsp;:</span>
+              {{fakeUserSelected}}
+            </div>
+            <div class="popup__widow__buttons">
+              <button class="popup__window__save" @click="deleteFromPopUp">Supprimer le rendez-vous</button>
+            </div>
+          </div>
         </div>
-        <div v-if="popupType === 'add'">
+        <div v-if="popupType === 'add'" class="popup__window__add">
           <h2 class="popup__window__title">Ajouter une personne à mon horaire</h2>
+          <div class="popup__window__hour">Le {{selectedFormatDate}}</div>
           <div :class="'popup__window__input ' + this.currentUser.theme">
-            <label for="gsm">Nom de la personne&nbsp;:</label>
-            <input type="name" name="name" id="name" v-model="filter" autocomplete="off" />
+            <label for="name">Nom de la personne&nbsp;:</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              v-model="filter"
+              autocomplete="off"
+              @keydown.enter="findPerson"
+            />
             <div :class="'popup__window__input__bgc ' + this.currentUser.theme"></div>
           </div>
           <div class="popup__window__clientList">
-            <div
-              class="client"
-              v-for="client in filteredClients"
-              :key="client.id"
-              @click="createAppointment(client)"
-            >{{client.name}} - {{client.email}}</div>
+            <div v-if="filteredClients.length !== 0 && findedPersons.length === 0">
+              <div
+                class="client"
+                v-for="client in filteredClients"
+                :key="client.id"
+                @click="createAppointment(client)"
+              >{{client.name}} - {{client.email}}</div>
+            </div>
+            <div v-else-if="findedPersons.length !== 0">
+              <div
+                class="client"
+                v-for="client in findedPersons"
+                :key="client.id"
+                @click="createAppointment(client)"
+              >{{client.name}} - {{client.email}}</div>
+            </div>
+            <div class="empty" v-else>
+              <p>La personne que vous cherchez n'est pas dans vos clients</p>
+            </div>
           </div>
+          <a
+            href
+            @click.prevent.stop="findPerson"
+            class="popup__window__clientList__search"
+          >Recherchez la personne</a>
+        </div>
+        <div class="popup__window__add" v-if="popupType === 'add'">
+          <h2 class="popup__window__title">Ajouter une personne qui n'est pas sur Memento</h2>
+          <div class="popup__window__hour">Le {{selectedFormatDate}}</div>
+          <p
+            class="popup__window__add__explanation"
+          >Si la personne veut recevoir des notifications ajoutez son nom et son email, sinon ajoutez seulement son nom</p>
+          <div :class="'popup__window__input ' + this.currentUser.theme">
+            <label for="clientName">Nom de la personne*&nbsp;:</label>
+            <input
+              type="text"
+              name="clientName"
+              id="clientName"
+              v-model="clientName"
+              autocomplete="off"
+            />
+            <div :class="'popup__window__input__bgc ' + this.currentUser.theme"></div>
+          </div>
+          <div :class="'popup__window__input ' + this.currentUser.theme">
+            <label for="clientEmail">Email de la personne&nbsp;:</label>
+            <input
+              type="email"
+              name="clinetEmail"
+              id="clientEmail"
+              v-model="clientEmail"
+              autocomplete="off"
+            />
+            <div :class="'popup__window__input__bgc ' + this.currentUser.theme"></div>
+          </div>
+          <a
+            href
+            class="popup__window__clientList__search"
+            @click.prevent.stop="addNewClient"
+          >Ajouter la personne</a>
         </div>
       </div>
     </div>
@@ -143,11 +212,17 @@ export default {
       year: null,
       date: null,
       userSelected: null,
+      fakeUserSelected: null,
       selectedDate: null,
       selectedHour: null,
       popupType: null,
       filter: "",
-      clients: []
+      clients: [],
+      selectedFormatDate: null,
+      findedPersons: [],
+      addPersonOnDb: false,
+      clientName: null,
+      clientEmail: null
     };
   },
   computed: {
@@ -287,6 +362,7 @@ export default {
       return listOfNumber;
     },
     filteredClients() {
+      this.findedPersons = [];
       if (this.filter.length === 0) {
         return this.clients;
       } else {
@@ -373,7 +449,11 @@ export default {
             splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
       );
       if (appointment[0] != undefined) {
-        return appointment[0].user.name;
+        if (appointment[0].user) {
+          return appointment[0].user.name;
+        } else {
+          return appointment[0].name;
+        }
       } else {
         return false;
       }
@@ -426,22 +506,20 @@ export default {
     closePopup() {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
-      //   if (!this.changeHour) {
-      //     this.selectedHour = null;
-      //     this.selectedDate = null;
-      //     this.selectedFormatDate = null;
-      //   }
+      this.selectedHour = null;
+      this.selectedDate = null;
+      this.userSelected = null;
+      this.selectedFormatDate = null;
     },
     closePopupWithBackground(e) {
       const bgc = document.querySelector(".popup");
       if (e.target === bgc) {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
-        // if (!this.changeHour) {
-        //   this.selectedHour = null;
-        //   this.selectedDate = null;
-        //   this.selectedFormatDate = null;
-        // }
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.userSelected = null;
+        this.selectedFormatDate = null;
       }
     },
     updateHour(hour) {
@@ -455,7 +533,12 @@ export default {
       );
       this.selectedDate = this.date;
       this.selectedHour = hour;
-      this.userSelected = appointment[0].user;
+      if (appointment[0].user) {
+        this.userSelected = appointment[0].user;
+      } else {
+        this.fakeUserSelected = appointment[0].name;
+      }
+
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
@@ -487,6 +570,7 @@ export default {
           this.selectedDate = null;
           this.selectedHour = null;
           this.userSelected = null;
+          this.fakeUserSelected = null;
         })
         .catch(error => console.error(error));
       document.querySelector(".popup").classList.remove("open");
@@ -496,6 +580,28 @@ export default {
       this.popupType = "add";
       this.selectedDate = this.date;
       this.selectedHour = hour;
+
+      const splitDate = this.selectedDate.split("-");
+
+      const test = new Date(
+        splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]
+      );
+
+      const day = this.days[test.getDay()];
+      const month = this.months[test.getMonth()];
+
+      const formatedDate =
+        day +
+        " " +
+        splitDate[0] +
+        " " +
+        month +
+        " " +
+        splitDate[2] +
+        " à " +
+        hour;
+
+      this.selectedFormatDate = formatedDate;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
@@ -515,13 +621,70 @@ export default {
             .post("/getMyScheduleAppointments")
             .then(response => {
               this.appointments = response.data;
+              this.filter = "";
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          window.axios.post("/getClients").then(response => {
+            this.clients = response.data;
+          });
+        })
+        .catch(function(error) {
+          console.log(error.response.data.message);
+        });
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    findPerson() {
+      window.axios
+        .post("/findPersons", { name: this.filter })
+        .then(response => {
+          this.findedPersons = response.data;
+          if (response.data.length === 0) {
+            this.addPersonOnDb = true;
+          } else {
+            this.addPersonOnDb = false;
+          }
+        });
+    },
+    addNewClient() {
+      if (!this.clientName) {
+        console.log("il n‘y a pas de nom");
+        return false;
+      }
+
+      const splitDate = this.selectedDate.split("-");
+      if (this.clientEmail === null) {
+        var data = {
+          name: this.clientName,
+          schedule_id: this.scheduleId,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        };
+      } else {
+        var data = {
+          name: this.clientName,
+          email: this.clientEmail,
+          schedule_id: this.scheduleId,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        };
+      }
+      window.axios
+        .post("createAppointmentWithNewUser", data)
+        .then(response => {
+          window.axios
+            .post("/getMyScheduleAppointments")
+            .then(response => {
+              this.appointments = response.data;
             })
             .catch(error => {
               console.log(error);
             });
         })
-        .catch(function(error) {
-          console.log(error.response.data.message);
+        .catch(error => {
+          console.log(error);
         });
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
@@ -539,9 +702,14 @@ export default {
       .catch(error => {
         console.log(error);
       });
-    window.axios.post("/getClients").then(response => {
-      this.clients = response.data;
-    });
+    window.axios
+      .post("/getClients")
+      .then(response => {
+        this.clients = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 </script>

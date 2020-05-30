@@ -43,7 +43,7 @@ class PracticionnerController extends Controller
         $clients = [];
 
         foreach($user->schedules as $schedule){
-            $clientsAppointment = Appointment::where('schedule_id', $schedule['id'])->distinct()->get('user_id');
+            $clientsAppointment = Appointment::where('schedule_id', $schedule['id'])->where('user_id', '<>', NULL)->distinct()->get('user_id');
 
             foreach($clientsAppointment as $client){
                 $clients_id[] = $client->user_id;
@@ -59,5 +59,11 @@ class PracticionnerController extends Controller
 
         return $clients;
 
+    }
+
+    public function findPersons(Request $request){
+
+        $users = User::where('name', 'LIKE',  '%' . $request['name'] . '%')->where('id', '<>', '1')->orderBy('name', 'asc')->get();
+        return $users;
     }
 }

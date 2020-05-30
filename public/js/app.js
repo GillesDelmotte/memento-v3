@@ -3689,6 +3689,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Schedule",
@@ -3704,11 +3773,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       year: null,
       date: null,
       userSelected: null,
+      fakeUserSelected: null,
       selectedDate: null,
       selectedHour: null,
       popupType: null,
       filter: "",
-      clients: []
+      clients: [],
+      selectedFormatDate: null,
+      findedPersons: [],
+      addPersonOnDb: false,
+      clientName: null,
+      clientEmail: null
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(["currentUser"]), {
@@ -3862,6 +3937,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     filteredClients: function filteredClients() {
       var _this4 = this;
 
+      this.findedPersons = [];
+
       if (this.filter.length === 0) {
         return this.clients;
       } else {
@@ -3940,7 +4017,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
 
       if (appointment[0] != undefined) {
-        return appointment[0].user.name;
+        if (appointment[0].user) {
+          return appointment[0].user.name;
+        } else {
+          return appointment[0].name;
+        }
       } else {
         return false;
       }
@@ -3986,22 +4067,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     closePopup: function closePopup() {
       document.querySelector(".popup").classList.remove("open");
-      document.querySelector("body").classList.remove("freeze"); //   if (!this.changeHour) {
-      //     this.selectedHour = null;
-      //     this.selectedDate = null;
-      //     this.selectedFormatDate = null;
-      //   }
+      document.querySelector("body").classList.remove("freeze");
+      this.selectedHour = null;
+      this.selectedDate = null;
+      this.userSelected = null;
+      this.selectedFormatDate = null;
     },
     closePopupWithBackground: function closePopupWithBackground(e) {
       var bgc = document.querySelector(".popup");
 
       if (e.target === bgc) {
         bgc.classList.remove("open");
-        document.querySelector("body").classList.remove("freeze"); // if (!this.changeHour) {
-        //   this.selectedHour = null;
-        //   this.selectedDate = null;
-        //   this.selectedFormatDate = null;
-        // }
+        document.querySelector("body").classList.remove("freeze");
+        this.selectedHour = null;
+        this.selectedDate = null;
+        this.userSelected = null;
+        this.selectedFormatDate = null;
       }
     },
     updateHour: function updateHour(hour) {
@@ -4012,7 +4093,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.selectedDate = this.date;
       this.selectedHour = hour;
-      this.userSelected = appointment[0].user;
+
+      if (appointment[0].user) {
+        this.userSelected = appointment[0].user;
+      } else {
+        this.fakeUserSelected = appointment[0].name;
+      }
+
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
@@ -4036,6 +4123,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this6.selectedDate = null;
         _this6.selectedHour = null;
         _this6.userSelected = null;
+        _this6.fakeUserSelected = null;
       })["catch"](function (error) {
         return console.error(error);
       });
@@ -4046,6 +4134,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.popupType = "add";
       this.selectedDate = this.date;
       this.selectedHour = hour;
+      var splitDate = this.selectedDate.split("-");
+      var test = new Date(splitDate[1] + "-" + splitDate[0] + "-" + splitDate[2]);
+      var day = this.days[test.getDay()];
+      var month = this.months[test.getMonth()];
+      var formatedDate = day + " " + splitDate[0] + " " + month + " " + splitDate[2] + " à " + hour;
+      this.selectedFormatDate = formatedDate;
       document.querySelector(".popup").classList.add("open");
       document.querySelector("body").classList.add("freeze");
     },
@@ -4062,11 +4156,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       window.axios.post("/createAppointment", data).then(function (response) {
         window.axios.post("/getMyScheduleAppointments").then(function (response) {
           _this7.appointments = response.data;
+          _this7.filter = "";
+        })["catch"](function (error) {
+          console.log(error);
+        });
+        window.axios.post("/getClients").then(function (response) {
+          _this7.clients = response.data;
+        });
+      })["catch"](function (error) {
+        console.log(error.response.data.message);
+      });
+      document.querySelector(".popup").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+    },
+    findPerson: function findPerson() {
+      var _this8 = this;
+
+      window.axios.post("/findPersons", {
+        name: this.filter
+      }).then(function (response) {
+        _this8.findedPersons = response.data;
+
+        if (response.data.length === 0) {
+          _this8.addPersonOnDb = true;
+        } else {
+          _this8.addPersonOnDb = false;
+        }
+      });
+    },
+    addNewClient: function addNewClient() {
+      var _this9 = this;
+
+      if (!this.clientName) {
+        console.log("il n‘y a pas de nom");
+        return false;
+      }
+
+      var splitDate = this.selectedDate.split("-");
+
+      if (this.clientEmail === null) {
+        var data = {
+          name: this.clientName,
+          schedule_id: this.scheduleId,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        };
+      } else {
+        var data = {
+          name: this.clientName,
+          email: this.clientEmail,
+          schedule_id: this.scheduleId,
+          hour: this.selectedHour,
+          date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
+        };
+      }
+
+      window.axios.post("createAppointmentWithNewUser", data).then(function (response) {
+        window.axios.post("/getMyScheduleAppointments").then(function (response) {
+          _this9.appointments = response.data;
         })["catch"](function (error) {
           console.log(error);
         });
       })["catch"](function (error) {
-        console.log(error.response.data.message);
+        console.log(error);
       });
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
@@ -4076,15 +4228,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.day;
   },
   beforeMount: function beforeMount() {
-    var _this8 = this;
+    var _this10 = this;
 
     window.axios.post("/getMyScheduleAppointments").then(function (response) {
-      _this8.appointments = response.data;
+      _this10.appointments = response.data;
     })["catch"](function (error) {
       console.log(error);
     });
     window.axios.post("/getClients").then(function (response) {
-      _this8.clients = response.data;
+      _this10.clients = response.data;
+    })["catch"](function (error) {
+      console.log(error);
     });
   }
 });
@@ -42393,21 +42547,51 @@ var render = function() {
                           )
                         ])
                       ])
+                    : _vm.fakeUserSelected
+                    ? _c("div", { staticClass: "popup__window__userInfos" }, [
+                        _c(
+                          "div",
+                          { staticClass: "popup__window__userInfos__name" },
+                          [
+                            _c("span", [_vm._v("Nom du client :")]),
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.fakeUserSelected) +
+                                "\n          "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "popup__widow__buttons" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "popup__window__save",
+                              on: { click: _vm.deleteFromPopUp }
+                            },
+                            [_vm._v("Supprimer le rendez-vous")]
+                          )
+                        ])
+                      ])
                     : _vm._e()
                 ])
               : _vm._e(),
             _vm._v(" "),
             _vm.popupType === "add"
-              ? _c("div", [
+              ? _c("div", { staticClass: "popup__window__add" }, [
                   _c("h2", { staticClass: "popup__window__title" }, [
                     _vm._v("Ajouter une personne à mon horaire")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "popup__window__hour" }, [
+                    _vm._v("Le " + _vm._s(_vm.selectedFormatDate))
                   ]),
                   _vm._v(" "),
                   _c(
                     "div",
                     { class: "popup__window__input " + this.currentUser.theme },
                     [
-                      _c("label", { attrs: { for: "gsm" } }, [
+                      _c("label", { attrs: { for: "name" } }, [
                         _vm._v("Nom de la personne :")
                       ]),
                       _vm._v(" "),
@@ -42421,13 +42605,28 @@ var render = function() {
                           }
                         ],
                         attrs: {
-                          type: "name",
+                          type: "text",
                           name: "name",
                           id: "name",
                           autocomplete: "off"
                         },
                         domProps: { value: _vm.filter },
                         on: {
+                          keydown: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.findPerson($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
@@ -42444,29 +42643,199 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
+                  _c("div", { staticClass: "popup__window__clientList" }, [
+                    _vm.filteredClients.length !== 0 &&
+                    _vm.findedPersons.length === 0
+                      ? _c(
+                          "div",
+                          _vm._l(_vm.filteredClients, function(client) {
+                            return _c(
+                              "div",
+                              {
+                                key: client.id,
+                                staticClass: "client",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.createAppointment(client)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(client.name) +
+                                    " - " +
+                                    _vm._s(client.email)
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm.findedPersons.length !== 0
+                      ? _c(
+                          "div",
+                          _vm._l(_vm.findedPersons, function(client) {
+                            return _c(
+                              "div",
+                              {
+                                key: client.id,
+                                staticClass: "client",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.createAppointment(client)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(client.name) +
+                                    " - " +
+                                    _vm._s(client.email)
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _c("div", { staticClass: "empty" }, [
+                          _c("p", [
+                            _vm._v(
+                              "La personne que vous cherchez n'est pas dans vos clients"
+                            )
+                          ])
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "popup__window__clientList__search",
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          $event.stopPropagation()
+                          return _vm.findPerson($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Recherchez la personne")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.popupType === "add"
+              ? _c("div", { staticClass: "popup__window__add" }, [
+                  _c("h2", { staticClass: "popup__window__title" }, [
+                    _vm._v("Ajouter une personne qui n'est pas sur Memento")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "popup__window__hour" }, [
+                    _vm._v("Le " + _vm._s(_vm.selectedFormatDate))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "popup__window__add__explanation" }, [
+                    _vm._v(
+                      "Si la personne veut recevoir des notifications ajoutez son nom et son email, sinon ajoutez seulement son nom"
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "popup__window__clientList" },
-                    _vm._l(_vm.filteredClients, function(client) {
-                      return _c(
-                        "div",
-                        {
-                          key: client.id,
-                          staticClass: "client",
-                          on: {
-                            click: function($event) {
-                              return _vm.createAppointment(client)
-                            }
+                    { class: "popup__window__input " + this.currentUser.theme },
+                    [
+                      _c("label", { attrs: { for: "clientName" } }, [
+                        _vm._v("Nom de la personne* :")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.clientName,
+                            expression: "clientName"
                           }
+                        ],
+                        attrs: {
+                          type: "text",
+                          name: "clientName",
+                          id: "clientName",
+                          autocomplete: "off"
                         },
-                        [
-                          _vm._v(
-                            _vm._s(client.name) + " - " + _vm._s(client.email)
-                          )
-                        ]
-                      )
-                    }),
-                    0
+                        domProps: { value: _vm.clientName },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.clientName = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        class:
+                          "popup__window__input__bgc " + this.currentUser.theme
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { class: "popup__window__input " + this.currentUser.theme },
+                    [
+                      _c("label", { attrs: { for: "clientEmail" } }, [
+                        _vm._v("Email de la personne :")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.clientEmail,
+                            expression: "clientEmail"
+                          }
+                        ],
+                        attrs: {
+                          type: "email",
+                          name: "clinetEmail",
+                          id: "clientEmail",
+                          autocomplete: "off"
+                        },
+                        domProps: { value: _vm.clientEmail },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.clientEmail = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        class:
+                          "popup__window__input__bgc " + this.currentUser.theme
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "popup__window__clientList__search",
+                      attrs: { href: "" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          $event.stopPropagation()
+                          return _vm.addNewClient($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Ajouter la personne")]
                   )
                 ])
               : _vm._e()

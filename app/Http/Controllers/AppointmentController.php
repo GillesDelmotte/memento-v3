@@ -130,4 +130,15 @@ class AppointmentController extends Controller
         $myAppointments = Appointment::where('user_id', Auth()->id())->whereDate('date', '>=', Carbon::now())->orderBy('date', 'asc')->get();
         return $myAppointments->load('schedule');
     }
+
+    public function createAppointmentWithNewUser(Request $request){
+
+        if($request['email']){
+            return 'il y a un email';
+        }else{
+
+            $appointment = Appointment::create(['name' => $request['name'], 'schedule_id' => $request['schedule_id'], 'hour' => $request['hour'], 'date' => $request['date']]);
+
+        }
+    }
 }

@@ -1643,6 +1643,8 @@ body.freeze {
   width: 600px;
   padding: 20px;
   border-radius: 3px;
+  max-height: 70vh;
+  overflow-y: scroll;
 }
 
 .popup__window__title {
@@ -1838,8 +1840,14 @@ body.freeze {
   background-color: rgba(29, 29, 29, 0.2);
   height: 150px;
   box-sizing: border-box;
+  margin-bottom: 20px;
   overflow-y: scroll;
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+}
+
+.popup__window__clientList .empty p {
+  padding: 10px 20px;
+  margin: 10px 0;
 }
 
 .popup__window__clientList .client {
@@ -1853,6 +1861,43 @@ body.freeze {
 .popup__window__clientList .client:hover {
   background-color: #1D1D1D;
   color: white;
+}
+
+.popup__window__clientList__search {
+  text-decoration: none;
+  color: #1D1D1D;
+  font-size: 20px;
+  display: inline-block;
+  margin: 10px 20px;
+}
+
+.popup__window__clientList__search::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: #1D1D1D;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.popup__window__clientList__search:hover::after,
+.popup__window__clientList__search:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.popup__window__add:first-of-type {
+  margin-bottom: 50px;
+}
+
+.popup__window__add__explanation {
+  line-height: 1.5;
+  background-color: rgba(255, 255, 0, 0.3);
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 590px) {
