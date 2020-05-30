@@ -686,6 +686,8 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      this.clientEmail = null;
+      this.clientName = null;
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
     }

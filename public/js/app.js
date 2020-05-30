@@ -4220,6 +4220,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function (error) {
         console.log(error);
       });
+      this.clientEmail = null;
+      this.clientName = null;
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
     }
