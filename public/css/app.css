@@ -168,13 +168,19 @@ body.freeze {
 
 .modifyIcon {
   display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin-left: 15px;
+  width: 40px;
+  height: 40px;
+  margin-left: 30px;
   background: url(/images/edit.svg?eea18703d306b9c8ec78595ecf673e27);
   background-repeat: no-repeat;
   background-position: center center;
   cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.modifyIcon:hover {
+  transform: rotate(45deg);
+  transition: transform 0.3s;
 }
 
 .error {
@@ -830,6 +836,8 @@ body.freeze {
   margin-bottom: 5px;
   padding-top: 10px;
   margin-left: 70px;
+  display: flex;
+  align-items: center;
 }
 
 .userProfil__job {

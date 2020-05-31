@@ -4770,6 +4770,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4843,8 +4851,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         address: this.address,
         email: this.email,
         type: "all"
-      }; //console.log(data);
-
+      };
       window.axios.post("/updateProfile", data).then(function (response) {
         _this2.$store.dispatch("setCurrentUser");
 
@@ -4912,8 +4919,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         value: value,
         type: "check"
       }).then(function (response) {
-        console.log(response.data);
-
         _this4.$store.dispatch("setCurrentUser");
       })["catch"](function (error) {
         console.log(error.response.data.message);
@@ -43385,7 +43390,8 @@ var render = function() {
         ]),
     _vm._v(" "),
     _c("h1", { staticClass: "userProfil__name" }, [
-      _vm._v("\n    " + _vm._s(_vm.person.name) + "\n    "),
+      _c("div", [_vm._v(_vm._s(_vm.person.name))]),
+      _vm._v(" "),
       _vm.userProfil
         ? _c("i", {
             staticClass: "modifyIcon",
@@ -43505,9 +43511,42 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.userProfil
-          ? _c("div", { staticClass: "userProfil__info--buttons" }, [
-              _c("div", { staticClass: "radioButton" }, [
+        _c("div", { staticClass: "userProfil__info--buttons" }, [
+          _vm.userProfil
+            ? _c("div", { staticClass: "radioButton" }, [
+                _c("input", {
+                  staticClass: "radioButton__input sr-only",
+                  attrs: {
+                    type: "checkbox",
+                    name: "notification",
+                    id: "notification"
+                  },
+                  domProps: {
+                    value: _vm.person.notification,
+                    checked: _vm.person.notification ? "checked" : ""
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.updateCheck("notification", "notification")
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "radioButton__label",
+                    attrs: { for: "notification" }
+                  },
+                  [_vm._v("Je veux recevoir des notifications")]
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.userProfil
+            ? _c("div", { staticClass: "radioButton" }, [
                 _c("input", {
                   staticClass: "radioButton__input sr-only",
                   attrs: { type: "checkbox", name: "create", id: "create" },
@@ -43522,7 +43561,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm._m(0),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "label",
@@ -43533,12 +43572,10 @@ var render = function() {
                   [_vm._v("Je veux pouvoir créer des agendas")]
                 )
               ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.userProfil && _vm.person.create
-          ? _c("div", { staticClass: "userProfil__info--buttons" }, [
-              _c("div", { staticClass: "radioButton" }, [
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.userProfil && _vm.person.create
+            ? _c("div", { staticClass: "radioButton" }, [
                 _c("input", {
                   staticClass: "radioButton__input sr-only",
                   attrs: { type: "checkbox", name: "indexed", id: "indexed" },
@@ -43553,7 +43590,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _vm._m(1),
+                _vm._m(2),
                 _vm._v(" "),
                 _c(
                   "label",
@@ -43564,8 +43601,8 @@ var render = function() {
                   [_vm._v("Je veux que mon agenda soit indexé")]
                 )
               ])
-            ])
-          : _vm._e()
+            : _vm._e()
+        ])
       ]
     ),
     _vm._v(" "),
@@ -43868,6 +43905,21 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "radioButton__bgc", attrs: { for: "notification" } },
+      [
+        _c("label", {
+          staticClass: "radioButton__dot",
+          attrs: { for: "notification" }
+        })
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

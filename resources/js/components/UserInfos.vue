@@ -24,13 +24,8 @@
       <div class="userProfil__img--false" v-else></div>
     </div>
     <h1 class="userProfil__name">
-      {{person.name}}
-      <i
-        class="modifyIcon"
-        v-if="userProfil"
-        title="modifier ma description"
-        @click="clickIcon"
-      ></i>
+      <div>{{person.name}}</div>
+      <i class="modifyIcon" v-if="userProfil" title="modifier ma description" @click="clickIcon"></i>
     </h1>
     <span class="userProfil__job" v-if="person.job && person.create">{{person.job.name}}</span>
     <span class="userProfil__job" v-if="!person.job && userProfil && person.create">Votre profession</span>
@@ -68,8 +63,23 @@
           ></div>
         </div>
       </div>
-      <div class="userProfil__info--buttons" v-if="userProfil">
-        <div class="radioButton">
+      <div class="userProfil__info--buttons">
+        <div class="radioButton" v-if="userProfil">
+          <input
+            type="checkbox"
+            name="notification"
+            :value="person.notification"
+            :checked="person.notification ? 'checked' : ''"
+            v-on:change="updateCheck('notification', 'notification')"
+            id="notification"
+            class="radioButton__input sr-only"
+          />
+          <label for="notification" class="radioButton__bgc">
+            <label for="notification" class="radioButton__dot"></label>
+          </label>
+          <label for="notification" class="radioButton__label">Je veux recevoir des notifications</label>
+        </div>
+        <div class="radioButton" v-if="userProfil">
           <input
             type="checkbox"
             name="create"
@@ -84,9 +94,7 @@
           </label>
           <label for="create" class="radioButton__label">Je veux pouvoir créer des agendas</label>
         </div>
-      </div>
-      <div class="userProfil__info--buttons" v-if="userProfil && person.create">
-        <div class="radioButton">
+        <div class="radioButton" v-if="userProfil && person.create">
           <input
             type="checkbox"
             name="indexed"
@@ -245,7 +253,6 @@ export default {
         email: this.email,
         type: "all"
       };
-      //console.log(data);
       window.axios
         .post("/updateProfile", data)
         .then(response => {
@@ -309,7 +316,6 @@ export default {
       window.axios
         .post("/updateProfile", { column: column, value: value, type: "check" })
         .then(response => {
-          console.log(response.data);
           this.$store.dispatch("setCurrentUser");
         })
         .catch(function(error) {

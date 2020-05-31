@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->text('description')->nullable();
             $table->boolean('schedule')->default(false);
             $table->boolean('create')->default(false);
+            $table->boolean('notification')->default(true);
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();

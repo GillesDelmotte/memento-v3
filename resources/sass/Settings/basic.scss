@@ -13,13 +13,18 @@ body{
 
 .modifyIcon{
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    margin-left: 15px;
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
     background: url('../../img/edit.svg');
     background-repeat: no-repeat;
     background-position: center center;
     cursor: pointer;
+        transition: transform 0.3s;
+    &:hover{
+        transform: rotate(45deg);
+        transition: transform 0.3s;
+    }
 }
 
 .error{
