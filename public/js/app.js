@@ -4479,13 +4479,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "User",
   data: function data() {
-    return {};
+    return {
+      schedule: null
+    };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["currentUser"])),
   methods: {
@@ -4502,6 +4519,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     redirect: function redirect(link) {
       this.$router.push(link);
+    },
+    startDeleteSchedule: function startDeleteSchedule(schedule) {
+      this.schedule = schedule;
+      document.querySelector(".popup.deleteSchedule").classList.add("open");
+      document.querySelector("body").classList.add("freeze");
+    },
+    deleteSchedule: function deleteSchedule() {
+      var _this = this;
+
+      window.axios.post("/deleteSchedule", {
+        id: this.schedule.id
+      }).then(function (response) {
+        _this.$store.dispatch("setCurrentUser");
+      });
+      document.querySelector(".popup.deleteSchedule").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.schedule = null;
+    },
+    closePopup: function closePopup() {
+      document.querySelector(".popup.deleteSchedule").classList.remove("open");
+      document.querySelector("body").classList.remove("freeze");
+      this.schedule = null;
+    },
+    closePopupWithBackground: function closePopupWithBackground(e) {
+      var bgc = document.querySelector(".popup.deleteSchedule");
+
+      if (e.target === bgc) {
+        bgc.classList.remove("open");
+        document.querySelector("body").classList.remove("freeze");
+        this.schedule = null;
+      }
     }
   },
   mounted: function mounted() {
@@ -43190,7 +43238,16 @@ var render = function() {
                         0
                       ),
                       _vm._v(" "),
-                      _c("div", { class: "color " + schedule.color })
+                      _c("div", { class: "color " + schedule.color }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "delete",
+                        on: {
+                          click: function($event) {
+                            return _vm.startDeleteSchedule(schedule)
+                          }
+                        }
+                      })
                     ])
                   }),
                   0
@@ -43218,7 +43275,63 @@ var render = function() {
             staticClass: "aside__button schedule",
             on: { click: _vm.openFilter }
           })
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "popup deleteSchedule",
+          on: {
+            click: function($event) {
+              return _vm.closePopupWithBackground($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "popup__window" }, [
+            _c(
+              "button",
+              {
+                staticClass: "popup__window__close sr-only",
+                on: { click: _vm.closePopup }
+              },
+              [_vm._v("close")]
+            ),
+            _vm._v(" "),
+            _c("span", {
+              staticClass: "popup__window__close--cross",
+              on: { click: _vm.closePopup }
+            }),
+            _vm._v(" "),
+            _c("h2", { staticClass: "popup__window__title" }, [
+              _vm._v("Voulez-vous supprimer ?")
+            ]),
+            _vm._v(" "),
+            _vm.schedule
+              ? _c("div", [
+                  _c("div", { staticClass: "popup__window__hour" }, [
+                    _vm._v(_vm._s(_vm.schedule.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "popup__window__add__explanation" }, [
+                    _vm._v(
+                      "Attention, si vous supprimer votre agenda, tous les rendez-vous associé à celui-ci seront également supprimé"
+                    )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "popup__window__save",
+                on: { click: _vm.deleteSchedule }
+              },
+              [_vm._v("Supprimer")]
+            )
+          ])
+        ]
+      )
     ],
     1
   )

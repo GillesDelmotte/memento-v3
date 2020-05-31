@@ -60,6 +60,8 @@ Route::post('/image/store', 'ImageController@store');
 
 Route::post('/createSchedule', 'ScheduleController@store');
 
+Route::post('/deleteSchedule', 'ScheduleController@destroy');
+
 Route::post('/getMyAppointments', 'AppointmentController@myAppointments');
 
 Route::post('/createAppointment', 'AppointmentController@store');

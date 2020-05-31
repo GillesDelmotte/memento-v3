@@ -715,6 +715,7 @@ body.freeze {
   display: flex;
   align-items: center;
   transition: background-color 0.2s;
+  text-transform: capitalize;
   cursor: pointer;
 }
 
@@ -838,6 +839,7 @@ body.freeze {
   margin-left: 70px;
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 }
 
 .userProfil__job {
@@ -1393,9 +1395,22 @@ body.freeze {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.aside__list li .color {
+.aside__list li .delete {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  background-image: url(/images/close.svg?9987510185410f2f4e6d97767cd483c5);
+  background-size: 100%;
+  background-position: center center;
   position: absolute;
   top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.aside__list li .color {
+  position: absolute;
+  bottom: 10px;
   right: 10px;
   margin: 0;
   width: 20px;
@@ -1404,23 +1419,27 @@ body.freeze {
 }
 
 .aside__list li .color.red {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.2);
 }
 
 .aside__list li .color.blue {
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0.2);
 }
 
 .aside__list li .color.yellow {
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.2);
 }
 
 .aside__list li .color.purple {
-  background-color: purple;
+  background-color: rgba(128, 0, 128, 0.2);
 }
 
 .aside__list li .color.green {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.2);
+}
+
+.aside__list li .color.grey {
+  background-color: rgba(128, 128, 128, 0.4);
 }
 
 .aside__list li div {
@@ -1640,23 +1659,27 @@ body.freeze {
 }
 
 .aside__scheduleColors .scheduleColor.red {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.2);
 }
 
 .aside__scheduleColors .scheduleColor.blue {
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0.2);
 }
 
 .aside__scheduleColors .scheduleColor.yellow {
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.2);
 }
 
 .aside__scheduleColors .scheduleColor.purple {
-  background-color: purple;
+  background-color: rgba(128, 0, 128, 0.2);
 }
 
 .aside__scheduleColors .scheduleColor.green {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.2);
+}
+
+.aside__scheduleColors .scheduleColor.grey {
+  background-color: rgba(128, 128, 128, 0.4);
 }
 
 @media (max-width: 1050px) {

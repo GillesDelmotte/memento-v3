@@ -23,6 +23,14 @@ class ProfileController extends Controller
 
         if($request['type'] === "all"){
 
+            $checkEmail = User::where('email', $request['email'])->first();
+            $user = Auth::user();
+            if($checkEmail && $checkEmail->email !== $user->email){
+                return $emailError = 'Cet email exist déja';
+            }else{
+                $user->email = $request['email'];
+            }
+
             if($request['job'] != null){
                 $job = Job::where("name",  '=',  $request['job'])->first();
                 if($job){
@@ -33,13 +41,6 @@ class ProfileController extends Controller
                 }
             }
 
-            $checkEmail = User::where('email', $request['email'])->first();
-            $user = Auth::user();
-            if($checkEmail && $checkEmail->email !== $user->email){
-                return $emailError = 'Cet email exist déja';
-            }else{
-                $user->email = $request['email'];
-            }
 
             if($request['name'] != null){
                 $user->name = $request['name'];
