@@ -37,7 +37,13 @@
             color: white;
             position: relative;
             margin-bottom: 20px;
-            //background-color: rgba($color: black, $alpha: 0.2);
+            &__error{
+                color: indianred;
+                position: absolute;
+                top: calc(100% + 5px);
+                font-size: 13px;
+                left: 0;
+            }
             &.black{
                 border-bottom: 2px solid $main-color;
             }

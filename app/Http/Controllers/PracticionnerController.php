@@ -11,7 +11,7 @@ use App\Appointment;
 class PracticionnerController extends Controller
 {
     public function index(User $user){
-        $users = User::Where('schedule', '=', 1)->where('id', '<>', auth()->id())->orderBy('name', 'asc')->where('job_id', '<>', null)->get();
+        $users = User::Where('schedule', '=', 1)->where('id', '<>', auth()->id())->where('job_id', '<>', NULL)->orderBy('name', 'asc')->where('job_id', '<>', null)->get();
         $users = $users->load('job');
         $users = $users->load('comments');
         return $users;

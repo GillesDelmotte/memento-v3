@@ -10,6 +10,6 @@ class TokenController extends Controller
     public function index($token){
         $user = User::where('token', $token)->first();
 
-        return view('token', ['user' => $user]);
+        return view('token', ['user' => $user, 'error' => null]);
     }
 }

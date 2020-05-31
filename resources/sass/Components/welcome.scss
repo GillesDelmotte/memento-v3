@@ -7,7 +7,7 @@
     &__desc{
         color: white;
         font-size: 20px;
-        margin:0 40px 40px;
+        margin: 0 40px 40px;
         text-align: center;
         line-height: 1.5;
     }
@@ -88,8 +88,9 @@
     &__title{
         font-size: 68px;
         font-weight: bold;
+        text-align: center;
         color: white;
-        margin-bottom: 10px;
+        margin: 0 20px 10px;
         text-transform: uppercase;
     }
     &__nav{

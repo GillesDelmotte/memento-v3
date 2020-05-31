@@ -2651,11 +2651,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -4476,6 +4471,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4586,6 +4589,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store.js */ "./resources/js/store.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4754,19 +4781,35 @@ __webpack_require__.r(__webpack_exports__);
       popupType: "",
       popupName: "",
       popupValue: "",
+      emailError: null,
       image: "",
       error: "",
       job: "",
+      name: "",
       address: "",
       desc: "",
       gsm: "",
-      email: ""
+      email: "",
+      jobs: []
     };
   },
   props: {
     person: Object,
     userProfil: Boolean
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["allJob"]), {
+    filteredJobs: function filteredJobs() {
+      var _this = this;
+
+      if (this.job.length === 0) {
+        return this.allJob;
+      } else {
+        return this.allJob.filter(function (job) {
+          return job.name.toLowerCase().match(_this.job.toLowerCase());
+        });
+      }
+    }
+  }),
   methods: {
     clickIcon: function clickIcon() {
       var nav = document.querySelector(".nav");
@@ -4777,8 +4820,12 @@ __webpack_require__.r(__webpack_exports__);
         filter.classList.add("close");
       }
 
-      this.job = this.person.job.name;
+      if (this.person.job) {
+        this.job = this.person.job.name;
+      }
+
       this.address = this.person.address;
+      this.name = this.person.name;
       this.desc = this.person.description;
       this.gsm = this.person.gsm;
       this.email = this.person.email;
@@ -4786,10 +4833,11 @@ __webpack_require__.r(__webpack_exports__);
       document.querySelector("body").classList.add("freeze");
     },
     updateProfil: function updateProfil() {
-      var _this = this;
+      var _this2 = this;
 
       var data = {
         job: this.job,
+        name: this.name,
         description: this.desc,
         gsm: this.gsm,
         address: this.address,
@@ -4798,12 +4846,14 @@ __webpack_require__.r(__webpack_exports__);
       }; //console.log(data);
 
       window.axios.post("/updateProfile", data).then(function (response) {
-        console.log(response.data);
+        _this2.$store.dispatch("setCurrentUser");
 
-        _this.$store.dispatch("setCurrentUser");
-
-        document.querySelector(".popup").classList.remove("open");
-        document.querySelector("body").classList.remove("freeze");
+        if (!response.data) {
+          document.querySelector(".popup").classList.remove("open");
+          document.querySelector("body").classList.remove("freeze");
+        } else {
+          _this2.emailError = response.data;
+        }
       })["catch"](function (error) {
         console.log(error.response.data.message);
       });
@@ -4811,6 +4861,7 @@ __webpack_require__.r(__webpack_exports__);
     closePopup: function closePopup() {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
+      this.emailError = null;
     },
     closePopupWithBackground: function closePopupWithBackground(e) {
       var bgc = document.querySelector(".popup");
@@ -4818,10 +4869,11 @@ __webpack_require__.r(__webpack_exports__);
       if (e.target === bgc) {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
+        this.emailError = null;
       }
     },
     uploadImage: function uploadImage() {
-      var _this2 = this;
+      var _this3 = this;
 
       var formData = new FormData();
       var imagefile = document.querySelector(".imageFile");
@@ -4831,10 +4883,10 @@ __webpack_require__.r(__webpack_exports__);
           "Content-Type": "multipart/form-data"
         }
       }).then(function (response) {
-        _this2.$store.dispatch("setCurrentUser");
+        _this3.$store.dispatch("setCurrentUser");
 
         if (response.data.error) {
-          _this2.error = response.data.error;
+          _this3.error = response.data.error;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -4844,7 +4896,7 @@ __webpack_require__.r(__webpack_exports__);
       this.error = "";
     },
     updateCheck: function updateCheck(column, input) {
-      var _this3 = this;
+      var _this4 = this;
 
       var bool = document.getElementById(input).checked;
       var value = bool.toString();
@@ -4862,22 +4914,28 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         console.log(response.data);
 
-        _this3.$store.dispatch("setCurrentUser");
+        _this4.$store.dispatch("setCurrentUser");
       })["catch"](function (error) {
         console.log(error.response.data.message);
       });
     },
     changeTheme: function changeTheme(color) {
-      var _this4 = this;
+      var _this5 = this;
 
       window.axios.post("/updateTheme", {
         color: color
       }).then(function (response) {
-        _this4.$store.dispatch("setCurrentUser");
+        _this5.$store.dispatch("setCurrentUser");
       })["catch"](function (error) {
         console.log(error.response.data.message);
       });
+    },
+    selectJob: function selectJob(name) {
+      this.job = name;
     }
+  },
+  beforeMount: function beforeMount() {
+    this.$store.dispatch("setAllJob");
   }
 });
 
@@ -43098,7 +43156,13 @@ var render = function() {
             _vm._v(" "),
             _c("h2", { staticClass: "aside__title" }, [_vm._v("Mes agendas")]),
             _vm._v(" "),
-            _vm.currentUser.schedules.length === 0
+            !_vm.currentUser.job_id || !_vm.currentUser.address
+              ? _c("p", { staticClass: "aside__error" }, [
+                  _vm._v(
+                    "Veuillez remplir votre profil avant de créer un agenda"
+                  )
+                ])
+              : _vm.currentUser.schedules.length === 0
               ? _c("p", { staticClass: "aside__error" }, [
                   _vm._v("Vous n'avez pas encore enregistré d'agenda")
                 ])
@@ -43127,18 +43191,20 @@ var render = function() {
                   0
                 ),
             _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "aside__link",
-                on: {
-                  click: function($event) {
-                    return _vm.redirect("/creation-horaire")
-                  }
-                }
-              },
-              [_vm._v("Créer un agenda")]
-            )
+            _vm.currentUser.job_id && _vm.currentUser.address
+              ? _c(
+                  "a",
+                  {
+                    staticClass: "aside__link",
+                    on: {
+                      click: function($event) {
+                        return _vm.redirect("/creation-horaire")
+                      }
+                    }
+                  },
+                  [_vm._v("Créer un agenda")]
+                )
+              : _vm._e()
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -43533,6 +43599,40 @@ var render = function() {
             _vm._v("Édition de mon profil")
           ]),
           _vm._v(" "),
+          _c("div", { class: "popup__window__input " + _vm.person.theme }, [
+            _c("label", { attrs: { for: "job" } }, [_vm._v("Nom :")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              attrs: {
+                type: "text",
+                name: "name",
+                id: "name",
+                autocomplete: "off"
+              },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              class: "popup__window__input__bgc " + _vm.person.theme
+            })
+          ]),
+          _vm._v(" "),
           _vm.person.create
             ? _c("div", { class: "popup__window__input " + _vm.person.theme }, [
                 _c("label", { attrs: { for: "job" } }, [
@@ -43548,7 +43648,12 @@ var render = function() {
                       expression: "job"
                     }
                   ],
-                  attrs: { type: "tel", name: "job", id: "job" },
+                  attrs: {
+                    type: "text",
+                    name: "job",
+                    id: "job",
+                    autocomplete: "off"
+                  },
                   domProps: { value: _vm.job },
                   on: {
                     input: function($event) {
@@ -43566,6 +43671,28 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
+          _c("div", { staticClass: "popup__window__clientList" }, [
+            _c(
+              "div",
+              _vm._l(_vm.filteredJobs, function(job) {
+                return _c(
+                  "div",
+                  {
+                    key: job.id,
+                    staticClass: "client",
+                    on: {
+                      click: function($event) {
+                        return _vm.selectJob(job.name)
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(job.name))]
+                )
+              }),
+              0
+            )
+          ]),
+          _vm._v(" "),
           _c("div", { class: "popup__window__input " + _vm.person.theme }, [
             _c("label", { attrs: { for: "gsm" } }, [_vm._v("Email :")]),
             _vm._v(" "),
@@ -43578,7 +43705,12 @@ var render = function() {
                   expression: "email"
                 }
               ],
-              attrs: { type: "email", name: "email", id: "email" },
+              attrs: {
+                type: "email",
+                name: "email",
+                id: "email",
+                autocomplete: "off"
+              },
               domProps: { value: _vm.email },
               on: {
                 input: function($event) {
@@ -43592,7 +43724,13 @@ var render = function() {
             _vm._v(" "),
             _c("div", {
               class: "popup__window__input__bgc " + _vm.person.theme
-            })
+            }),
+            _vm._v(" "),
+            _vm.emailError
+              ? _c("div", { staticClass: "popup__window__input__error" }, [
+                  _vm._v(_vm._s(_vm.emailError))
+                ])
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c("div", { class: "popup__window__input " + _vm.person.theme }, [
@@ -43612,7 +43750,8 @@ var render = function() {
                 name: "gsm",
                 id: "gsm",
                 pattern: "[0-9]{10}",
-                placeholder: "0497368595"
+                placeholder: "0497368595",
+                autocomplete: "off"
               },
               domProps: { value: _vm.gsm },
               on: {
@@ -43642,7 +43781,12 @@ var render = function() {
                   expression: "address"
                 }
               ],
-              attrs: { type: "tel", name: "address", id: "address" },
+              attrs: {
+                type: "tel",
+                name: "address",
+                id: "address",
+                autocomplete: "off"
+              },
               domProps: { value: _vm.address },
               on: {
                 input: function($event) {

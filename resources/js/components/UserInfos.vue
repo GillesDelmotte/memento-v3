@@ -108,16 +108,33 @@
         <button class="popup__window__close sr-only" @click="closePopup">close</button>
         <span class="popup__window__close--cross" @click="closePopup"></span>
         <h2 class="popup__window__title">Édition de mon profil</h2>
+        <div :class="'popup__window__input ' + person.theme">
+          <label for="job">Nom&nbsp;:</label>
+          <input type="text" name="name" id="name" autocomplete="off" v-model="name" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
         <div :class="'popup__window__input ' + person.theme" v-if="person.create">
           <label for="job">Profession&nbsp;:</label>
-          <input type="tel" name="job" id="job" v-model="job" />
+          <input type="text" name="job" id="job" autocomplete="off" v-model="job" />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+
+        <div class="popup__window__clientList">
+          <div>
+            <div
+              class="client"
+              @click="selectJob(job.name)"
+              v-for="job in filteredJobs"
+              :key="job.id"
+            >{{job.name}}</div>
+          </div>
         </div>
 
         <div :class="'popup__window__input ' + person.theme">
           <label for="gsm">Email&nbsp;:</label>
-          <input type="email" name="email" id="email" v-model="email" />
+          <input type="email" name="email" id="email" autocomplete="off" v-model="email" />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
+          <div class="popup__window__input__error" v-if="emailError">{{emailError}}</div>
         </div>
 
         <div :class="'popup__window__input ' + person.theme">
@@ -129,13 +146,14 @@
             v-model="gsm"
             pattern="[0-9]{10}"
             placeholder="0497368595"
+            autocomplete="off"
           />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
 
         <div :class="'popup__window__input ' + person.theme">
           <label for="address">Adresse&nbsp;:</label>
-          <input type="tel" name="address" id="address" v-model="address" />
+          <input type="tel" name="address" id="address" autocomplete="off" v-model="address" />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
         <div
@@ -168,18 +186,33 @@ export default {
       popupType: "",
       popupName: "",
       popupValue: "",
+      emailError: null,
       image: "",
       error: "",
       job: "",
+      name: "",
       address: "",
       desc: "",
       gsm: "",
-      email: ""
+      email: "",
+      jobs: []
     };
   },
   props: {
     person: Object,
     userProfil: Boolean
+  },
+  computed: {
+    ...mapState(["allJob"]),
+    filteredJobs() {
+      if (this.job.length === 0) {
+        return this.allJob;
+      } else {
+        return this.allJob.filter(job => {
+          return job.name.toLowerCase().match(this.job.toLowerCase());
+        });
+      }
+    }
   },
   methods: {
     clickIcon() {
@@ -190,8 +223,11 @@ export default {
         filter.classList.add("close");
       }
 
-      this.job = this.person.job.name;
+      if (this.person.job) {
+        this.job = this.person.job.name;
+      }
       this.address = this.person.address;
+      this.name = this.person.name;
       this.desc = this.person.description;
       this.gsm = this.person.gsm;
       this.email = this.person.email;
@@ -202,6 +238,7 @@ export default {
     updateProfil() {
       var data = {
         job: this.job,
+        name: this.name,
         description: this.desc,
         gsm: this.gsm,
         address: this.address,
@@ -212,10 +249,13 @@ export default {
       window.axios
         .post("/updateProfile", data)
         .then(response => {
-          console.log(response.data);
           this.$store.dispatch("setCurrentUser");
-          document.querySelector(".popup").classList.remove("open");
-          document.querySelector("body").classList.remove("freeze");
+          if (!response.data) {
+            document.querySelector(".popup").classList.remove("open");
+            document.querySelector("body").classList.remove("freeze");
+          } else {
+            this.emailError = response.data;
+          }
         })
         .catch(function(error) {
           console.log(error.response.data.message);
@@ -224,12 +264,14 @@ export default {
     closePopup() {
       document.querySelector(".popup").classList.remove("open");
       document.querySelector("body").classList.remove("freeze");
+      this.emailError = null;
     },
     closePopupWithBackground(e) {
       const bgc = document.querySelector(".popup");
       if (e.target === bgc) {
         bgc.classList.remove("open");
         document.querySelector("body").classList.remove("freeze");
+        this.emailError = null;
       }
     },
     uploadImage() {
@@ -283,7 +325,13 @@ export default {
         .catch(function(error) {
           console.log(error.response.data.message);
         });
+    },
+    selectJob(name) {
+      this.job = name;
     }
+  },
+  beforeMount() {
+    this.$store.dispatch("setAllJob");
   }
 };
 </script>

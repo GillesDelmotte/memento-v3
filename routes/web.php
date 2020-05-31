@@ -52,6 +52,8 @@ Route::post('/updateProfile', 'ProfileController@update');
 
 Route::post('/updateTheme', 'ProfileController@updateTheme');
 
+Route::post('/changePassword', 'ProfileController@changePassword');
+
 Route::post('/addComment', 'CommentController@store');
 
 Route::post('/image/store', 'ImageController@store');

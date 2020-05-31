@@ -303,8 +303,9 @@ body.freeze {
 .welcome__title {
   font-size: 68px;
   font-weight: bold;
+  text-align: center;
   color: white;
-  margin-bottom: 10px;
+  margin: 0 20px 10px;
   text-transform: uppercase;
 }
 
@@ -363,6 +364,7 @@ body.freeze {
   width: 100%;
   padding: 0 71px;
   box-sizing: border-box;
+  margin-top: 30px;
 }
 
 .form__container {
@@ -834,6 +836,7 @@ body.freeze {
   font-size: 30px;
   display: block;
   margin-left: 70px;
+  text-transform: capitalize;
 }
 
 .userProfil__infos {
@@ -1712,6 +1715,14 @@ body.freeze {
   color: white;
   position: relative;
   margin-bottom: 20px;
+}
+
+.popup__window__input__error {
+  color: indianred;
+  position: absolute;
+  top: calc(100% + 5px);
+  font-size: 13px;
+  left: 0;
 }
 
 .popup__window__input.black {

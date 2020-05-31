@@ -15,7 +15,11 @@
       <h2 class="aside__title">Mes agendas</h2>
       <p
         class="aside__error"
-        v-if="currentUser.schedules.length === 0"
+        v-if="!currentUser.job_id || !currentUser.address"
+      >Veuillez remplir votre profil avant de créer un agenda</p>
+      <p
+        class="aside__error"
+        v-else-if="currentUser.schedules.length === 0"
       >Vous n'avez pas encore enregistré d'agenda</p>
       <ul class="aside__list" v-else>
         <li v-for="schedule in currentUser.schedules" :key="schedule.id">
@@ -30,7 +34,11 @@
           <div :class="'color ' + schedule.color"></div>
         </li>
       </ul>
-      <a @click="redirect('/creation-horaire')" class="aside__link">Créer un agenda</a>
+      <a
+        v-if="currentUser.job_id && currentUser.address"
+        @click="redirect('/creation-horaire')"
+        class="aside__link"
+      >Créer un agenda</a>
     </div>
     <div class="aside__button schedule" @click="openFilter" v-if="currentUser.create"></div>
   </div>
