@@ -8,6 +8,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\NewUserMail;
 
 
 class AppointmentController extends Controller
@@ -136,15 +139,21 @@ class AppointmentController extends Controller
     public function createAppointmentWithNewUser(Request $request){
 
         if($request['email']){
+
             $checkEmail = User::where('email', $request['email'])->first();
             if(!$checkEmail){
                 $token = Str::random(32);
                 $user = User::create(['name' => $request['name'], 'email' => $request['email'], 'token' => $token]);
                 $appointment = Appointment::create(['user_id' => $user->id, 'schedule_id' => $request['schedule_id'], 'hour' => $request['hour'], 'date' => $request['date']]);
 
+                $appointment->load('schedule');
+
+                Mail::to($user->email)->send(new NewUserMail($user, $appointment));
+
             }else{
-                return false;
+                // error 'cette email existe deja';
             }
+
         }else{
             $appointment = Appointment::create(['name' => $request['name'], 'schedule_id' => $request['schedule_id'], 'hour' => $request['hour'], 'date' => $request['date']]);
         }

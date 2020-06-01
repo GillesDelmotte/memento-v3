@@ -10,15 +10,18 @@ use Illuminate\Queue\SerializesModels;
 class NewUserMail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $user;
+    public $appointment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user, $appointment)
     {
-        //
+        $this->user = $user;
+        $this->appointment = $appointment;
     }
 
     /**
@@ -28,6 +31,6 @@ class NewUserMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.NewUser');
+        return $this->subject('Memento - Rappel de votre rendez-vous')->markdown('emails.NewUser', ['user' => $this->user, 'appointment' => $this->appointment]);
     }
 }

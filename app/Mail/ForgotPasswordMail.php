@@ -29,6 +29,6 @@ class ForgotPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.ForgotPasswordMail')->with('user', $this->user);
+        return $this->subject('Memento - Réinitialisation du mot de passe')->markdown('emails.ForgotPasswordMail')->with('user', $this->user);
     }
 }
