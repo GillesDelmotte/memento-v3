@@ -4165,9 +4165,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         user_id: client.id,
         schedule_id: this.scheduleId,
         hour: this.selectedHour,
+        sendEmail: true,
         date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
       };
       window.axios.post("/createAppointment", data).then(function (response) {
+        console.log(response.data);
         window.axios.post("/getMyScheduleAppointments").then(function (response) {
           _this7.appointments = response.data;
           _this7.filter = "";

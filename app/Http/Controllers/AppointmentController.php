@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\NewUserMail;
+use App\Mail\NewAppointmentMail;
 
 
 class AppointmentController extends Controller
@@ -54,6 +55,7 @@ class AppointmentController extends Controller
      */
     public function store(Appointment $appointment, Request $request)
     {
+
         $user_id = $request['user_id'];
         $schedule_id = $request['schedule_id'];
         $hour = $request['hour'];
@@ -66,6 +68,11 @@ class AppointmentController extends Controller
         };
 
         $appointment = Appointment::create(['user_id' => $user_id, 'schedule_id' => $schedule_id, 'hour' => $hour, 'date' => $date]);
+
+        if($request['sendEmail']){
+            $user = User::where('id', $user_id)->first();
+            Mail::to($user->email)->send(new NewAppointmentMail($user, $appointment));
+        }
     }
 
     /**

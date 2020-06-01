@@ -611,12 +611,14 @@ export default {
         user_id: client.id,
         schedule_id: this.scheduleId,
         hour: this.selectedHour,
+        sendEmail: true,
         date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
       };
 
       window.axios
         .post("/createAppointment", data)
         .then(response => {
+          console.log(response.data);
           window.axios
             .post("/getMyScheduleAppointments")
             .then(response => {
