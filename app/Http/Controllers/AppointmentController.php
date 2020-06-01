@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
-use App\schedule;
+use App\Schedule;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,7 +19,6 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-
         $appointments = [];
         $schedules = Schedule::where('user_id', auth()->id())->get();
 
