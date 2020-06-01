@@ -32,7 +32,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/verifyToken/{token}', 'tokenController@index');
+Route::get('/verifyToken/{token}', 'TokenController@index');
 
 Route::get('/authenticated-user', 'AuthenticatedUserController@fetch');
 
