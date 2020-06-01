@@ -54,7 +54,7 @@ return [
             'unix_socket' => env('UNIX_SOCKET', '/Applications/MAMP/tmp/mysql/mysql.sock'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
+            'prefix' => env('DB_TABLE_PREFIX', 'Mm'),
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,

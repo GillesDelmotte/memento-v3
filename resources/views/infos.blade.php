@@ -4,7 +4,9 @@
 <div>
     <div class="header black">
         <div class="header__logo"><a href="{{ url('/') }}">M</a></div>
-        <h1 class="header__title">Informations</h1>
+        <div class="header__right">
+            <h1 class="header__right__title">Informations</h1>
+        </div>
     </div>
     <div class="infos">
         <div class="infos__container">

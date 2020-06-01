@@ -344,6 +344,36 @@ body.freeze {
   transition: all 0.2s;
 }
 
+.welcome__buttons {
+  display: flex;
+  align-items: center;
+}
+
+.welcome__buttons .forgotPassword {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 50px;
+}
+
+.welcome__buttons .forgotPassword::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: white;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.welcome__buttons .forgotPassword:hover::after,
+.welcome__buttons .forgotPassword:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
 @media (max-width: 850px) {
   .welcome__back {
     width: 50px;
@@ -2436,7 +2466,7 @@ body.freeze {
 }
 
 .emptyAppointment__content {
-  padding: 40px;
+  padding: 20px 40px;
   background-color: rgba(255, 255, 0, 0.3);
   line-height: 1.5;
   box-sizing: border-box;

@@ -33,7 +33,10 @@
                         @enderror
                 </div>
             </div>
-            <button type="submit" class="btn">Connexion</button>
+            <div class="welcome__buttons">
+                <button type="submit" class="btn">Connexion</button>
+                <a href="" class="forgotPassword">Mot de passe oublié</a>
+            </div>
         </form>
     </div>
 </section>

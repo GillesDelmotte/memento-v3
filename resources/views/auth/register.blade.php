@@ -47,7 +47,10 @@
                     <div class="form__item__bgc"></div>
                 </div>
             </div>
-            <button type="submit" class="btn">Inscription</button>
+            <div class="welcome__buttons">
+                <button type="submit" class="btn">Inscription</button>
+                <a href="" class="forgotPassword">Mot de passe oublié</a>
+            </div>
         </form>
     </div>
 </section>
