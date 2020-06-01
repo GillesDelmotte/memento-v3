@@ -80,6 +80,7 @@ class ProfileController extends Controller
         }
 
         $user->password = Hash::make($request['newPassword']);
+        $user->token = NULL;
         $user->save();
 
         Auth::loginUsingId($user->id);

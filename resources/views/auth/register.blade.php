@@ -12,7 +12,7 @@
             @csrf
             <div class="form__container">
                 <div class="form__item">
-                    <label for="name" class="form__item__label">Nom</label>
+                    <label for="name" class="form__item__label">Nom*</label>
                     <input id="name" type="text" placeholder="Jean Pierre" class="form__item__input" name="name" value="{{ old('name') }}" required autofocus autocomplete="off">
                     <div class="form__item__bgc"></div>
                     @error('name')
@@ -22,7 +22,7 @@
                     @enderror
                 </div>
                 <div class="form__item">
-                    <label for="email" class="form__item__label">Email</label>
+                    <label for="email" class="form__item__label">Email*</label>
                     <input id="email"  type="email" placeholder="jean.pierre@gmail.com" class="form__item__input" name="email" value="{{ old('email') }}" required autocomplete="off" >
                     <div class="form__item__bgc"></div>
                     @error('email')
@@ -32,7 +32,7 @@
                     @enderror
                 </div>
                 <div class="form__item">
-                    <label for="password" class="form__item__label">Mot de passe</label>
+                    <label for="password" class="form__item__label">Mot de passe*</label>
                     <input id="password" type="password" placeholder="8 caractères minimum" class="form__item__input" name="password" required>
                     <div class="form__item__bgc"></div>
                     @error('password')
@@ -42,14 +42,14 @@
                     @enderror
                 </div>
                 <div class="form__item">
-                    <label for="password-confirm" class="form__item__label">Confirmation mdp</label>
+                    <label for="password-confirm" class="form__item__label">Confirmation mdp*</label>
                     <input id="password-confirm" type="password" placeholder="8 caractères minimum" class="form__item__input" name="password_confirmation" required>
                     <div class="form__item__bgc"></div>
                 </div>
             </div>
             <div class="welcome__buttons">
                 <button type="submit" class="btn">Inscription</button>
-                <a href="" class="forgotPassword">Mot de passe oublié</a>
+                <a href="{{url('/forgotPassword')}}" class="forgotPassword">Mot de passe oublié</a>
             </div>
         </form>
     </div>

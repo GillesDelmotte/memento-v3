@@ -12,7 +12,7 @@
             @csrf
             <div class="form__container">
                 <div class="form__item">
-                    <label for="email" class="form__item__label">Email</label>
+                    <label for="email" class="form__item__label">Email*</label>
                     <input class="form__item__input" autocomplete="off" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus placeholder="jean.pierre@gmail.com">
                     <div class="form__item__bgc"></div>
                     @error('email')
@@ -22,7 +22,7 @@
                     @enderror
                 </div>
                 <div class="form__item">
-                    <label for="password" class="form__item__label">Mot de passe</label>
+                    <label for="password" class="form__item__label">Mot de passe*</label>
                     <input id="password" type="password" placeholder="8 caractères minimum" class="form__item__input" name="password" required>
                     <div class="form__item__bgc"></div>
 
@@ -35,7 +35,7 @@
             </div>
             <div class="welcome__buttons">
                 <button type="submit" class="btn">Connexion</button>
-                <a href="" class="forgotPassword">Mot de passe oublié</a>
+                <a href="{{ url('/forgotPassword') }}" class="forgotPassword">Mot de passe oublié</a>
             </div>
         </form>
     </div>

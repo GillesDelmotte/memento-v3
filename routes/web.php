@@ -28,11 +28,17 @@ Route::get('/verifyToken/{token}', function () {
     return view('token');
 });
 
+Route::get('/forgotPassword', function () {
+    return view('forgot', ['userEmail' => null, 'lastEmail' => null, 'success' => null, 'emailError' => '']);
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/verifyToken/{token}', 'TokenController@index');
+
+Route::post('/createToken', 'TokenController@create');
 
 Route::get('/authenticated-user', 'AuthenticatedUserController@fetch');
 

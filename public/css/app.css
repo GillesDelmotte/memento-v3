@@ -234,6 +234,14 @@ body.freeze {
   line-height: 1.5;
 }
 
+.welcome__success {
+  min-width: 550px;
+  margin: 0 auto 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .welcome__infos {
   display: flex;
   justify-content: center;
