@@ -57,9 +57,9 @@ const actions = {
 
     // récupérer tous les utilisateur ayant crée un aganda
 
-    setAllPractitioner({ commit }) {
+    setAllPractitioner({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            window.axios.get('/getPractitioners')
+            window.axios.post('/getPractitioners', payload)
                 .then(response => {
                     commit('setAllPractitioner', response.data)
                     resolve()

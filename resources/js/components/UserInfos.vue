@@ -161,7 +161,13 @@
 
         <div :class="'popup__window__input ' + person.theme">
           <label for="address">Adresse&nbsp;:</label>
-          <input type="tel" name="address" id="address" autocomplete="off" v-model="address" />
+          <input type="text" name="address" id="address" autocomplete="off" v-model="address" />
+          <div :class="'popup__window__input__bgc ' + person.theme"></div>
+        </div>
+
+        <div :class="'popup__window__input ' + person.theme">
+          <label for="postal">Code postal&nbsp;:</label>
+          <input type="number" name="postal" id="postal" autocomplete="off" v-model="postal" />
           <div :class="'popup__window__input__bgc ' + person.theme"></div>
         </div>
         <div
@@ -200,6 +206,7 @@ export default {
       job: "",
       name: "",
       address: "",
+      postal: "",
       desc: "",
       gsm: "",
       email: "",
@@ -235,6 +242,7 @@ export default {
         this.job = this.person.job.name;
       }
       this.address = this.person.address;
+      this.postal = this.person.postalCode;
       this.name = this.person.name;
       this.desc = this.person.description;
       this.gsm = this.person.gsm;
@@ -250,6 +258,7 @@ export default {
         description: this.desc,
         gsm: this.gsm,
         address: this.address,
+        postal: this.postal,
         email: this.email,
         type: "all"
       };

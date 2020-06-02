@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('job_id')->nullable();
             $table->char('gsm')->nullable();
             $table->string('address')->nullable();
+            $table->string('postalCode')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('token')->nullable();
@@ -27,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('theme')->default('black');
             $table->text('description')->nullable();
             $table->boolean('schedule')->default(false);
+            $table->boolean('geolocation')->default(false);
             $table->boolean('create')->default(false);
             $table->boolean('notification')->default(true);
             $table->boolean('is_admin')->default(false);

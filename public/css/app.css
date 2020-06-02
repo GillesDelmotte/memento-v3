@@ -207,6 +207,91 @@ body.freeze {
   cursor: pointer;
 }
 
+.geolocate {
+  width: 550px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+  box-sizing: border-box;
+  margin-bottom: 40px;
+}
+
+.geolocate__yes {
+  margin-bottom: 20px;
+}
+
+.geolocate__yes p {
+  margin-bottom: 20px;
+}
+
+.geolocate__yes button {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  border: none;
+  margin-left: 15px;
+  background-color: initial;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+
+.geolocate__yes button::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: black;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.geolocate__yes button:hover::after,
+.geolocate__yes button:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.geolocate p {
+  margin-bottom: 20px;
+}
+
+.geolocate button {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  border: none;
+  margin-left: 15px;
+  background-color: initial;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+
+.geolocate button::after {
+  margin-top: 10px;
+  position: relative;
+  left: -20px;
+  display: block;
+  content: "";
+  background-color: black;
+  height: 2px;
+  width: 50%;
+  transition: all 0.2s;
+}
+
+.geolocate button:hover::after,
+.geolocate button:focus::after {
+  width: 100%;
+  transition: all 0.2s;
+}
+
+@media (max-width: 1050px) {
+  .geolocate {
+    width: 100%;
+  }
+}
+
 @media (max-width: 700px) {
   .container {
     margin: 0 70px;
