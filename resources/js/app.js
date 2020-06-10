@@ -11,6 +11,19 @@ window.Vue = require('vue');
 
 import store from './store.js'
 import router from './router.js'
+import VueGeolocation from 'vue-browser-geolocation';
+
+
+Vue.use(VueGeolocation);
+
+// Vue.use(require('vue-pusher'), {
+//     api_key: '1069607b7c6b19d025cf',
+//     options: {
+//         cluster: 'eu',
+//         encrypted: true,
+//     }
+// });
+
 
 /**
  * The following block of code may be used to automatically register your

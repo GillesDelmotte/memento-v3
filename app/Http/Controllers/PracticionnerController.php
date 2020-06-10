@@ -10,8 +10,15 @@ use App\Appointment;
 
 class PracticionnerController extends Controller
 {
-    public function index(User $user){
-        $users = User::Where('schedule', '=', 1)->where('id', '<>', auth()->id())->where('job_id', '<>', NULL)->orderBy('name', 'asc')->where('job_id', '<>', null)->get();
+    public function index(User $user, Request $request){
+
+        if($request['changeGeo']){
+            $user = User::where('id', auth()->id())->first();
+            $user->geolocation = true;
+            $user->save();
+        }
+
+        $users = User::Where('schedule', '=', 1)->where('id', '<>', auth()->id())->where('job_id', '<>', NULL)->orderBy('name', 'asc')->where('postalCode', $request['postCode'])->limit($request['limit'])->get();
         $users = $users->load('job');
         $users = $users->load('comments');
         return $users;
