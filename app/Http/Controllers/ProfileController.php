@@ -48,6 +48,9 @@ class ProfileController extends Controller
             if($request['address'] != null){
                 $user->address = $request['address'];
             }
+            if($request['postal'] != null){
+                $user->postalCode = $request['postal'];
+            }
             if($request['description'] != null){
                 $user->description = $request['description'];
             }
