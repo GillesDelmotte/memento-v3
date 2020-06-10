@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Mail\NewUserMail;
 use App\Mail\NewAppointmentMail;
+use App\Mail\DeleteAppointmentMail;
 
+use App\Events\NewAppointment;
+
+//require 'phpmailer/PHPMailerAutoload.php';
 
 class AppointmentController extends Controller
 {
@@ -69,10 +73,17 @@ class AppointmentController extends Controller
 
         $appointment = Appointment::create(['user_id' => $user_id, 'schedule_id' => $schedule_id, 'hour' => $hour, 'date' => $date]);
 
+        NewAppointment::dispatch($appointment);
+
+
+
         if($request['sendEmail']){
             $user = User::where('id', $user_id)->first();
             Mail::to($user->email)->send(new NewAppointmentMail($user, $appointment));
         }
+
+
+
     }
 
     /**
@@ -135,7 +146,31 @@ class AppointmentController extends Controller
 
         $appointment = Appointment::where('schedule_id', $schedule_id)->where('hour', $hour)->where('date', $date)->first();
 
+        if($request['sendEmail']){
+            $user = User::where('id', $appointment->user_id)->first();
+            if($user){
+                Mail::to($user->email)->send(new DeleteAppointmentMail($user, $appointment));
+            }
+        }
+
         $appointment->delete();
+    }
+
+    public function sendMail(){
+
+        $mail = new PHPMailer;
+
+        $mail->From = 'memento@gillesdelmotte.be';
+        $mail->FromName = 'Mailer';
+        $mail->addAddress('gilles.delmotte@outlook.be');
+        $mail->isHTML(true);
+
+        $mail->Subject = 'Here is the subject';
+        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $mail->send();
+
     }
 
     public function myAppointments(Appointment $appointment){

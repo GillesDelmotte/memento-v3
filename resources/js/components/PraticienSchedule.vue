@@ -606,6 +606,11 @@ export default {
   },
   mounted() {
     this.day;
+
+    Echo.channel("appointement-created").listen(".appointment.created", e => {
+      this.schedule.appointments.push(e.appointment);
+      //console.log({ e });
+    });
   },
   beforeMount() {
     this.$store.dispatch(
