@@ -353,3 +353,9 @@
         }
     }
 }
+
+@media(min-width: 1350px){
+    .aside{
+        right: calc(50% - 550px);
+    }
+}

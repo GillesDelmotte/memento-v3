@@ -3512,8 +3512,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.day;
     Echo.channel("appointement-created").listen(".appointment.created", function (e) {
-      _this9.schedule.appointments.push(e.appointment); //console.log({ e });
-
+      _this9.schedule.appointments.push(e.appointment);
     });
   },
   beforeMount: function beforeMount() {

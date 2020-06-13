@@ -489,6 +489,7 @@ export default {
         .post("/deleteAppointment", {
           schedule_id: appointment[0].schedule_id,
           hour: hour,
+          sendEmail: true,
           date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
         })
         .then(response => {
@@ -556,6 +557,7 @@ export default {
         .post("/deleteAppointment", {
           schedule_id: appointment[0].schedule_id,
           hour: this.selectedHour,
+          sendEmail: true,
           date: splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0]
         })
         .then(response => {
@@ -618,7 +620,6 @@ export default {
       window.axios
         .post("/createAppointment", data)
         .then(response => {
-          console.log(response.data);
           window.axios
             .post("/getMyScheduleAppointments")
             .then(response => {

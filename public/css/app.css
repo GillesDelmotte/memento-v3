@@ -304,6 +304,13 @@ body.freeze {
   }
 }
 
+@media (min-width: 1350px) {
+  .container {
+    width: 1100px;
+    margin: 0 auto;
+  }
+}
+
 .welcome {
   background-color: #1D1D1D;
   min-height: 100vh;
@@ -478,9 +485,20 @@ body.freeze {
   }
 }
 
-@media (max-width: 530px) {
+@media (max-width: 590px) {
   .welcome__title {
     font-size: 50px;
+  }
+
+  .welcome__success {
+    width: 90%;
+    margin: 0 auto 20px;
+    min-width: initial;
+    text-align: center;
+  }
+
+  .welcome__desc {
+    font-size: 16px;
   }
 
   .welcome__container {
@@ -589,6 +607,12 @@ body.freeze {
 
   .form__item {
     margin-top: 30px;
+  }
+}
+
+@media (max-width: 520px) {
+  .form__item__label {
+    padding-right: 20px;
   }
 }
 
@@ -880,6 +904,12 @@ body.freeze {
   padding: 17px 0;
 }
 
+@media (max-width: 500px) {
+  .header__right__profile {
+    display: none;
+  }
+}
+
 .userProfil {
   width: 550px;
   margin-bottom: 50px;
@@ -1064,7 +1094,6 @@ body.freeze {
 
   .userProfil__name {
     text-align: center;
-    margin-left: 0;
   }
 
   .userProfil__job {
@@ -1822,6 +1851,12 @@ body.freeze {
 
   .aside__button {
     display: block;
+  }
+}
+
+@media (min-width: 1350px) {
+  .aside {
+    right: calc(50% - 550px);
   }
 }
 

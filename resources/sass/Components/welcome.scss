@@ -131,9 +131,20 @@
     }
 }
 
-@media(max-width: 530px){
+@media(max-width: 590px){
     .welcome__title{
         font-size: 50px;
+    }
+
+    .welcome__success{
+        width: 90%;
+        margin: 0 auto 20px;
+        min-width: initial;
+        text-align: center;
+    }
+
+    .welcome__desc{
+        font-size: 16px;
     }
 
     .welcome__container{
