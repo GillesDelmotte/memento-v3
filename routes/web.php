@@ -44,7 +44,7 @@ Route::get('/authenticated-user', 'AuthenticatedUserController@fetch');
 
 Route::get('/getJobs', 'JobController@index');
 
-Route::get('/getPractitioners', 'PracticionnerController@index');
+Route::post('/getPractitioners', 'PracticionnerController@index');
 
 Route::post('/getPractitionerItems', 'PracticionnerController@getItem');
 
