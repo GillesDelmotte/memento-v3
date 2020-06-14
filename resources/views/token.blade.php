@@ -18,6 +18,7 @@
             <div class="form__container">
                 <div class="form__item">
                     <label for="newPassword" class="form__item__label">Nouveau mot de passe</label>
+                    <label for="newPassword" class="form__item__label--icon password"></label>
                     <input id="newPassword" type="password" placeholder="8 caractères minimum" class="form__item__input" name="newPassword" required>
                     <div class="form__item__bgc"></div>
                     @if($error)
@@ -28,6 +29,7 @@
                 </div>
                 <div class="form__item">
                     <label for="password-confirm" class="form__item__label">Confirmation mdp</label>
+                    <label for="password-confirm" class="form__item__label--icon password"></label>
                     <input id="password-confirm" type="password" placeholder="8 caractères minimum" class="form__item__input" name="password_confirmation" required autocomplete="new-password">
                     <div class="form__item__bgc"></div>
                 </div>

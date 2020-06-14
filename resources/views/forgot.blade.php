@@ -19,6 +19,7 @@
             <div class="form__container">
                 <div class="form__item">
                     <label for="email" class="form__item__label">Email*</label>
+                    <label for="email" class="form__item__label--icon email"></label>
                     <input id="email" type="email" value="{{$lastEmail}}" placeholder="Jean.charles@outlook.be" class="form__item__input" name="email" required>
                     <div class="form__item__bgc"></div>
                     @if($emailError !== '')
@@ -29,6 +30,7 @@
                 </div>
                 <div class="form__item">
                     <label for="token" class="form__item__label">Token</label>
+                    <label for="token" class="form__item__label--icon token"></label>
                     <input id="token" type="text" name="token" class="form__item__input" placeholder="GswvlNWCF2rgklRjTgBcIWE3QqMpqpl8">
                     <div class="form__item__bgc"></div>
                 </div>
