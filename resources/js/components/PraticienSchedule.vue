@@ -618,6 +618,15 @@ export default {
 
       this.schedule.appointments.splice(index, 1);
     });
+
+    Echo.channel("appointement-modified").listen(".appointment.modified", e => {
+      var index = this.schedule.appointments.findIndex(
+        appointment => appointment.id === e.appointment.id
+      );
+
+      this.schedule.appointments.splice(index, 1);
+      this.schedule.appointments.push(e.appointment);
+    });
   },
   beforeMount() {
     this.$store.dispatch(

@@ -3521,6 +3521,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _this9.schedule.appointments.splice(index, 1);
     });
+    Echo.channel("appointement-modified").listen(".appointment.modified", function (e) {
+      var index = _this9.schedule.appointments.findIndex(function (appointment) {
+        return appointment.id === e.appointment.id;
+      });
+
+      _this9.schedule.appointments.splice(index, 1);
+
+      _this9.schedule.appointments.push(e.appointment);
+    });
   },
   beforeMount: function beforeMount() {
     var _this10 = this;
@@ -4268,6 +4277,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
 
       _this10.appointments.splice(index, 1);
+    });
+    Echo.channel("appointement-modified").listen(".appointment.modified", function (e) {
+      var index = _this10.appointments.findIndex(function (appointment) {
+        return appointment.id === e.appointment.id;
+      });
+
+      _this10.appointments.splice(index, 1);
+
+      _this10.appointments.push(e.appointment);
     });
   },
   beforeMount: function beforeMount() {

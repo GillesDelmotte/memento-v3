@@ -708,6 +708,15 @@ export default {
 
       this.appointments.splice(index, 1);
     });
+
+    Echo.channel("appointement-modified").listen(".appointment.modified", e => {
+      var index = this.appointments.findIndex(
+        appointment => appointment.id === e.appointment.id
+      );
+
+      this.appointments.splice(index, 1);
+      this.appointments.push(e.appointment);
+    });
   },
   beforeMount() {
     window.axios

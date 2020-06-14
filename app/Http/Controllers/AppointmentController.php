@@ -16,6 +16,7 @@ use App\Mail\DeleteAppointmentMail;
 
 use App\Events\NewAppointment;
 use App\Events\DeleteAppointment;
+use App\Events\ModifyAppointment;
 
 //require 'phpmailer/PHPMailerAutoload.php';
 
@@ -132,6 +133,8 @@ class AppointmentController extends Controller
         $appointment->hour = $request['newHour'];
 
         $appointment->save();
+
+        ModifyAppointment::dispatch($appointment->load('user'));
     }
 
     /**
