@@ -10,6 +10,9 @@ use App\Mail\ForgotPasswordMail;
 
 use App\User;
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class TokenController extends Controller
 {
     public function index($token){
@@ -31,7 +34,26 @@ class TokenController extends Controller
                 $user->token = $newToken;
                 $user->save();
 
-                Mail::to($user->email)->send(new ForgotPasswordMail($user));
+                //Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+                $subject = 'Mot de passe oublié';
+                $email = $user->email;
+                $name = $user->name;
+                $body = 'Bonjour ' . $user->name . ', vous avez demandé pour changé de mon de passe. Cliqué sur le lien ci-dessous pour continué le processus. </br> <a href="' . config('app.url') .  '/verifyToken/'. $user->token .'">Changez de mot de passe</a> </br> Voici Votre token : ' . $user->token;
+
+                $mail = new PHPMailer(true);
+
+                //Recipients
+                $mail->setFrom('memento@gillesdelmotte.be', 'Mailer');
+                $mail->addAddress($email, $name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+
+                $mail->send();
+
 
                 return view('forgot', ['userEmail' => $user->email, 'lastEmail' => null, 'success' => true, 'emailError' => ''] );
             }else{

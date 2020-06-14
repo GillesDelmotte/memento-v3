@@ -59,10 +59,16 @@ export default {
       if (this.currentUser.is_admin === 1) {
         this.$router.push("/statistiques");
       } else {
-        window.axios.post("/getMyAppointments").then(response => {
-          this.myAppointments = response.data;
-          this.componentReady = true;
-        });
+        window.axios
+          .post("/getMyAppointments")
+          .then(response => {
+            console.log("cest la reponse");
+            this.myAppointments = response.data;
+            this.componentReady = true;
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
     });
   }

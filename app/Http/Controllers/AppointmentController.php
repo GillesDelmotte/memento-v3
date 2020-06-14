@@ -18,7 +18,8 @@ use App\Events\NewAppointment;
 use App\Events\DeleteAppointment;
 use App\Events\ModifyAppointment;
 
-//require 'phpmailer/PHPMailerAutoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class AppointmentController extends Controller
 {
@@ -79,10 +80,16 @@ class AppointmentController extends Controller
         NewAppointment::dispatch($appointment);
 
 
-
         if($request['sendEmail']){
             $user = User::where('id', $user_id)->first();
-            Mail::to($user->email)->send(new NewAppointmentMail($user, $appointment));
+            //Mail::to($user->email)->send(new NewAppointmentMail($user, $appointment));
+            $subject = 'Nouveau rendez-vous';
+            $email = $user->email;
+            $name = $user->name;
+
+            $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de vous ajouter sur son horaire. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez changer ou supprimer ce rendez-vous, cliquer sur le lien ci-dessous pour accéder a vos rendez-vous. </br>' . '<a href="' . config('app.url') .  '">Aller sur memento</a>';
+
+            $this->sendMail($subject, $email, $name, $body);
         }
 
 
@@ -154,7 +161,15 @@ class AppointmentController extends Controller
         if($request['sendEmail']){
             $user = User::where('id', $appointment->user_id)->first();
             if($user){
-                Mail::to($user->email)->send(new DeleteAppointmentMail($user, $appointment));
+                //Mail::to($user->email)->send(new DeleteAppointmentMail($user, $appointment));
+
+                $subject = 'Suppression de votre rendez-vous';
+                $email = $user->email;
+                $name = $user->name;
+
+                $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de supprimer votre rendez-vous du ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez reprendre rendez-vous avec ' . $appointment->schedule->practitioner->name . 'n‘hésitez pas à cliquer sur le lien ci-dessous. </br>' . '<a href="' . config('app.url') .  '">Aller sur memento</a>';
+
+                $this->sendMail($subject, $email, $name, $body);
             }
         }
 
@@ -164,20 +179,20 @@ class AppointmentController extends Controller
 
     }
 
-    public function sendMail(){
+    public function sendMail($subject, $email, $name, $body){
 
-        $mail = new PHPMailer;
+        $mail = new PHPMailer(true);
 
-        $mail->From = 'memento@gillesdelmotte.be';
-        $mail->FromName = 'Mailer';
-        $mail->addAddress('gilles.delmotte@outlook.be');
+        //Recipients
+        $mail->setFrom('memento@gillesdelmotte.be', 'Mailer');
+        $mail->addAddress($email, $name);
+
+        // Content
         $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
 
-        $mail->Subject = 'Here is the subject';
-        $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        $mail->send();
+         $mail->send();
 
     }
 
@@ -198,7 +213,15 @@ class AppointmentController extends Controller
 
                 $appointment->load('schedule');
 
-                Mail::to($user->email)->send(new NewUserMail($user, $appointment));
+                //Mail::to($user->email)->send(new NewUserMail($user, $appointment));
+
+                $subject = 'Notification de votre rendez-vous';
+                $email = $user->email;
+                $name = $user->name;
+
+                $body = 'Bonjour ' . $user->name . ', vous venez de prendre rendez-vous avec ' . $appointment->schedule->practitioner->name . '. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Grâce à ce rendez-vous, un compte sur l‘application ' . config('app.name')  . ' à ete créer. Si vous ne voulez plus recevoir de notification, finalisez votre inscription en suivant le lien ci-dessous. </br>' . '<a href="' . config('app.url') .  '/verifyToken/'. $user->token .'">Finalisez mon inscription</a>';
+
+                $this->sendMail($subject, $email, $name, $body);
 
             }else{
                 // error 'cette email existe deja';
