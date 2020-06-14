@@ -15,6 +15,7 @@ use App\Mail\NewAppointmentMail;
 use App\Mail\DeleteAppointmentMail;
 
 use App\Events\NewAppointment;
+use App\Events\DeleteAppointment;
 
 //require 'phpmailer/PHPMailerAutoload.php';
 
@@ -154,7 +155,10 @@ class AppointmentController extends Controller
             }
         }
 
+        DeleteAppointment::dispatch($appointment);
+
         $appointment->delete();
+
     }
 
     public function sendMail(){

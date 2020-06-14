@@ -610,6 +610,14 @@ export default {
     Echo.channel("appointement-created").listen(".appointment.created", e => {
       this.schedule.appointments.push(e.appointment);
     });
+
+    Echo.channel("appointement-deleted").listen(".appointment.deleted", e => {
+      var index = this.schedule.appointments.findIndex(
+        appointment => appointment.id === e.appointment.id
+      );
+
+      this.schedule.appointments.splice(index, 1);
+    });
   },
   beforeMount() {
     this.$store.dispatch(

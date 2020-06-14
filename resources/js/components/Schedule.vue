@@ -700,6 +700,14 @@ export default {
     Echo.channel("appointement-created").listen(".appointment.created", e => {
       this.appointments.push(e.appointment);
     });
+
+    Echo.channel("appointement-deleted").listen(".appointment.deleted", e => {
+      var index = this.appointments.findIndex(
+        appointment => appointment.id === e.appointment.id
+      );
+
+      this.appointments.splice(index, 1);
+    });
   },
   beforeMount() {
     window.axios
