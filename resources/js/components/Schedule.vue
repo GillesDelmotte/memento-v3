@@ -697,6 +697,9 @@ export default {
   },
   mounted() {
     this.day;
+    Echo.channel("appointement-created").listen(".appointment.created", e => {
+      this.appointments.push(e.appointment);
+    });
   },
   beforeMount() {
     window.axios

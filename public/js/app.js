@@ -4249,18 +4249,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   mounted: function mounted() {
-    this.day;
-  },
-  beforeMount: function beforeMount() {
     var _this10 = this;
 
+    this.day;
+    Echo.channel("appointement-created").listen(".appointment.created", function (e) {
+      _this10.appointments.push(e.appointment);
+    });
+  },
+  beforeMount: function beforeMount() {
+    var _this11 = this;
+
     window.axios.post("/getMyScheduleAppointments").then(function (response) {
-      _this10.appointments = response.data;
+      _this11.appointments = response.data;
     })["catch"](function (error) {
       console.log(error);
     });
     window.axios.post("/getClients").then(function (response) {
-      _this10.clients = response.data;
+      _this11.clients = response.data;
     })["catch"](function (error) {
       console.log(error);
     });

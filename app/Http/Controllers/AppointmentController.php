@@ -72,6 +72,7 @@ class AppointmentController extends Controller
         };
 
         $appointment = Appointment::create(['user_id' => $user_id, 'schedule_id' => $schedule_id, 'hour' => $hour, 'date' => $date]);
+        $appointment->load('user');
 
         NewAppointment::dispatch($appointment);
 
