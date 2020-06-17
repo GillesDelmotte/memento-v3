@@ -39,7 +39,7 @@ class TokenController extends Controller
                 $subject = 'Mot de passe oublié';
                 $email = $user->email;
                 $name = $user->name;
-                $body = 'Bonjour ' . $user->name . ', vous avez demandé pour changé de mon de passe. Cliqué sur le lien ci-dessous pour continué le processus. </br> <a href="' . config('app.url') .  '/verifyToken/'. $user->token .'">Changez de mot de passe</a> </br> Voici Votre token : ' . $user->token;
+                $body = 'Bonjour ' . $user->name . ', vous avez demandé pour changé de mon de passe. Cliqué sur le lien ci-dessous pour continué le processus. </br> https://' . config('app.url') . '/verifyToken/'. $user->token . '</br> Voici Votre token : ' . $user->token;
 
                 $mail = new PHPMailer(true);
 
@@ -48,7 +48,7 @@ class TokenController extends Controller
                 $mail->addAddress($email, $name);
 
                 // Content
-                $mail->isHTML(true);
+                $mail->IsHTML(true);
                 $mail->Subject = $subject;
                 $mail->Body    = $body;
 

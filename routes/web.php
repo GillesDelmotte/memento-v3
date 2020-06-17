@@ -60,6 +60,8 @@ Route::post('/updateTheme', 'ProfileController@updateTheme');
 
 Route::post('/changePassword', 'ProfileController@changePassword');
 
+Route::get('/deleteProfil/{token}', 'ProfileController@deleteProfil');
+
 Route::post('/addComment', 'CommentController@store');
 
 Route::post('/image/store', 'ImageController@store');

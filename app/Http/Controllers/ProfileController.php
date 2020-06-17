@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Job;
+use App\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -90,5 +91,24 @@ class ProfileController extends Controller
 
         return redirect('/');
 
+    }
+
+    public function deleteProfil($token)
+    {
+        $user = User::where('token', $token)->first();
+        if($user){
+            $appointments = Appointment::where('user_id', $user->id)->get();
+
+            foreach($appointments as $appointment){
+                $appointment->user_id = NULL;
+                $appointment->name = $user->name;
+                $appointment->save();
+            }
+
+            $user->delete();
+
+        }
+
+        return view('deleted', ['user' => $user]);
     }
 }

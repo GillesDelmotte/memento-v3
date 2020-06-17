@@ -87,7 +87,7 @@ class AppointmentController extends Controller
             $email = $user->email;
             $name = $user->name;
 
-            $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de vous ajouter sur son horaire. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez changer ou supprimer ce rendez-vous, cliquer sur le lien ci-dessous pour accéder a vos rendez-vous. </br>' . '<a href="' . config('app.url') .  '">Aller sur memento</a>';
+            $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de vous ajouter sur son horaire. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez changer ou supprimer ce rendez-vous, cliquer sur le lien ci-dessous pour accéder a vos rendez-vous. </br> https://' . config('app.url');
 
             $this->sendMail($subject, $email, $name, $body);
         }
@@ -167,7 +167,7 @@ class AppointmentController extends Controller
                 $email = $user->email;
                 $name = $user->name;
 
-                $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de supprimer votre rendez-vous du ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez reprendre rendez-vous avec ' . $appointment->schedule->practitioner->name . 'n‘hésitez pas à cliquer sur le lien ci-dessous. </br>' . '<a href="' . config('app.url') .  '">Aller sur memento</a>';
+                $body = 'Bonjour ' . $user->name . ', votre praticien ' . $appointment->schedule->practitioner->name . ' vient de supprimer votre rendez-vous du ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Si vous voulez reprendre rendez-vous avec ' . $appointment->schedule->practitioner->name . ' n‘hésitez pas à cliquer sur le lien ci-dessous. </br> https://' . config('app.url');
 
                 $this->sendMail($subject, $email, $name, $body);
             }
@@ -176,23 +176,6 @@ class AppointmentController extends Controller
         DeleteAppointment::dispatch($appointment);
 
         $appointment->delete();
-
-    }
-
-    public function sendMail($subject, $email, $name, $body){
-
-        $mail = new PHPMailer(true);
-
-        //Recipients
-        $mail->setFrom('memento@gillesdelmotte.be', 'Mailer');
-        $mail->addAddress($email, $name);
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $body;
-
-         $mail->send();
 
     }
 
@@ -219,7 +202,7 @@ class AppointmentController extends Controller
                 $email = $user->email;
                 $name = $user->name;
 
-                $body = 'Bonjour ' . $user->name . ', vous venez de prendre rendez-vous avec ' . $appointment->schedule->practitioner->name . '. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> Grâce à ce rendez-vous, un compte sur l‘application ' . config('app.name')  . ' à ete créer. Si vous ne voulez plus recevoir de notification, finalisez votre inscription en suivant le lien ci-dessous. </br>' . '<a href="' . config('app.url') .  '/verifyToken/'. $user->token .'">Finalisez mon inscription</a>';
+                $body = 'Bonjour ' . $user->name . ', vous venez de prendre rendez-vous avec ' . $appointment->schedule->practitioner->name . '. </br> Le rendez-vous se prestera le ' . \Carbon\Carbon::parse($appointment->date)->format('j F, Y') . ' a '. $appointment->hour . '. </br> vous n‘êtes pas encore inscrit au sein de l‘application Memento ? </br> N‘attendez plus! Votre compte à déjà été créé. Cliqué sur le lien ci-dessous pour finialiser votre inscritpion. Il ne vous reste plus qu‘à entré un mot de passe! </br> https://' . config('app.url') .  '/verifyToken/' . $user->token . ' </br> Cependant, si vous ne voulez pas faire partie de l‘aventure avec nous, cliqué sur le lien ci-dessous pour supprimer votre compte. Votre rendez-vous sera malgré tout concervé. </br>' . config('app.url') .  '/deletedProfil/' . $user->token;
 
                 $this->sendMail($subject, $email, $name, $body);
 
@@ -230,5 +213,22 @@ class AppointmentController extends Controller
         }else{
             $appointment = Appointment::create(['name' => $request['name'], 'schedule_id' => $request['schedule_id'], 'hour' => $request['hour'], 'date' => $request['date']]);
         }
+    }
+
+    public function sendMail($subject, $email, $name, $body){
+
+        $mail = new PHPMailer(true);
+
+        //Recipients
+        $mail->setFrom('memento@gillesdelmotte.be', 'Mailer');
+        $mail->addAddress($email, $name);
+
+        // Content
+        $mail->IsHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+         $mail->send();
+
     }
 }

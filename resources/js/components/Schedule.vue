@@ -338,6 +338,7 @@ export default {
         if (this.date) {
           const splitDate = this.date.split("-");
           const d = new Date(splitDate[1] + "-" + i + "-" + splitDate[2]);
+          //const d = new Date(splitDate[2], splitDate[1], i);
 
           var test = listOfDays.find(day => {
             return day.name === this.days[d.getDay()];

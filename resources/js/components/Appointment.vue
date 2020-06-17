@@ -82,6 +82,8 @@ export default {
       const test = new Date(
         splitDate[1] + "-" + splitDate[2] + "-" + splitDate[0]
       );
+
+      //const test = new Date(splitDate[0], splitDate[1], splitDate[2]);
       const day = this.days[test.getDay()];
       const month = this.months[test.getMonth()];
 
