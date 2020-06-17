@@ -25,20 +25,22 @@
       </div>
     </div>
     <div v-if="filteredBy === 'name' && this.filteredByName">
-      <div
-        class="emptySearch"
-        v-if="displayGeoconfirm === false && this.filteredByName.length === 0"
-      >il n‘y a pas de résultat avec votre recherche ( code postal : "{{postcode}}" et nom : "{{filter}}")</div>
+      <div v-if="displayGeoconfirm === false && this.filteredByName.length === 0">
+        <p
+          class="emptySearch"
+        >il n‘y a pas de résultat avec votre recherche ( code postal : "{{postcode}}" et nom : "{{filter}}")</p>
+      </div>
 
       <ul class="userCards">
         <user-card v-for="user in filteredByName" :key="user.id" :user="user"></user-card>
       </ul>
     </div>
     <div v-if="filteredBy === 'job' && this.filteredByJob">
-      <div
-        class="emptySearch"
-        v-if="displayGeoconfirm === false && this.filteredByJob.length === 0"
-      >il n‘y a pas de résultat avec votre recherche ( code postal : "{{postcode}}" et profession : "{{filter}}")</div>
+      <div v-if="displayGeoconfirm === false && this.filteredByJob.length === 0">
+        <p
+          class="emptySearch"
+        >il n‘y a pas de résultat avec votre recherche ( code postal : "{{postcode}}" et profession : "{{filter}}")</p>
+      </div>
 
       <ul class="userCards">
         <user-card v-for="user in filteredByJob" :key="user.id" :user="user"></user-card>
@@ -79,8 +81,8 @@ export default {
       filteredBy: "name",
       filter: "",
       warning: "",
-      increase: 5,
-      limit: 10,
+      increase: 20,
+      limit: 20,
       componentReady: false,
       scrolledToBottom: false,
       coord: null,

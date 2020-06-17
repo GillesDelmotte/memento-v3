@@ -62,7 +62,6 @@ export default {
         window.axios
           .post("/getMyAppointments")
           .then(response => {
-            console.log("cest la reponse");
             this.myAppointments = response.data;
             this.componentReady = true;
           })
