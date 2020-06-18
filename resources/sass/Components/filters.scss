@@ -1,5 +1,5 @@
 .aside{
-    width: 274px;
+    width: 310px;
     box-sizing: border-box;
     position: fixed;
     padding: 30px 0;
@@ -166,6 +166,14 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
+            cursor: pointer;
+            opacity: 1;
+            transition: opacity 0.2s;
+
+            &:hover{
+                transition: opacity 0.2s;
+                opacity: 0.6;
+            }
         }
         &__schedule{
            text-align: center;
@@ -253,6 +261,15 @@
                 transform: rotate(180deg);
             }
         }
+
+    }
+
+    &__dayName{
+        text-align: center;
+        text-transform: capitalize;
+        margin-bottom: 20px;
+        font-size: 25px;
+        font-weight: bold;
 
     }
     &__days{
@@ -345,7 +362,7 @@
         padding-top: 75px;
         transition: right 0.2s;
         &.close{
-            right:-275px;
+            right:-310px;
            transition: right 0.2s;
         }
         &__button{

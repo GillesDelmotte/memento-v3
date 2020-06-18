@@ -50,6 +50,7 @@
         <div>{{months[monthNumber]}}, {{year}}</div>
         <span class="aside__date__next" @click="nextMonth"></span>
       </div>
+      <div class="aside__dayName">{{dayName}}</div>
       <div class="aside__days">
         <ul class="aside__days__ul">
           <li
@@ -208,6 +209,7 @@ export default {
       scheduleId: null,
       dayNumber: null,
       monthNumber: null,
+      dayName: null,
       number0fdDayInMonth: null,
       year: null,
       date: null,
@@ -237,6 +239,8 @@ export default {
       today = dd + "-" + mm + "-" + yyyy;
 
       this.date = today;
+
+      this.dayName = this.days[d.getDay()];
 
       this.dayNumber = d.getDay();
       this.monthNumber = d.getMonth();
@@ -396,6 +400,8 @@ export default {
 
       const newDate = new Date(date);
 
+      this.dayName = this.days[newDate.getDay()];
+
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();
 
@@ -417,6 +423,8 @@ export default {
 
       const newDate = new Date(date);
 
+      this.dayName = this.days[newDate.getDay()];
+
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();
 
@@ -431,6 +439,8 @@ export default {
       const date = this.monthNumber + 1 + "-" + day + "-" + this.year;
 
       const newDate = new Date(date);
+
+      this.dayName = this.days[newDate.getDay()];
 
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();

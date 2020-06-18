@@ -60,7 +60,7 @@
         <div class="aside__close"></div>
         <h2 class="aside__title sr-only">Date</h2>
         <div class="aside__user__infos">
-          <div class="aside__user__infos__name">{{practitioner.name}}</div>
+          <div class="aside__user__infos__name" @click="goOn">{{practitioner.name}}</div>
           <div class="aside__user__infos__schedule">{{schedule.name}}</div>
         </div>
         <div class="aside__date">
@@ -68,6 +68,7 @@
           <div>{{months[monthNumber]}}, {{year}}</div>
           <span class="aside__date__next" @click="nextMonth"></span>
         </div>
+        <div class="aside__dayName">{{dayName}}</div>
         <div class="aside__days">
           <ul class="aside__days__ul">
             <li
@@ -139,6 +140,7 @@ export default {
         "Novembre",
         "Décembre"
       ],
+      dayName: null,
       changeHour: false,
       selectedHour: "",
       selectedNewHour: "",
@@ -178,6 +180,8 @@ export default {
       today = dd + "-" + mm + "-" + yyyy;
 
       this.date = today;
+
+      this.dayName = this.days[d.getDay()];
 
       this.dayNumber = d.getDay();
       this.monthNumber = d.getMonth();
@@ -318,6 +322,8 @@ export default {
 
       const newDate = new Date(date);
 
+      this.dayName = this.days[newDate.getDay()];
+
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();
 
@@ -340,6 +346,8 @@ export default {
 
       const newDate = new Date(date);
 
+      this.dayName = this.days[newDate.getDay()];
+
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();
 
@@ -355,6 +363,8 @@ export default {
       const date = this.monthNumber + 1 + "-" + day + "-" + this.year;
 
       const newDate = new Date(date);
+
+      this.dayName = this.days[newDate.getDay()];
 
       this.dayNumber = newDate.getDay();
       this.monthNumber = newDate.getMonth();
@@ -602,6 +612,15 @@ export default {
       } else {
         return "aside__days__ul__li";
       }
+    },
+    goOn() {
+      router.push({
+        name: "praticien",
+        params: {
+          id: this.$route.params.id
+        }
+      });
+      window.scrollTo(0, 0);
     }
   },
   mounted() {
